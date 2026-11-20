@@ -38,6 +38,7 @@ export interface DataTableProps<T> {
   emptySubtitle?: string;
   emptyIcon?: React.ReactNode;
   className?: string;
+  hideToolbar?: boolean;
 }
 
 export function DataTable<T>({
@@ -55,11 +56,14 @@ export function DataTable<T>({
   emptySubtitle = 'Try adjusting your search or filters to find what you are looking for.',
   emptyIcon,
   className = '',
+  hideToolbar = false,
 }: DataTableProps<T>) {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  const showToolbar = !hideToolbar && (searchable || Boolean(filterSlot) || Boolean(actionsSlot));
 
   // Handle Search Filtering
   const filteredData = useMemo(() => {
@@ -140,7 +144,7 @@ export function DataTable<T>({
   return (
     <div className={`flex flex-col min-h-0 flex-1 w-full space-y-3.5 ${className}`}>
       {/* Table Toolbar: Search, Filters & Actions (Fixed/Pinned at top) */}
-      {(searchable || filterSlot || actionsSlot) && (
+      {showToolbar && (
         <div className="shrink-0 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
             {/* Filter Slot (e.g. Category Dropdown) */}

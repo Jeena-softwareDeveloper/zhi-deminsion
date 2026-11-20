@@ -17,9 +17,7 @@ import {
   Edit2,
   X,
   Loader2,
-  ArrowUpRight,
   TrendingDown,
-  Layers,
 } from 'lucide-react';
 import { initialProducts } from '@/lib/data/initialData';
 import { useAdminHeader } from '@/context/AdminHeaderContext';
@@ -50,7 +48,7 @@ export default function AdminInventoryPage() {
   // Restock amount
   const [restockAmount, setRestockAmount] = useState<number>(20);
 
-  const { setTitle, setActions } = useAdminHeader();
+  const { setTitle, setBadge, setControls, setActions } = useAdminHeader();
 
   async function fetchProducts() {
     setLoading(true);
@@ -71,14 +69,95 @@ export default function AdminInventoryPage() {
     fetchProducts();
   }, []);
 
+  const lowStockCount = products.filter(
+    (p) => p.stockStatus === 'Low Stock' || (p.stockQuantity ?? 10) <= 5
+  ).length;
+
+  const totalUnits = products.reduce((acc, p) => acc + (p.stockQuantity ?? 10), 0);
+  const categories = Array.from(new Set(products.map((p) => p.category)));
+
+  // SYNC EVERYTHING INTO LAYOUT HEADER (Requested by User)
   useEffect(() => {
     setTitle('Inventory Monitoring');
+
+    // 1. Move Low Stock Alert into Layout Header as a Badge / Button
+    if (lowStockCount > 0) {
+      setBadge(
+        <button
+          onClick={() => setFilter((prev) => (prev === 'Low Stock' ? 'All' : 'Low Stock'))}
+          className={`px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer ${
+            filter === 'Low Stock'
+              ? 'bg-amber-600 text-white shadow-xs'
+              : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300'
+          }`}
+          title="Toggle Low Stock Filter"
+        >
+          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+          <span>{lowStockCount} Low Stock</span>
+        </button>
+      );
+    } else {
+      setBadge(null);
+    }
+
+    // 2. Move Search Bar, Category Dropdown & Status Pills directly into Layout Header Controls
+    setControls(
+      <div className="flex items-center space-x-2 w-full">
+        {/* Status Pills in Header */}
+        <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0">
+          {(['All', 'In Stock', 'Low Stock', 'Out of Stock'] as const).map((st) => (
+            <button
+              key={st}
+              onClick={() => setFilter(st)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                filter === st
+                  ? 'bg-slate-900 text-white shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
+
+        {/* Category Dropdown in Header */}
+        <div className="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 shrink-0">
+          <Filter className="w-3.5 h-3.5 text-slate-400" />
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer pr-1"
+          >
+            <option value="All">All Categories</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Search Input in Header */}
+        <div className="relative flex-1 min-w-[150px] max-w-xs">
+          <Search className="absolute left-3 top-2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search inventory..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+          />
+        </div>
+      </div>
+    );
+
+    // 3. Move Actions (View Switcher + Refresh) into Layout Header Actions
     setActions(
       <div className="flex items-center space-x-2">
         <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
           <button
             onClick={() => setViewMode('table')}
-            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors ${
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer ${
               viewMode === 'table'
                 ? 'bg-white text-slate-900 shadow-2xs'
                 : 'text-slate-500 hover:text-slate-800'
@@ -90,7 +169,7 @@ export default function AdminInventoryPage() {
           </button>
           <button
             onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors ${
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer ${
               viewMode === 'grid'
                 ? 'bg-white text-slate-900 shadow-2xs'
                 : 'text-slate-500 hover:text-slate-800'
@@ -105,15 +184,20 @@ export default function AdminInventoryPage() {
         <button
           onClick={fetchProducts}
           disabled={loading}
-          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
+          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
           title="Refresh Inventory"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
         </button>
       </div>
     );
-    return () => setActions(null);
-  }, [loading, viewMode]);
+
+    return () => {
+      setBadge(null);
+      setControls(null);
+      setActions(null);
+    };
+  }, [loading, viewMode, filter, selectedCategory, search, lowStockCount, categories]);
 
   // Adjust stock by delta (+1 or -1)
   const adjustStock = async (id: string, delta: number) => {
@@ -124,7 +208,6 @@ export default function AdminInventoryPage() {
     const newStatus =
       newQty === 0 ? 'Out of Stock' : newQty <= 5 ? 'Low Stock' : 'In Stock';
 
-    // Optimistic UI update
     setProducts((prev) =>
       prev.map((p) =>
         p._id === id || p.slug === id
@@ -231,8 +314,6 @@ export default function AdminInventoryPage() {
     }
   };
 
-  const categories = Array.from(new Set(products.map((p) => p.category)));
-
   const filtered = products.filter((p) => {
     const matchFilter =
       filter === 'All'
@@ -251,12 +332,6 @@ export default function AdminInventoryPage() {
 
     return matchFilter && matchCat && matchSearch;
   });
-
-  const lowStockCount = products.filter(
-    (p) => p.stockStatus === 'Low Stock' || (p.stockQuantity ?? 10) <= 5
-  ).length;
-
-  const totalUnits = products.reduce((acc, p) => acc + (p.stockQuantity ?? 10), 0);
 
   // Columns for DataTable
   const columns: Column<any>[] = [
@@ -364,7 +439,7 @@ export default function AdminInventoryPage() {
                 setRestockProduct(prod);
                 setRestockAmount(25);
               }}
-              className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors flex items-center space-x-1"
+              className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors flex items-center space-x-1 cursor-pointer"
               title="Batch Restock"
             >
               <PackageCheck className="w-3.5 h-3.5" />
@@ -372,7 +447,7 @@ export default function AdminInventoryPage() {
             </button>
             <button
               onClick={() => handleOpenEditStock(prod)}
-              className="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
+              className="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
               title="Edit Stock Details"
             >
               <Edit2 className="w-4 h-4" />
@@ -385,30 +460,7 @@ export default function AdminInventoryPage() {
 
   return (
     <div className="h-full flex flex-col min-h-0 space-y-3.5">
-      {/* Low Stock Warning Banner if any */}
-      {lowStockCount > 0 && (
-        <div className="shrink-0 bg-amber-50/90 border border-amber-200/90 rounded-2xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-amber-950 text-xs shadow-2xs">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-bold text-xs block">Inventory Attention Required:</span>
-              <span className="text-amber-800 text-[11px]">
-                {lowStockCount} product(s) are below safety stock threshold (&le; 5 units). Reordering or yard fabrication recommended.
-              </span>
-            </div>
-          </div>
-          <button
-            onClick={() => setFilter(filter === 'Low Stock' ? 'All' : 'Low Stock')}
-            className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shrink-0 transition-colors cursor-pointer text-xs"
-          >
-            {filter === 'Low Stock' ? 'Show All Products' : 'Filter Low Stock'}
-          </button>
-        </div>
-      )}
-
-      {/* Metrics Strip */}
+      {/* Metrics Summary Strip */}
       <div className="shrink-0 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
         <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
           <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
@@ -441,112 +493,21 @@ export default function AdminInventoryPage() {
         </div>
       </div>
 
-      {/* View Content */}
+      {/* View Content: NO EXTRA HEADER IN PAGE BODY, TABLE STARTS IMMEDIATELY */}
       {viewMode === 'table' ? (
         <DataTable
           columns={columns}
           data={filtered}
           loading={loading}
-          searchPlaceholder="Search inventory by product, category, specs..."
-          searchFilter={(item, query) => {
-            const q = query.toLowerCase();
-            return (
-              item.name.toLowerCase().includes(q) ||
-              item.category.toLowerCase().includes(q) ||
-              (item.stockStatus && item.stockStatus.toLowerCase().includes(q))
-            );
-          }}
-          filterSlot={
-            <div className="flex flex-wrap items-center gap-2">
-              {/* Status Filter */}
-              <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
-                {(['All', 'In Stock', 'Low Stock', 'Out of Stock'] as const).map((st) => (
-                  <button
-                    key={st}
-                    onClick={() => setFilter(st)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                      filter === st
-                        ? 'bg-slate-900 text-white shadow-2xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    {st}
-                  </button>
-                ))}
-              </div>
-
-              {/* Category Dropdown */}
-              <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5">
-                <Filter className="w-3.5 h-3.5 text-slate-400" />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer"
-                >
-                  <option value="All">All Categories</option>
-                  {categories.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          }
+          hideToolbar={true}
           pageSize={8}
           emptyTitle="No inventory matches found"
           emptySubtitle="Try selecting another stock status or clearing your search."
         />
       ) : (
-        /* Card Grid View */
-        <div className="flex-1 min-h-0 flex flex-col space-y-3.5">
-          {/* Card View Toolbar */}
-          <div className="shrink-0 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col md:flex-row gap-3 items-center justify-between">
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
-                {(['All', 'In Stock', 'Low Stock', 'Out of Stock'] as const).map((st) => (
-                  <button
-                    key={st}
-                    onClick={() => setFilter(st)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                      filter === st
-                        ? 'bg-slate-900 text-white shadow-2xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    {st}
-                  </button>
-                ))}
-              </div>
-
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-800 focus:outline-none"
-              >
-                <option value="All">All Categories</option>
-                {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="relative w-full md:w-64">
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search inventory..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
-              />
-            </div>
-          </div>
-
-          <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pb-6">
+        /* Card Grid View (Scrolls internally) */
+        <div className="flex-1 min-h-0 overflow-y-auto pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pb-6">
             {filtered.map((prod) => {
               const img = prod.images?.[0] || '/images/steel-framework.jpg';
               const isLow = prod.stockStatus === 'Low Stock' || (prod.stockQuantity ?? 10) <= 5;
@@ -624,7 +585,7 @@ export default function AdminInventoryPage() {
                           setRestockProduct(prod);
                           setRestockAmount(25);
                         }}
-                        className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors"
+                        className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
                       >
                         Restock
                       </button>
@@ -635,7 +596,6 @@ export default function AdminInventoryPage() {
             })}
           </div>
         </div>
-      </div>
       )}
 
       {/* Edit Stock Details Modal */}

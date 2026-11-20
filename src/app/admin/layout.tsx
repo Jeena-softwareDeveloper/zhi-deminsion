@@ -36,7 +36,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const { title, actions } = useAdminHeader();
+  const { title, badge, controls, actions } = useAdminHeader();
 
   // Find active nav item or use context title
   const currentNav = navItems.find((n) =>
@@ -153,31 +153,40 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
 
       {/* 2. RIGHT CONTAINER (HEADER + SCROLLABLE MAIN CONTENT) */}
       <div className="flex-1 h-screen flex flex-col min-w-0 overflow-hidden">
-        {/* FIXED TOP HEADER (Contains Single Page Title + Actions + User Profile) */}
-        <header className="h-16 bg-white border-b border-slate-200 px-4 sm:px-8 flex items-center justify-between shrink-0 z-30">
-          <div className="flex items-center space-x-4">
+        {/* FIXED TOP HEADER (Contains Title, Badge/Alert, Controls & Actions) */}
+        <header className="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 flex items-center justify-between shrink-0 z-30 gap-3">
+          {/* Left: Mobile Menu + Single Title + Badge/Alert */}
+          <div className="flex items-center space-x-3 shrink-0">
             <button
               onClick={() => setMobileSidebarOpen(true)}
               className="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5" />
             </button>
-            {/* SINGLE ONLY TITLE in the Layout Header */}
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-              {displayTitle}
-            </h1>
+            <div className="flex items-center space-x-2.5">
+              <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight whitespace-nowrap">
+                {displayTitle}
+              </h1>
+              {badge && <div className="shrink-0">{badge}</div>}
+            </div>
           </div>
 
-          {/* Action buttons (e.g. Refresh, + Add Product) & User Menu */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* Dynamic Page Action Buttons rendered directly in Layout Header */}
+          {/* Center: Search & Filter Controls (Injected directly into Layout Header) */}
+          {controls && (
+            <div className="hidden md:flex items-center space-x-2.5 flex-1 max-w-2xl justify-center">
+              {controls}
+            </div>
+          )}
+
+          {/* Right: Actions, Live Site, Profile */}
+          <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
             {actions && <div className="flex items-center space-x-2">{actions}</div>}
 
             {/* Link back to public site */}
             <Link
               href="/"
               target="_blank"
-              className="hidden sm:flex items-center space-x-1.5 text-xs font-semibold text-slate-600 hover:text-orange-600 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-xl transition-colors"
+              className="hidden 2xl:flex items-center space-x-1.5 text-xs font-semibold text-slate-600 hover:text-orange-600 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-xl transition-colors"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               <span>View Live Website</span>
@@ -224,6 +233,13 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </header>
+
+        {/* Mobile controls bar (if controls exist, displayed under header on small screens) */}
+        {controls && (
+          <div className="md:hidden shrink-0 bg-white border-b border-slate-200 px-4 py-2 flex items-center overflow-x-auto gap-2">
+            {controls}
+          </div>
+        )}
 
         {/* 3. FIXED VIEWPORT CONTAINER (NO PAGE SCROLL - TABLE ROWS SCROLL INTERNALLY) */}
         <main className="flex-1 min-h-0 overflow-hidden p-4 sm:p-6 flex flex-col">

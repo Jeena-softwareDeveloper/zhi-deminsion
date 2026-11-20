@@ -36,6 +36,7 @@ export default function AdminProductsPage() {
   ]);
   const [loading, setLoading] = useState(false);
   const [filterCategory, setFilterCategory] = useState('All');
+  const [search, setSearch] = useState('');
 
   // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,7 +44,7 @@ export default function AdminProductsPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const { setTitle, setActions } = useAdminHeader();
+  const { setTitle, setControls, setActions } = useAdminHeader();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -94,6 +95,39 @@ export default function AdminProductsPage() {
 
   useEffect(() => {
     setTitle('Products Management');
+
+    // Controls injected into Layout Header
+    setControls(
+      <div className="flex items-center space-x-2 w-full">
+        <div className="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 shrink-0">
+          <Filter className="w-3.5 h-3.5 text-slate-400" />
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer pr-1"
+          >
+            <option value="All">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="relative flex-1 min-w-[160px] max-w-sm">
+          <Search className="absolute left-3 top-2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search products by name, specs..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+          />
+        </div>
+      </div>
+    );
+
     setActions(
       <div className="flex items-center space-x-2">
         <button
@@ -103,10 +137,23 @@ export default function AdminProductsPage() {
           <Plus className="w-4 h-4" />
           <span>Add New Product</span>
         </button>
+
+        <button
+          onClick={fetchProducts}
+          disabled={loading}
+          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
+          title="Refresh Products"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+        </button>
       </div>
     );
-    return () => setActions(null);
-  }, [categories]);
+
+    return () => {
+      setControls(null);
+      setActions(null);
+    };
+  }, [categories, filterCategory, search, loading]);
 
   const handleOpenAdd = () => {
     setEditingId(null);
@@ -215,7 +262,14 @@ export default function AdminProductsPage() {
   };
 
   const filteredProducts = products.filter((p) => {
-    return filterCategory === 'All' || p.category === filterCategory;
+    const matchCat = filterCategory === 'All' || p.category === filterCategory;
+    const matchSearch =
+      !search ||
+      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.category.toLowerCase().includes(search.toLowerCase()) ||
+      (p.shortDescription && p.shortDescription.toLowerCase().includes(search.toLowerCase())) ||
+      (p.priceEstimate && p.priceEstimate.toLowerCase().includes(search.toLowerCase()));
+    return matchCat && matchSearch;
   });
 
   // Table Columns Definition
@@ -320,52 +374,12 @@ export default function AdminProductsPage() {
 
   return (
     <div className="h-full flex flex-col min-h-0">
-      {/* Products DataTable with Category Dropdown in Toolbar */}
+      {/* Products DataTable: Toolbar is in top layout header, table starts immediately */}
       <DataTable
         columns={columns}
         data={filteredProducts}
         loading={loading}
-        searchPlaceholder="Search products by name, description, specs..."
-        searchFilter={(item, query) => {
-          const q = query.toLowerCase();
-          return (
-            item.name.toLowerCase().includes(q) ||
-            item.category.toLowerCase().includes(q) ||
-            (item.shortDescription && item.shortDescription.toLowerCase().includes(q)) ||
-            (item.priceEstimate && item.priceEstimate.toLowerCase().includes(q))
-          );
-        }}
-        filterSlot={
-          /* Clean Category Filter Dropdown Requested by User */
-          <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 hover:border-slate-300 transition-colors">
-            <Filter className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider hidden sm:inline">
-              Category:
-            </span>
-            <select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer pr-2"
-            >
-              <option value="All">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-        }
-        actionsSlot={
-          <button
-            onClick={fetchProducts}
-            disabled={loading}
-            className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
-            title="Refresh Products"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
-          </button>
-        }
+        hideToolbar={true}
         pageSize={8}
         emptyTitle="No products match your criteria"
         emptySubtitle="Try selecting another category or clearing your search."

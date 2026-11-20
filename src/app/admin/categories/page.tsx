@@ -51,7 +51,7 @@ export default function AdminCategoriesPage() {
     status: 'Active',
   });
 
-  const { setTitle, setActions } = useAdminHeader();
+  const { setTitle, setControls, setActions } = useAdminHeader();
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -72,11 +72,54 @@ export default function AdminCategoriesPage() {
     fetchCategories();
   }, []);
 
-  // Update layout header title and action button
+  // Update layout header title, search controls, and action buttons
   useEffect(() => {
     setTitle('Categories');
+
+    // Controls injected into Layout Header
+    setControls(
+      <div className="relative flex-1 min-w-[160px] max-w-sm">
+        <Search className="absolute left-3 top-2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+        <input
+          type="text"
+          placeholder="Search categories..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+        />
+      </div>
+    );
+
+    // Actions injected into Layout Header
     setActions(
       <div className="flex items-center space-x-2">
+        <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer ${
+              viewMode === 'grid'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+            title="Grid View"
+          >
+            <LayoutGrid className="w-4 h-4" />
+            <span className="hidden sm:inline">Cards</span>
+          </button>
+          <button
+            onClick={() => setViewMode('table')}
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer ${
+              viewMode === 'table'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+            title="Table View"
+          >
+            <TableIcon className="w-4 h-4" />
+            <span className="hidden sm:inline">Table</span>
+          </button>
+        </div>
+
         <button
           onClick={handleOpenAdd}
           className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
@@ -84,10 +127,23 @@ export default function AdminCategoriesPage() {
           <Plus className="w-4 h-4" />
           <span>Add Category</span>
         </button>
+
+        <button
+          onClick={fetchCategories}
+          disabled={loading}
+          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
+          title="Refresh Categories"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+        </button>
       </div>
     );
-    return () => setActions(null);
-  }, []);
+
+    return () => {
+      setControls(null);
+      setActions(null);
+    };
+  }, [search, viewMode, loading]);
 
   const handleOpenAdd = () => {
     setEditingId(null);
@@ -296,59 +352,6 @@ export default function AdminCategoriesPage() {
 
   return (
     <div className="h-full flex flex-col min-h-0 space-y-3.5">
-      {/* Top Toolbar */}
-      <div className="shrink-0 bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row gap-3 items-center justify-between">
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search categories..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 transition-colors"
-          />
-        </div>
-
-        <div className="flex items-center space-x-2 w-full sm:w-auto justify-end">
-          {/* Grid vs Table View Switcher */}
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors ${
-                viewMode === 'grid'
-                  ? 'bg-white text-slate-900 shadow-2xs'
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
-              title="Grid View"
-            >
-              <LayoutGrid className="w-4 h-4" />
-              <span className="hidden sm:inline">Cards</span>
-            </button>
-            <button
-              onClick={() => setViewMode('table')}
-              className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors ${
-                viewMode === 'table'
-                  ? 'bg-white text-slate-900 shadow-2xs'
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
-              title="Table View"
-            >
-              <TableIcon className="w-4 h-4" />
-              <span className="hidden sm:inline">Table</span>
-            </button>
-          </div>
-
-          <button
-            onClick={fetchCategories}
-            disabled={loading}
-            className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
-            title="Refresh Categories"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
-          </button>
-        </div>
-      </div>
-
       {/* Grid View */}
       {viewMode === 'grid' ? (
         filteredCategories.length === 0 ? (
@@ -446,7 +449,7 @@ export default function AdminCategoriesPage() {
           columns={columns}
           data={filteredCategories}
           loading={loading}
-          searchable={false}
+          hideToolbar={true}
           pageSize={8}
           emptyTitle="No categories found"
           emptySubtitle="Click 'Add Category' to create one."

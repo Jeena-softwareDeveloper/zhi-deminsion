@@ -24,10 +24,11 @@ import { DataTable, Column } from '@/components/admin/DataTable';
 export default function AdminEnquiriesPage() {
   const [enquiries, setEnquiries] = useState<any[]>(initialEnquiries);
   const [statusFilter, setStatusFilter] = useState('All');
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<any>(null);
 
-  const { setTitle, setActions } = useAdminHeader();
+  const { setTitle, setControls, setActions } = useAdminHeader();
 
   async function fetchEnquiries() {
     setLoading(true);
@@ -50,18 +51,56 @@ export default function AdminEnquiriesPage() {
 
   useEffect(() => {
     setTitle('Customer Enquiries');
+
+    setControls(
+      <div className="flex items-center space-x-2 w-full">
+        {/* Status Pills */}
+        <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0">
+          {['All', 'Pending', 'Quoted', 'In Progress', 'Contacted', 'Closed'].map((st) => (
+            <button
+              key={st}
+              onClick={() => setStatusFilter(st)}
+              className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                statusFilter === st
+                  ? 'bg-slate-900 text-white shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative flex-1 min-w-[150px] max-w-xs">
+          <Search className="absolute left-3 top-2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search enquiries..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+          />
+        </div>
+      </div>
+    );
+
     setActions(
       <button
         onClick={fetchEnquiries}
         disabled={loading}
-        className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
+        className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
         title="Refresh Enquiries"
       >
         <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
       </button>
     );
-    return () => setActions(null);
-  }, [loading]);
+
+    return () => {
+      setControls(null);
+      setActions(null);
+    };
+  }, [loading, statusFilter, search]);
 
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     try {
@@ -96,7 +135,14 @@ export default function AdminEnquiriesPage() {
   };
 
   const filtered = enquiries.filter((e) => {
-    return statusFilter === 'All' || e.status === statusFilter;
+    const matchStatus = statusFilter === 'All' || e.status === statusFilter;
+    const matchSearch =
+      !search ||
+      e.customerName.toLowerCase().includes(search.toLowerCase()) ||
+      e.productRequired.toLowerCase().includes(search.toLowerCase()) ||
+      (e.phone && e.phone.includes(search)) ||
+      (e.email && e.email.toLowerCase().includes(search.toLowerCase()));
+    return matchStatus && matchSearch;
   });
 
   const getBadge = (status: string) => {
@@ -191,33 +237,7 @@ export default function AdminEnquiriesPage() {
         columns={columns}
         data={filtered}
         loading={loading}
-        searchPlaceholder="Search by customer, phone, requirement..."
-        searchFilter={(item, query) => {
-          const q = query.toLowerCase();
-          return (
-            item.customerName.toLowerCase().includes(q) ||
-            item.productRequired.toLowerCase().includes(q) ||
-            (item.phone && item.phone.includes(q)) ||
-            (item.email && item.email.toLowerCase().includes(q))
-          );
-        }}
-        filterSlot={
-          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto">
-            {['All', 'Pending', 'Quoted', 'In Progress', 'Contacted', 'Closed'].map((st) => (
-              <button
-                key={st}
-                onClick={() => setStatusFilter(st)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                  statusFilter === st
-                    ? 'bg-slate-900 text-white shadow-2xs'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {st}
-              </button>
-            ))}
-          </div>
-        }
+        hideToolbar={true}
         pageSize={8}
         emptyTitle="No enquiries found"
         emptySubtitle="Customer enquiries submitted through the website will appear here."

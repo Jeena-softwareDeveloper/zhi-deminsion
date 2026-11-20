@@ -16,6 +16,7 @@ import {
   Loader2,
   X,
   RefreshCw,
+  Search,
 } from 'lucide-react';
 import { ZhiLogo } from '@/components/ZhiLogo';
 import { initialQuotations } from '@/lib/data/initialData';
@@ -31,6 +32,7 @@ function AdminQuotationsContent() {
   const [quotations, setQuotations] = useState<any[]>(initialQuotations);
   const [loading, setLoading] = useState(false);
   const [isCreating, setIsCreating] = useState(Boolean(preCustomer));
+  const [search, setSearch] = useState('');
 
   // Form State
   const [customerName, setCustomerName] = useState(preCustomer);
@@ -61,7 +63,7 @@ function AdminQuotationsContent() {
     }
   }
 
-  const { setTitle, setActions } = useAdminHeader();
+  const { setTitle, setControls, setActions } = useAdminHeader();
 
   useEffect(() => {
     fetchQuotations();
@@ -69,6 +71,20 @@ function AdminQuotationsContent() {
 
   useEffect(() => {
     setTitle('Quotations');
+
+    setControls(
+      <div className="relative flex-1 min-w-[160px] max-w-sm">
+        <Search className="absolute left-3 top-2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+        <input
+          type="text"
+          placeholder="Search quotations by number, customer, phone..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+        />
+      </div>
+    );
+
     setActions(
       <div className="flex items-center space-x-2">
         <button
@@ -78,10 +94,23 @@ function AdminQuotationsContent() {
           <Plus className="w-4 h-4" />
           <span>{isCreating ? 'Close Form' : 'New Quotation'}</span>
         </button>
+
+        <button
+          onClick={fetchQuotations}
+          disabled={loading}
+          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
+          title="Refresh Quotations"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+        </button>
       </div>
     );
-    return () => setActions(null);
-  }, [isCreating]);
+
+    return () => {
+      setControls(null);
+      setActions(null);
+    };
+  }, [isCreating, search, loading]);
 
   const handleItemChange = (index: number, field: string, value: any) => {
     const updated = [...items];
@@ -210,6 +239,16 @@ function AdminQuotationsContent() {
       ),
     },
   ];
+
+  const filteredQuotations = quotations.filter((item) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (
+      item.quoteNumber?.toLowerCase().includes(q) ||
+      item.customerName?.toLowerCase().includes(q) ||
+      item.phone?.includes(q)
+    );
+  });
 
   return (
     <div className="h-full flex flex-col min-h-0 space-y-3.5">
@@ -384,27 +423,9 @@ function AdminQuotationsContent() {
       {/* Quotations DataTable */}
       <DataTable
         columns={columns}
-        data={quotations}
+        data={filteredQuotations}
         loading={loading}
-        searchPlaceholder="Search quotations by number, customer, phone..."
-        searchFilter={(item, query) => {
-          const q = query.toLowerCase();
-          return (
-            item.quoteNumber?.toLowerCase().includes(q) ||
-            item.customerName?.toLowerCase().includes(q) ||
-            item.phone?.includes(q)
-          );
-        }}
-        actionsSlot={
-          <button
-            onClick={fetchQuotations}
-            disabled={loading}
-            className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
-            title="Refresh Quotations"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
-          </button>
-        }
+        hideToolbar={true}
         pageSize={8}
         emptyTitle="No quotations generated yet"
         emptySubtitle="Click 'New Quotation' to create and calculate a custom pricing sheet."
