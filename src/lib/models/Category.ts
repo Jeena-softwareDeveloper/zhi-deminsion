@@ -6,6 +6,7 @@ export interface ICategory extends Document {
   description: string;
   image: string;
   itemCount: number;
+  status: string;
 }
 
 const CategorySchema = new Schema<ICategory>(
@@ -15,10 +16,10 @@ const CategorySchema = new Schema<ICategory>(
     description: { type: String, required: true },
     image: { type: String, required: true },
     itemCount: { type: Number, default: 0 },
+    status: { type: String, default: 'Active' },
   },
   { timestamps: true }
 );
 
 export const Category: Model<ICategory> =
   mongoose.models.Category || mongoose.model<ICategory>('Category', CategorySchema);
-

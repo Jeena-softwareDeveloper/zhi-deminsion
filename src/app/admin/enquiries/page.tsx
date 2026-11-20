@@ -13,14 +13,17 @@ import {
   X,
   CheckCircle,
   RefreshCw,
+  Mail,
+  Calendar,
+  Clock,
 } from 'lucide-react';
 import { initialEnquiries } from '@/lib/data/initialData';
 import { useAdminHeader } from '@/context/AdminHeaderContext';
+import { DataTable, Column } from '@/components/admin/DataTable';
 
 export default function AdminEnquiriesPage() {
   const [enquiries, setEnquiries] = useState<any[]>(initialEnquiries);
   const [statusFilter, setStatusFilter] = useState('All');
-  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<any>(null);
 
@@ -93,13 +96,7 @@ export default function AdminEnquiriesPage() {
   };
 
   const filtered = enquiries.filter((e) => {
-    const matchStatus = statusFilter === 'All' || e.status === statusFilter;
-    const matchSearch =
-      !search ||
-      e.customerName.toLowerCase().includes(search.toLowerCase()) ||
-      e.productRequired.toLowerCase().includes(search.toLowerCase()) ||
-      e.phone.includes(search);
-    return matchStatus && matchSearch;
+    return statusFilter === 'All' || e.status === statusFilter;
   });
 
   const getBadge = (status: string) => {
@@ -117,112 +114,123 @@ export default function AdminEnquiriesPage() {
     }
   };
 
+  const columns: Column<any>[] = [
+    {
+      key: 'customerName',
+      header: 'Customer',
+      sortable: true,
+      render: (enq) => (
+        <div>
+          <p className="font-bold text-slate-900 text-xs sm:text-sm">{enq.customerName}</p>
+          <div className="flex items-center space-x-2 text-[11px] text-slate-400 mt-0.5">
+            <span className="font-mono">{enq.phone}</span>
+            {enq.email && <span>&bull; {enq.email}</span>}
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: 'productRequired',
+      header: 'Requirement',
+      sortable: true,
+      render: (enq) => (
+        <div>
+          <span className="font-semibold text-slate-800 text-xs block">{enq.productRequired}</span>
+          <span className="text-[11px] text-slate-400">Qty: {enq.quantitySize || 'N/A'}</span>
+        </div>
+      ),
+    },
+    {
+      key: 'createdAt',
+      header: 'Received',
+      sortable: true,
+      render: (enq) => (
+        <span className="text-slate-500 text-[11px]">
+          {enq.createdAt ? new Date(enq.createdAt).toLocaleDateString() : 'Recent'}
+        </span>
+      ),
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      align: 'center',
+      sortable: true,
+      render: (enq) => (
+        <span className={`px-2.5 py-0.5 text-[11px] font-bold rounded-full border ${getBadge(enq.status)}`}>
+          {enq.status}
+        </span>
+      ),
+    },
+    {
+      key: 'actions',
+      header: 'Actions',
+      align: 'right',
+      render: (enq) => (
+        <div className="flex items-center justify-end space-x-2">
+          <button
+            onClick={() => setSelected(enq)}
+            className="text-xs font-bold text-orange-600 hover:text-orange-800 bg-orange-50 hover:bg-orange-100 px-2.5 py-1 rounded-lg transition-colors"
+          >
+            Details
+          </button>
+          <button
+            onClick={() => handleDelete(enq._id)}
+            className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            title="Delete Enquiry"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-          {['All', 'Pending', 'Quoted', 'In Progress', 'Contacted', 'Closed'].map((st) => (
-            <button
-              key={st}
-              onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                statusFilter === st
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
-            >
-              {st}
-            </button>
-          ))}
-        </div>
+      <DataTable
+        columns={columns}
+        data={filtered}
+        loading={loading}
+        searchPlaceholder="Search by customer, phone, requirement..."
+        searchFilter={(item, query) => {
+          const q = query.toLowerCase();
+          return (
+            item.customerName.toLowerCase().includes(q) ||
+            item.productRequired.toLowerCase().includes(q) ||
+            (item.phone && item.phone.includes(q)) ||
+            (item.email && item.email.toLowerCase().includes(q))
+          );
+        }}
+        filterSlot={
+          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto">
+            {['All', 'Pending', 'Quoted', 'In Progress', 'Contacted', 'Closed'].map((st) => (
+              <button
+                key={st}
+                onClick={() => setStatusFilter(st)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+                  statusFilter === st
+                    ? 'bg-slate-900 text-white shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {st}
+              </button>
+            ))}
+          </div>
+        }
+        pageSize={8}
+        emptyTitle="No enquiries found"
+        emptySubtitle="Customer enquiries submitted through the website will appear here."
+      />
 
-        <div className="relative w-full md:w-72">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search by customer, phone, product..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
-          />
-        </div>
-      </div>
-
-      {/* Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
-              <tr>
-                <th className="py-3 px-4 w-12 text-center">#</th>
-                <th className="py-3 px-4">Customer</th>
-                <th className="py-3 px-4">Phone</th>
-                <th className="py-3 px-4">Product Requirement</th>
-                <th className="py-3 px-4">Quantity / Size</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {filtered.map((enq, idx) => (
-                <tr key={enq._id || idx} className="hover:bg-slate-50/70 transition-colors">
-                  <td className="py-3.5 px-4 text-center text-xs text-slate-400 font-mono">
-                    {idx + 1}
-                  </td>
-                  <td className="py-3.5 px-4 font-bold text-slate-900 text-xs">
-                    {enq.customerName}
-                  </td>
-                  <td className="py-3.5 px-4 text-xs font-mono text-slate-700">
-                    {enq.phone}
-                  </td>
-                  <td className="py-3.5 px-4 text-xs font-semibold text-slate-800">
-                    {enq.productRequired}
-                  </td>
-                  <td className="py-3.5 px-4 text-xs text-slate-500">
-                    {enq.quantitySize || '—'}
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span
-                      className={`px-2.5 py-0.5 text-[11px] font-bold rounded-full border ${getBadge(
-                        enq.status
-                      )}`}
-                    >
-                      {enq.status}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-center">
-                    <div className="flex items-center justify-center space-x-2">
-                      <button
-                        onClick={() => setSelected(enq)}
-                        className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-2 py-1 rounded"
-                      >
-                        Details
-                      </button>
-                      <button
-                        onClick={() => handleDelete(enq._id)}
-                        className="p-1 text-slate-400 hover:text-red-600"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Detail Modal */}
+      {/* Enquiry Detail Modal */}
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
-            <div className="bg-[#0F172A] text-white px-6 py-4 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 overflow-hidden">
+            <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-bold">Enquiry - {selected.customerName}</h3>
-                <p className="text-xs text-slate-400">{selected.phone}</p>
+                <h3 className="font-bold text-base">Enquiry Details</h3>
+                <p className="text-xs text-slate-400 mt-0.5">Submitted via Website Enquiry Form</p>
               </div>
               <button
                 onClick={() => setSelected(null)}
@@ -232,35 +240,73 @@ export default function AdminEnquiriesPage() {
               </button>
             </div>
 
-            <div className="p-6 space-y-4 text-sm">
-              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-[11px] font-bold text-slate-400 uppercase">Requirement</span>
-                <p className="font-semibold text-slate-900 mt-0.5">{selected.productRequired}</p>
-                {selected.quantitySize && (
-                  <p className="text-xs text-slate-600 mt-1">Quantity/Dimensions: {selected.quantitySize}</p>
-                )}
+            <div className="p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h4 className="text-base font-bold text-slate-900">{selected.customerName}</h4>
+                  <div className="flex items-center space-x-3 text-xs text-slate-500 mt-1">
+                    <span className="flex items-center space-x-1">
+                      <Phone className="w-3.5 h-3.5 text-slate-400" />
+                      <span>{selected.phone}</span>
+                    </span>
+                    {selected.email && (
+                      <span className="flex items-center space-x-1">
+                        <Mail className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{selected.email}</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <span className={`px-3 py-1 text-xs font-bold rounded-full border ${getBadge(selected.status)}`}>
+                  {selected.status}
+                </span>
               </div>
 
-              {selected.message && (
-                <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase">Message</span>
-                  <p className="text-xs text-slate-700 mt-1">"{selected.message}"</p>
+              <div>
+                <span className="text-[11px] font-bold text-slate-400 uppercase block mb-1">
+                  Product Required
+                </span>
+                <p className="text-sm font-semibold text-slate-800 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                  {selected.productRequired}
+                </p>
+              </div>
+
+              {selected.quantitySize && (
+                <div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase block mb-1">
+                    Quantity / Dimensions
+                  </span>
+                  <p className="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-200 font-mono">
+                    {selected.quantitySize}
+                  </p>
                 </div>
               )}
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                  Update Lead Status
+              {selected.message && (
+                <div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase block mb-1">
+                    Customer Message
+                  </span>
+                  <p className="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    {selected.message}
+                  </p>
+                </div>
+              )}
+
+              {/* Status Update Dropdown */}
+              <div className="pt-2">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                  Update Lifecycle Status
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {['Pending', 'Quoted', 'In Progress', 'Contacted', 'Closed'].map((st) => (
+                  {['Pending', 'Contacted', 'Quoted', 'In Progress', 'Closed'].map((st) => (
                     <button
                       key={st}
                       onClick={() => handleUpdateStatus(selected._id, st)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                         selected.status === st
-                          ? 'bg-[#F97316] text-white shadow-sm'
-                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                          ? 'bg-orange-500 text-white shadow-2xs'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
                       }`}
                     >
                       {st}
@@ -269,35 +315,25 @@ export default function AdminEnquiriesPage() {
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-100 flex gap-2">
-                <a
-                  href={`tel:${selected.phone}`}
-                  className="flex-1 py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl text-center flex items-center justify-center space-x-1"
-                >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>Call</span>
-                </a>
-                <a
-                  href={`https://wa.me/${selected.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                    `Hello ${selected.customerName}, regarding your inquiry for ${selected.productRequired} from ZHI DIMENSION:`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-2.5 px-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-semibold rounded-xl text-center flex items-center justify-center space-x-1"
-                >
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  <span>WhatsApp</span>
-                </a>
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                 <Link
-                  href={`/admin/quotations?customerName=${encodeURIComponent(
+                  href={`/admin/quotations?enquiryId=${selected._id}&customerName=${encodeURIComponent(
                     selected.customerName
-                  )}&phone=${encodeURIComponent(selected.phone)}&item=${encodeURIComponent(
-                    selected.productRequired
-                  )}`}
-                  className="flex-1 py-2.5 px-3 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold rounded-xl text-center"
+                  )}&phone=${encodeURIComponent(selected.phone)}&email=${encodeURIComponent(
+                    selected.email || ''
+                  )}&product=${encodeURIComponent(selected.productRequired)}`}
+                  className="px-4 py-2 bg-slate-900 hover:bg-orange-500 text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
                 >
-                  Quotation
+                  <FileSpreadsheet className="w-4 h-4" />
+                  <span>Generate Quotation</span>
                 </Link>
+
+                <button
+                  onClick={() => setSelected(null)}
+                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>
@@ -306,4 +342,3 @@ export default function AdminEnquiriesPage() {
     </div>
   );
 }
-

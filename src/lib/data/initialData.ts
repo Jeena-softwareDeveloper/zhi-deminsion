@@ -3,22 +3,25 @@ export const initialCategories = [
     name: 'Steel Products',
     slug: 'steel-products',
     description: 'Steel rods, pipes, sheets, structural sections and more.',
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
+    image: '/images/steel-framework.jpg',
     itemCount: 52,
+    status: 'Active',
   },
   {
     name: 'Welding & Fabrication',
     slug: 'welding-fabrication',
     description: 'Custom fabrication, gates, grills, frames, metal structures and repair services.',
-    image: 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80',
+    image: '/images/welding-sparks.jpg',
     itemCount: 38,
+    status: 'Active',
   },
   {
     name: 'Agricultural Equipment',
     slug: 'agricultural-equipment',
     description: 'Farming tools, implements, machinery and accessories.',
-    image: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80',
+    image: '/images/agri-tractor.jpg',
     itemCount: 34,
+    status: 'Active',
   },
 ];
 

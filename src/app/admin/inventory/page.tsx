@@ -11,15 +11,44 @@ import {
   Search,
   Filter,
   RefreshCw,
+  LayoutGrid,
+  Table as TableIcon,
+  PackageCheck,
+  Edit2,
+  X,
+  Loader2,
+  ArrowUpRight,
+  TrendingDown,
+  Layers,
 } from 'lucide-react';
 import { initialProducts } from '@/lib/data/initialData';
 import { useAdminHeader } from '@/context/AdminHeaderContext';
+import { DataTable, Column } from '@/components/admin/DataTable';
 
 export default function AdminInventoryPage() {
   const [products, setProducts] = useState<any[]>(initialProducts);
-  const [filter, setFilter] = useState<'All' | 'Low Stock' | 'In Stock'>('All');
+  const [filter, setFilter] = useState<'All' | 'Low Stock' | 'In Stock' | 'Out of Stock'>('All');
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
+  const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
+
+  // Modal States for Stock CRUD
+  const [editProduct, setEditProduct] = useState<any | null>(null);
+  const [restockProduct, setRestockProduct] = useState<any | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  // Form State for Edit Stock Modal
+  const [stockFormData, setStockFormData] = useState({
+    stockQuantity: 10,
+    stockStatus: 'In Stock',
+    safetyThreshold: 5,
+    location: 'Main Yard - Bay A',
+    notes: '',
+  });
+
+  // Restock amount
+  const [restockAmount, setRestockAmount] = useState<number>(20);
 
   const { setTitle, setActions } = useAdminHeader();
 
@@ -45,18 +74,48 @@ export default function AdminInventoryPage() {
   useEffect(() => {
     setTitle('Inventory Monitoring');
     setActions(
-      <button
-        onClick={fetchProducts}
-        disabled={loading}
-        className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
-        title="Refresh Inventory"
-      >
-        <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
-      </button>
+      <div className="flex items-center space-x-2">
+        <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <button
+            onClick={() => setViewMode('table')}
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors ${
+              viewMode === 'table'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+            title="Table View"
+          >
+            <TableIcon className="w-4 h-4" />
+            <span className="hidden sm:inline">Table</span>
+          </button>
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors ${
+              viewMode === 'grid'
+                ? 'bg-white text-slate-900 shadow-2xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+            title="Card Grid"
+          >
+            <LayoutGrid className="w-4 h-4" />
+            <span className="hidden sm:inline">Cards</span>
+          </button>
+        </div>
+
+        <button
+          onClick={fetchProducts}
+          disabled={loading}
+          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
+          title="Refresh Inventory"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+        </button>
+      </div>
     );
     return () => setActions(null);
-  }, [loading]);
+  }, [loading, viewMode]);
 
+  // Adjust stock by delta (+1 or -1)
   const adjustStock = async (id: string, delta: number) => {
     const target = products.find((p) => p._id === id || p.slug === id);
     if (!target) return;
@@ -81,134 +140,707 @@ export default function AdminInventoryPage() {
         body: JSON.stringify({ stockQuantity: newQty, stockStatus: newStatus }),
       });
     } catch (err) {
-      console.error(err);
+      console.error('Failed to update stock:', err);
     }
   };
 
+  const handleOpenEditStock = (prod: any) => {
+    setEditProduct(prod);
+    setStockFormData({
+      stockQuantity: prod.stockQuantity ?? 10,
+      stockStatus: prod.stockStatus || 'In Stock',
+      safetyThreshold: 5,
+      location: prod.specifications?.Location || 'Warehouse 1 / Yard Bay A',
+      notes: prod.specifications?.StockNotes || '',
+    });
+  };
+
+  const handleSaveStock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editProduct) return;
+    setSaving(true);
+
+    const id = editProduct._id || editProduct.slug;
+    const qty = Number(stockFormData.stockQuantity);
+    const status =
+      qty === 0
+        ? 'Out of Stock'
+        : stockFormData.stockStatus === 'Out of Stock'
+        ? 'Out of Stock'
+        : qty <= stockFormData.safetyThreshold
+        ? 'Low Stock'
+        : stockFormData.stockStatus;
+
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stockQuantity: qty,
+          stockStatus: status,
+          specifications: {
+            ...editProduct.specifications,
+            Location: stockFormData.location,
+            StockNotes: stockFormData.notes,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProducts((prev) =>
+          prev.map((p) => (p._id === id || p.slug === id ? data.product : p))
+        );
+        setEditProduct(null);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleExecuteRestock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!restockProduct) return;
+    setSaving(true);
+
+    const id = restockProduct._id || restockProduct.slug;
+    const newQty = (restockProduct.stockQuantity || 0) + Number(restockAmount);
+    const newStatus = newQty > 5 ? 'In Stock' : 'Low Stock';
+
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stockQuantity: newQty,
+          stockStatus: newStatus,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProducts((prev) =>
+          prev.map((p) => (p._id === id || p.slug === id ? data.product : p))
+        );
+        setRestockProduct(null);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const categories = Array.from(new Set(products.map((p) => p.category)));
+
   const filtered = products.filter((p) => {
-    const matchFilter = filter === 'All' || p.stockStatus === filter;
+    const matchFilter =
+      filter === 'All'
+        ? true
+        : filter === 'Out of Stock'
+        ? p.stockStatus === 'Out of Stock' || (p.stockQuantity ?? 10) === 0
+        : p.stockStatus === filter;
+
+    const matchCat =
+      selectedCategory === 'All' || p.category === selectedCategory;
+
     const matchSearch =
       !search ||
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.category.toLowerCase().includes(search.toLowerCase());
-    return matchFilter && matchSearch;
+
+    return matchFilter && matchCat && matchSearch;
   });
 
-  const lowStockCount = products.filter((p) => p.stockStatus === 'Low Stock').length;
+  const lowStockCount = products.filter(
+    (p) => p.stockStatus === 'Low Stock' || (p.stockQuantity ?? 10) <= 5
+  ).length;
+
+  const totalUnits = products.reduce((acc, p) => acc + (p.stockQuantity ?? 10), 0);
+
+  // Columns for DataTable
+  const columns: Column<any>[] = [
+    {
+      key: 'product',
+      header: 'Product',
+      sortable: true,
+      render: (prod) => {
+        const img = prod.images?.[0] || '/images/steel-framework.jpg';
+        return (
+          <div className="flex items-center space-x-3">
+            <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+              <Image
+                src={img}
+                alt={prod.name}
+                fill
+                className="object-cover"
+                onError={(e: any) => {
+                  e.target.src = '/images/steel-framework.jpg';
+                }}
+              />
+            </div>
+            <div>
+              <p className="font-bold text-slate-900 text-xs sm:text-sm">{prod.name}</p>
+              <p className="text-[11px] text-slate-400">{prod.category}</p>
+            </div>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'stockStatus',
+      header: 'Status',
+      align: 'center',
+      sortable: true,
+      render: (prod) => {
+        const isLow = prod.stockStatus === 'Low Stock' || (prod.stockQuantity ?? 10) <= 5;
+        const isOut = prod.stockStatus === 'Out of Stock' || (prod.stockQuantity ?? 10) === 0;
+
+        return (
+          <span
+            className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
+              isOut
+                ? 'bg-slate-100 text-slate-700'
+                : isLow
+                ? 'bg-amber-100 text-amber-900'
+                : 'bg-emerald-100 text-emerald-800'
+            }`}
+          >
+            {isOut ? 'Out of Stock' : isLow ? 'Low Stock' : 'In Stock'}
+          </span>
+        );
+      },
+    },
+    {
+      key: 'stockQuantity',
+      header: 'Available Units',
+      align: 'center',
+      sortable: true,
+      render: (prod) => {
+        const qty = prod.stockQuantity ?? 10;
+        return (
+          <div className="inline-flex items-center space-x-2">
+            <span className="font-black text-slate-900 text-sm">{qty}</span>
+            <span className="text-[10px] text-slate-400 font-semibold">units</span>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'adjust',
+      header: 'Quick Adjust',
+      align: 'center',
+      render: (prod) => {
+        const id = prod._id || prod.slug;
+        return (
+          <div className="flex items-center justify-center space-x-1.5">
+            <button
+              onClick={() => adjustStock(id, -1)}
+              className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors cursor-pointer"
+              title="Decrease by 1"
+            >
+              <Minus className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => adjustStock(id, 1)}
+              className="w-7 h-7 rounded-lg bg-slate-900 hover:bg-orange-500 text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
+              title="Increase by 1"
+            >
+              <Plus className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        );
+      },
+    },
+    {
+      key: 'actions',
+      header: 'Actions',
+      align: 'right',
+      render: (prod) => {
+        return (
+          <div className="flex items-center justify-end space-x-2">
+            <button
+              onClick={() => {
+                setRestockProduct(prod);
+                setRestockAmount(25);
+              }}
+              className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors flex items-center space-x-1"
+              title="Batch Restock"
+            >
+              <PackageCheck className="w-3.5 h-3.5" />
+              <span>Restock</span>
+            </button>
+            <button
+              onClick={() => handleOpenEditStock(prod)}
+              className="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
+              title="Edit Stock Details"
+            >
+              <Edit2 className="w-4 h-4" />
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
     <div className="space-y-6">
       {/* Low Stock Warning Banner if any */}
       {lowStockCount > 0 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center justify-between text-amber-900 text-xs">
+        <div className="bg-amber-50/90 border border-amber-200/90 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-amber-950 text-xs shadow-2xs">
           <div className="flex items-center space-x-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
+            <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+              <AlertTriangle className="w-5 h-5" />
+            </div>
             <div>
-              <span className="font-bold">Inventory Alert:</span> {lowStockCount} product(s) are below safety stock threshold (&le; 5 units). Reordering or yard fabrication recommended.
+              <span className="font-bold text-sm block">Inventory Attention Required:</span>
+              <span className="text-amber-800">
+                {lowStockCount} product(s) are below safety stock threshold (&le; 5 units). Reordering or yard fabrication recommended.
+              </span>
             </div>
           </div>
           <button
-            onClick={() => setFilter('Low Stock')}
-            className="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg shrink-0 ml-4"
+            onClick={() => setFilter(filter === 'Low Stock' ? 'All' : 'Low Stock')}
+            className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shrink-0 transition-colors cursor-pointer text-xs"
           >
-            Filter Low Stock
+            {filter === 'Low Stock' ? 'Show All Products' : 'Filter Low Stock'}
           </button>
         </div>
       )}
 
-      {/* Filter and Search */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="flex items-center space-x-2">
-          {(['All', 'In Stock', 'Low Stock'] as const).map((st) => (
-            <button
-              key={st}
-              onClick={() => setFilter(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                filter === st
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
-            >
-              {st}
-            </button>
-          ))}
+      {/* Metrics Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+            <Boxes className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-slate-400 uppercase">Total Catalog Items</p>
+            <p className="text-lg font-black text-slate-900">{products.length}</p>
+          </div>
         </div>
 
-        <div className="relative w-full md:w-72">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search items..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
-          />
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <CheckCircle className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-slate-400 uppercase">Total Units in Stock</p>
+            <p className="text-lg font-black text-slate-900">{totalUnits}</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <TrendingDown className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-slate-400 uppercase">Low Stock Alerts</p>
+            <p className="text-lg font-black text-amber-600">{lowStockCount}</p>
+          </div>
         </div>
       </div>
 
-      {/* Inventory Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((prod) => {
-          const img =
-            prod.images?.[0] ||
-            'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=80';
-          const isLow = prod.stockStatus === 'Low Stock';
-
-          return (
-            <div
-              key={prod._id || prod.slug}
-              className={`bg-white rounded-2xl p-5 border shadow-xs flex flex-col justify-between transition-all ${
-                isLow ? 'border-red-200 ring-1 ring-red-100' : 'border-slate-200'
-              }`}
-            >
-              <div className="flex items-start space-x-4">
-                <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
-                  <Image src={img} alt={prod.name} fill className="object-cover" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-slate-900 text-sm truncate">{prod.name}</h4>
-                  <p className="text-[11px] text-slate-500">{prod.category}</p>
-                  <span
-                    className={`inline-block mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                      isLow ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'
+      {/* View Content */}
+      {viewMode === 'table' ? (
+        <DataTable
+          columns={columns}
+          data={filtered}
+          loading={loading}
+          searchPlaceholder="Search inventory by product, category, specs..."
+          searchFilter={(item, query) => {
+            const q = query.toLowerCase();
+            return (
+              item.name.toLowerCase().includes(q) ||
+              item.category.toLowerCase().includes(q) ||
+              (item.stockStatus && item.stockStatus.toLowerCase().includes(q))
+            );
+          }}
+          filterSlot={
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Status Filter */}
+              <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+                {(['All', 'In Stock', 'Low Stock', 'Out of Stock'] as const).map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setFilter(st)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+                      filter === st
+                        ? 'bg-slate-900 text-white shadow-2xs'
+                        : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
-                    {prod.stockStatus}
-                  </span>
-                </div>
+                    {st}
+                  </button>
+                ))}
               </div>
 
-              {/* Adjust Stock Counter */}
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase block">Units in Stock</span>
-                  <span className="text-xl font-black text-slate-900">
-                    {prod.stockQuantity ?? 10}
-                  </span>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => adjustStock(prod._id || prod.slug, -1)}
-                    className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors"
-                    title="Decrease Stock"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => adjustStock(prod._id || prod.slug, 1)}
-                    className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-orange-600 text-white font-bold flex items-center justify-center transition-colors"
-                    title="Increase Stock"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
+              {/* Category Dropdown */}
+              <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5">
+                <Filter className="w-3.5 h-3.5 text-slate-400" />
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer"
+                >
+                  <option value="All">All Categories</option>
+                  {categories.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
-          );
-        })}
-      </div>
+          }
+          pageSize={8}
+          emptyTitle="No inventory matches found"
+          emptySubtitle="Try selecting another stock status or clearing your search."
+        />
+      ) : (
+        /* Card Grid View */
+        <div className="space-y-4">
+          {/* Card View Toolbar */}
+          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex flex-col md:flex-row gap-3 items-center justify-between">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+                {(['All', 'In Stock', 'Low Stock', 'Out of Stock'] as const).map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setFilter(st)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+                      filter === st
+                        ? 'bg-slate-900 text-white shadow-2xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    {st}
+                  </button>
+                ))}
+              </div>
+
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-800 focus:outline-none"
+              >
+                <option value="All">All Categories</option>
+                {categories.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="relative w-full md:w-64">
+              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search inventory..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((prod) => {
+              const img = prod.images?.[0] || '/images/steel-framework.jpg';
+              const isLow = prod.stockStatus === 'Low Stock' || (prod.stockQuantity ?? 10) <= 5;
+              const isOut = prod.stockStatus === 'Out of Stock' || (prod.stockQuantity ?? 10) === 0;
+              const id = prod._id || prod.slug;
+
+              return (
+                <div
+                  key={id}
+                  className={`bg-white rounded-2xl p-5 border shadow-2xs flex flex-col justify-between transition-all ${
+                    isOut
+                      ? 'border-slate-300 opacity-90'
+                      : isLow
+                      ? 'border-amber-300 ring-1 ring-amber-200'
+                      : 'border-slate-200'
+                  }`}
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                      <Image
+                        src={img}
+                        alt={prod.name}
+                        fill
+                        className="object-cover"
+                        onError={(e: any) => {
+                          e.target.src = '/images/steel-framework.jpg';
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-slate-900 text-sm truncate">{prod.name}</h4>
+                      <p className="text-[11px] text-slate-500">{prod.category}</p>
+                      <span
+                        className={`inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                          isOut
+                            ? 'bg-slate-100 text-slate-700'
+                            : isLow
+                            ? 'bg-amber-100 text-amber-900'
+                            : 'bg-emerald-100 text-emerald-800'
+                        }`}
+                      >
+                        {isOut ? 'Out of Stock' : isLow ? 'Low Stock' : 'In Stock'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Stock Quantity and Quick Actions */}
+                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">
+                        Units in Stock
+                      </span>
+                      <span className="text-xl font-black text-slate-900">
+                        {prod.stockQuantity ?? 10}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center space-x-1.5">
+                      <button
+                        onClick={() => adjustStock(id, -1)}
+                        className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors cursor-pointer"
+                        title="Decrease Stock"
+                      >
+                        <Minus className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => adjustStock(id, 1)}
+                        className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-orange-500 text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
+                        title="Increase Stock"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setRestockProduct(prod);
+                          setRestockAmount(25);
+                        }}
+                        className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors"
+                      >
+                        Restock
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Edit Stock Details Modal */}
+      {editProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden">
+            <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-base">Edit Stock Details</h3>
+                <p className="text-xs text-slate-400 mt-0.5">{editProduct.name}</p>
+              </div>
+              <button
+                onClick={() => setEditProduct(null)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveStock} className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Units in Stock *
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    required
+                    value={stockFormData.stockQuantity}
+                    onChange={(e) =>
+                      setStockFormData({
+                        ...stockFormData,
+                        stockQuantity: Number(e.target.value),
+                      })
+                    }
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 font-bold text-slate-900"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Stock Status
+                  </label>
+                  <select
+                    value={stockFormData.stockStatus}
+                    onChange={(e) =>
+                      setStockFormData({ ...stockFormData, stockStatus: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 font-semibold text-slate-900"
+                  >
+                    <option value="In Stock">In Stock</option>
+                    <option value="Low Stock">Low Stock</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Storage Yard / Warehouse Location
+                </label>
+                <input
+                  type="text"
+                  value={stockFormData.location}
+                  onChange={(e) =>
+                    setStockFormData({ ...stockFormData, location: e.target.value })
+                  }
+                  placeholder="e.g. Yard Bay B, Shelf 4"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Safety Reorder Threshold (units)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  value={stockFormData.safetyThreshold}
+                  onChange={(e) =>
+                    setStockFormData({
+                      ...stockFormData,
+                      safetyThreshold: Number(e.target.value),
+                    })
+                  }
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
+                />
+                <span className="text-[10px] text-slate-400 mt-1 block">
+                  Triggers low stock alert when quantity drops below this amount.
+                </span>
+              </div>
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setEditProduct(null)}
+                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
+                >
+                  {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  <span>Save Inventory Changes</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Quick Restock Modal */}
+      {restockProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 overflow-hidden">
+            <div className="bg-orange-600 text-white px-6 py-4 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-base">Restock Units</h3>
+                <p className="text-xs text-orange-100 mt-0.5">{restockProduct.name}</p>
+              </div>
+              <button
+                onClick={() => setRestockProduct(null)}
+                className="p-1 rounded-lg text-orange-200 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleExecuteRestock} className="p-6 space-y-4">
+              <div>
+                <span className="text-xs text-slate-500 block mb-1">Current Stock:</span>
+                <span className="text-2xl font-black text-slate-900">
+                  {restockProduct.stockQuantity ?? 10}{' '}
+                  <span className="text-xs font-normal text-slate-400">units</span>
+                </span>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-2">
+                  Select Quantity to Add
+                </label>
+                <div className="grid grid-cols-4 gap-2 mb-3">
+                  {[10, 25, 50, 100].map((amt) => (
+                    <button
+                      type="button"
+                      key={amt}
+                      onClick={() => setRestockAmount(amt)}
+                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                        restockAmount === amt
+                          ? 'bg-orange-500 text-white border-orange-500 shadow-2xs'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      +{amt}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="1"
+                    required
+                    value={restockAmount}
+                    onChange={(e) => setRestockAmount(Number(e.target.value))}
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:border-orange-500"
+                    placeholder="Custom amount..."
+                  />
+                  <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-semibold">
+                    units
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs">
+                New total stock after restock:{' '}
+                <span className="font-bold">
+                  {(restockProduct.stockQuantity ?? 10) + Number(restockAmount)} units
+                </span>
+              </div>
+
+              <div className="pt-2 flex items-center justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setRestockProduct(null)}
+                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
+                >
+                  {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  <span>Confirm Restock</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-

@@ -1,10 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Settings, Save, CheckCircle, Database, Phone, Mail, MapPin } from 'lucide-react';
+import { useAdminHeader } from '@/context/AdminHeaderContext';
 
 export default function AdminSettingsPage() {
+  const { setTitle } = useAdminHeader();
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setTitle('System Settings');
+  }, []);
   const [settings, setSettings] = useState({
     companyName: 'ZHI DIMENSION',
     tagline: 'Engineering Strength. Building Possibilities.',
