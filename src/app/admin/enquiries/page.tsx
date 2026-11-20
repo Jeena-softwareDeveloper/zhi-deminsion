@@ -186,7 +186,7 @@ export default function AdminEnquiriesPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col min-h-0">
       <DataTable
         columns={columns}
         data={filtered}

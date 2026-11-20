@@ -212,10 +212,10 @@ function AdminQuotationsContent() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col min-h-0 space-y-3.5">
       {/* Quotation Creator Form Drawer */}
       {isCreating && (
-        <div className="bg-white rounded-2xl border border-orange-200 p-6 shadow-md animate-in fade-in space-y-6">
+        <div className="shrink-0 max-h-[50vh] overflow-y-auto bg-white rounded-2xl border border-orange-200 p-6 shadow-md animate-in fade-in space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <div>
               <h3 className="font-bold text-slate-900 text-base">Generate Official Quotation</h3>

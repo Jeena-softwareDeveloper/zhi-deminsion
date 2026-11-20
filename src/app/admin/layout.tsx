@@ -225,8 +225,8 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        {/* 3. ONLY THIS MAIN CONTAINER SCROLLS! */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+        {/* 3. FIXED VIEWPORT CONTAINER (NO PAGE SCROLL - TABLE ROWS SCROLL INTERNALLY) */}
+        <main className="flex-1 min-h-0 overflow-hidden p-4 sm:p-6 flex flex-col">
           {children}
         </main>
       </div>

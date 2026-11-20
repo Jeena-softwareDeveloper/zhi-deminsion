@@ -384,24 +384,24 @@ export default function AdminInventoryPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col min-h-0 space-y-3.5">
       {/* Low Stock Warning Banner if any */}
       {lowStockCount > 0 && (
-        <div className="bg-amber-50/90 border border-amber-200/90 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-amber-950 text-xs shadow-2xs">
+        <div className="shrink-0 bg-amber-50/90 border border-amber-200/90 rounded-2xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-amber-950 text-xs shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
-              <AlertTriangle className="w-5 h-5" />
+            <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+              <AlertTriangle className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-sm block">Inventory Attention Required:</span>
-              <span className="text-amber-800">
+              <span className="font-bold text-xs block">Inventory Attention Required:</span>
+              <span className="text-amber-800 text-[11px]">
                 {lowStockCount} product(s) are below safety stock threshold (&le; 5 units). Reordering or yard fabrication recommended.
               </span>
             </div>
           </div>
           <button
             onClick={() => setFilter(filter === 'Low Stock' ? 'All' : 'Low Stock')}
-            className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shrink-0 transition-colors cursor-pointer text-xs"
+            className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shrink-0 transition-colors cursor-pointer text-xs"
           >
             {filter === 'Low Stock' ? 'Show All Products' : 'Filter Low Stock'}
           </button>
@@ -409,34 +409,34 @@ export default function AdminInventoryPage() {
       )}
 
       {/* Metrics Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-            <Boxes className="w-5 h-5" />
+      <div className="shrink-0 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+            <Boxes className="w-4 h-4" />
           </div>
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase">Total Catalog Items</p>
-            <p className="text-lg font-black text-slate-900">{products.length}</p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase">Total Catalog Items</p>
+            <p className="text-base font-black text-slate-900 leading-tight">{products.length}</p>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-            <CheckCircle className="w-5 h-5" />
+        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <CheckCircle className="w-4 h-4" />
           </div>
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase">Total Units in Stock</p>
-            <p className="text-lg font-black text-slate-900">{totalUnits}</p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase">Total Units in Stock</p>
+            <p className="text-base font-black text-slate-900 leading-tight">{totalUnits}</p>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-            <TrendingDown className="w-5 h-5" />
+        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <TrendingDown className="w-4 h-4" />
           </div>
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase">Low Stock Alerts</p>
-            <p className="text-lg font-black text-amber-600">{lowStockCount}</p>
+            <p className="text-[10px] font-bold text-slate-400 uppercase">Low Stock Alerts</p>
+            <p className="text-base font-black text-amber-600 leading-tight">{lowStockCount}</p>
           </div>
         </div>
       </div>
@@ -499,9 +499,9 @@ export default function AdminInventoryPage() {
         />
       ) : (
         /* Card Grid View */
-        <div className="space-y-4">
+        <div className="flex-1 min-h-0 flex flex-col space-y-3.5">
           {/* Card View Toolbar */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs flex flex-col md:flex-row gap-3 items-center justify-between">
+          <div className="shrink-0 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex flex-col md:flex-row gap-3 items-center justify-between">
             <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
                 {(['All', 'In Stock', 'Low Stock', 'Out of Stock'] as const).map((st) => (
@@ -545,7 +545,8 @@ export default function AdminInventoryPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex-1 min-h-0 overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pb-6">
             {filtered.map((prod) => {
               const img = prod.images?.[0] || '/images/steel-framework.jpg';
               const isLow = prod.stockStatus === 'Low Stock' || (prod.stockQuantity ?? 10) <= 5;
@@ -634,6 +635,7 @@ export default function AdminInventoryPage() {
             })}
           </div>
         </div>
+      </div>
       )}
 
       {/* Edit Stock Details Modal */}

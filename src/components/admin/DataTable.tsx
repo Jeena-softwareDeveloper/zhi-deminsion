@@ -138,10 +138,10 @@ export function DataTable<T>({
   };
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      {/* Table Toolbar: Search, Filters & Actions */}
+    <div className={`flex flex-col min-h-0 flex-1 w-full space-y-3.5 ${className}`}>
+      {/* Table Toolbar: Search, Filters & Actions (Fixed/Pinned at top) */}
       {(searchable || filterSlot || actionsSlot) && (
-        <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+        <div className="shrink-0 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
             {/* Filter Slot (e.g. Category Dropdown) */}
             {filterSlot && <div className="shrink-0">{filterSlot}</div>}
@@ -169,11 +169,12 @@ export function DataTable<T>({
         </div>
       )}
 
-      {/* Main Table Container */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
-        <div className="overflow-x-auto">
+      {/* Main Table Container: Fills 100% remaining vertical space */}
+      <div className="flex-1 min-h-0 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+        {/* ONLY THIS INNER WRAPPER SCROLLS VERTICALLY & HORIZONTALLY */}
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-auto relative">
           <table className="w-full text-left text-sm text-slate-600 border-collapse">
-            <thead className="bg-slate-50/80 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+            <thead className="bg-slate-50 sticky top-0 z-20 shadow-xs border-b border-slate-200">
               <tr>
                 {columns.map((col) => {
                   const isSorted = sortKey === col.key;
@@ -181,8 +182,10 @@ export function DataTable<T>({
                     <th
                       key={col.key}
                       onClick={() => handleSort(col.key, col.sortable)}
-                      className={`py-3.5 px-4 select-none ${getAlignmentClass(col.align)} ${
-                        col.sortable ? 'cursor-pointer hover:bg-slate-100/70 transition-colors' : ''
+                      className={`sticky top-0 z-20 bg-slate-50 py-3.5 px-4 select-none border-b border-slate-200 ${getAlignmentClass(
+                        col.align
+                      )} ${
+                        col.sortable ? 'cursor-pointer hover:bg-slate-100/90 transition-colors' : ''
                       } ${col.headerClassName || ''}`}
                     >
                       <div
@@ -194,7 +197,9 @@ export function DataTable<T>({
                             : 'justify-start'
                         }`}
                       >
-                        <span>{col.header}</span>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                          {col.header}
+                        </span>
                         {col.sortable && (
                           <span className="text-slate-400">
                             {isSorted ? (
@@ -218,7 +223,7 @@ export function DataTable<T>({
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
-                  <td colSpan={columns.length} className="py-16 text-center">
+                  <td colSpan={columns.length} className="py-20 text-center">
                     <div className="inline-flex flex-col items-center justify-center space-y-2 text-slate-400">
                       <Loader2 className="w-7 h-7 animate-spin text-orange-500" />
                       <span className="text-xs font-semibold">Loading data...</span>
@@ -227,7 +232,7 @@ export function DataTable<T>({
                 </tr>
               ) : paginatedData.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length} className="py-16 text-center">
+                  <td colSpan={columns.length} className="py-20 text-center">
                     <div className="max-w-sm mx-auto flex flex-col items-center justify-center text-center p-4">
                       <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mb-3">
                         {emptyIcon || <Inbox className="w-6 h-6" />}
@@ -271,9 +276,9 @@ export function DataTable<T>({
           </table>
         </div>
 
-        {/* Pagination Footer */}
+        {/* Pinned Pagination Footer (Never scrolls away) */}
         {!loading && totalItems > 0 && (
-          <div className="p-3.5 sm:px-5 sm:py-3.5 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+          <div className="shrink-0 p-3.5 sm:px-5 sm:py-3.5 bg-slate-50/70 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
             <div className="font-medium">
               Showing <span className="font-bold text-slate-800">{(safePage - 1) * pageSize + 1}</span> to{' '}
               <span className="font-bold text-slate-800">

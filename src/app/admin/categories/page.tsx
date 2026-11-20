@@ -295,9 +295,9 @@ export default function AdminCategoriesPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col min-h-0 space-y-3.5">
       {/* Top Toolbar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="shrink-0 bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
           <input
@@ -369,7 +369,8 @@ export default function AdminCategoriesPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex-1 min-h-0 overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
             {filteredCategories.map((cat, idx) => {
               const imgSrc = cat.image || '/images/steel-framework.jpg';
               return (
@@ -436,6 +437,7 @@ export default function AdminCategoriesPage() {
                 </div>
               );
             })}
+            </div>
           </div>
         )
       ) : (

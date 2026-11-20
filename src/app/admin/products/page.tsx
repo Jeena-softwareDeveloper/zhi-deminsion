@@ -319,7 +319,7 @@ export default function AdminProductsPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col min-h-0">
       {/* Products DataTable with Category Dropdown in Toolbar */}
       <DataTable
         columns={columns}

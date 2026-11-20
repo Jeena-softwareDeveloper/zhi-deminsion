@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="h-full overflow-y-auto space-y-6 pr-1 animate-fadeIn">
       {/* NO DUPLICATE HEADER - Content starts immediately with TOP 4 STATS CARDS (Page 7 Exact Match) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Card 1: Total Products */}

@@ -30,7 +30,8 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="h-full overflow-y-auto pr-1">
+      <div className="space-y-6 max-w-4xl pb-8">
       {saved && (
         <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs flex items-center space-x-2 animate-fadeIn">
           <CheckCircle className="w-4 h-4 text-emerald-600" />
@@ -126,6 +127,7 @@ export default function AdminSettingsPage() {
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 }
