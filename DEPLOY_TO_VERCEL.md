@@ -67,3 +67,4 @@ Once deployed to Vercel, simply visit:
 https://your-project.vercel.app/api/seed
 ```
 This automatically seeds the 124 products, enquiries, categories, and initial quotations into your MongoDB Atlas cloud database in 1 second!
+
