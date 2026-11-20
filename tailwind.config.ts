@@ -22,9 +22,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)"],
-        heading: ["var(--font-heading)"],
-        display: ["var(--font-heading)"],
+        sans: ["'Plus Jakarta Sans'", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        heading: ["'Montserrat'", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        display: ["'Montserrat'", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
       },
       letterSpacing: {
         tightest: '-0.04em',

@@ -415,7 +415,7 @@ export default function AdminCategoriesPage() {
 
                   <div className="p-5 flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-base font-bold text-slate-900">{cat.name}</h3>
+                      <h3 className="text-base font-bold text-slate-900 font-heading">{cat.name}</h3>
                       <p className="text-xs text-slate-500 mt-1 line-clamp-2">{cat.description}</p>
                     </div>
 
