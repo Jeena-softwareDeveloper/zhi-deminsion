@@ -131,10 +131,10 @@ export default function HomePage() {
               </div>
 
               <div className="space-y-2">
-                <p className="text-xl sm:text-2xl font-medium text-slate-300 font-sans tracking-wide">
+                <p className="text-xl sm:text-2xl font-medium text-slate-300 tracking-wide">
                   Your Trusted Partner in
                 </p>
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tight leading-tight text-white">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
                   Steel, Fabrication &{' '}
                   <span className="text-[#F97316] drop-shadow-sm">Agricultural Solutions.</span>
                 </h1>
@@ -281,7 +281,7 @@ export default function HomePage() {
           <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
             Our Core Verticals
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
             Engineering Strength Across Every Dimension
           </h2>
           <p className="text-slate-600 text-base mt-3">
@@ -306,7 +306,7 @@ export default function HomePage() {
             </div>
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors font-heading">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
                   Steel Products
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 leading-relaxed">
@@ -353,7 +353,7 @@ export default function HomePage() {
             </div>
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors font-heading">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
                   Welding & Fabrication
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 leading-relaxed">
@@ -400,7 +400,7 @@ export default function HomePage() {
             </div>
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors font-heading">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
                   Agricultural Equipment
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 leading-relaxed">
@@ -441,7 +441,7 @@ export default function HomePage() {
               <span className="text-orange-600 text-xs font-bold uppercase tracking-wider">
                 Industrial Catalogue
               </span>
-              <h2 className="text-3xl font-extrabold text-slate-900 mt-1 font-heading">
+              <h2 className="text-3xl font-extrabold text-slate-900 mt-1">
                 Explore Products & Equipment
               </h2>
             </div>
@@ -507,7 +507,7 @@ export default function HomePage() {
 
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
-                      <h4 className="font-bold text-base text-slate-900 font-heading group-hover:text-orange-600 transition-colors">
+                      <h4 className="font-bold text-base text-slate-900 group-hover:text-orange-600 transition-colors">
                         {product.name}
                       </h4>
                       <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
@@ -550,7 +550,7 @@ export default function HomePage() {
               <Calculator className="w-4 h-4" />
               <span>Engineering Tool</span>
             </span>
-            <h3 className="text-2xl sm:text-3xl font-black font-heading text-white">
+            <h3 className="text-2xl sm:text-3xl font-black text-white">
               Instant Steel Weight & Price Estimator
             </h3>
             <p className="text-slate-300 text-sm mt-1">
@@ -648,7 +648,7 @@ export default function HomePage() {
               <div className="py-2">
                 <span className="text-4xl sm:text-5xl font-black text-white font-mono">
                   {calcResult.weight.toLocaleString()}{' '}
-                  <span className="text-xl font-sans text-orange-400 font-bold">kg</span>
+                  <span className="text-xl text-orange-400 font-bold">kg</span>
                 </span>
                 <p className="text-xs text-slate-400 mt-1">
                   ({(calcResult.weight / 1000).toFixed(2)} Metric Tonnes)
@@ -684,7 +684,7 @@ export default function HomePage() {
             <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
               Execution Methodology
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
               Our 5-Stage Precision Metal Process
             </h2>
             <p className="text-slate-600 text-sm sm:text-base mt-2">
@@ -697,7 +697,7 @@ export default function HomePage() {
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
               <div>
                 <span className="text-3xl font-black text-orange-500 font-mono">01</span>
-                <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">CAD Modeling</h4>
+                <h4 className="text-base font-bold text-slate-900 mt-2">CAD Modeling</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   Structural load calculation, 3D modeling, and BOM verification.
                 </p>
@@ -712,7 +712,7 @@ export default function HomePage() {
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
               <div>
                 <span className="text-3xl font-black text-orange-500 font-mono">02</span>
-                <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">CNC Cutting</h4>
+                <h4 className="text-base font-bold text-slate-900 mt-2">CNC Cutting</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   High-definition CNC plasma and laser profiling up to 50mm.
                 </p>
@@ -727,7 +727,7 @@ export default function HomePage() {
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
               <div>
                 <span className="text-3xl font-black text-orange-500 font-mono">03</span>
-                <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">Certified Welding</h4>
+                <h4 className="text-base font-bold text-slate-900 mt-2">Certified Welding</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   MIG, TIG and Submerged Arc welding by ASME certified welders.
                 </p>
@@ -742,7 +742,7 @@ export default function HomePage() {
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
               <div>
                 <span className="text-3xl font-black text-orange-500 font-mono">04</span>
-                <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">NDT & Quality</h4>
+                <h4 className="text-base font-bold text-slate-900 mt-2">NDT & Quality</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   Ultrasonic testing, dye-penetrant checks and dimensional audits.
                 </p>
@@ -757,7 +757,7 @@ export default function HomePage() {
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
               <div>
                 <span className="text-3xl font-black text-orange-500 font-mono">05</span>
-                <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">Coating & Dispatch</h4>
+                <h4 className="text-base font-bold text-slate-900 mt-2">Coating & Dispatch</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   Hot dip galvanizing or epoxy primer and on-site flatbed transport.
                 </p>
@@ -777,7 +777,7 @@ export default function HomePage() {
           <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
             Trusted by Builders & Farmers
           </span>
-          <h2 className="text-3xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
+          <h2 className="text-3xl font-extrabold text-slate-900 mt-3 tracking-tight">
             What Our Clients Say
           </h2>
         </div>
@@ -852,7 +852,7 @@ export default function HomePage() {
             <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-100/60 px-3.5 py-1.5 rounded-full">
               Questions & Answers
             </span>
-            <h2 className="text-3xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
+            <h2 className="text-3xl font-extrabold text-slate-900 mt-3 tracking-tight">
               Frequently Asked Questions
             </h2>
           </div>
@@ -891,14 +891,14 @@ export default function HomePage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-6">
-            <div className="text-3xl sm:text-4xl font-extrabold font-heading">
+            <div className="text-3xl sm:text-4xl font-extrabold">
               <span className="text-white">ZHI </span>
               <span className="text-slate-400 font-light tracking-[0.2em] text-2xl sm:text-3xl">
                 DIMENSION
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight font-heading">
+            <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight">
               Quality Materials. Reliable Fabrication.{' '}
               <span className="text-[#F97316]">Smarter Agricultural Solutions.</span>
             </h2>

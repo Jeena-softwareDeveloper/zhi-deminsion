@@ -16,7 +16,7 @@ export function ZhiLogo({ variant = 'dark', className = '', showTagline = false 
     <Link href="/" className={`inline-flex flex-col select-none group ${className}`}>
       <div className="flex items-center space-x-1">
         {/* Customized Logo Typemark */}
-        <div className="flex items-center tracking-tight font-extrabold text-2xl lg:text-3xl uppercase font-heading">
+        <div className="flex items-center tracking-tight font-extrabold text-2xl lg:text-3xl uppercase">
           <span className="relative inline-block font-black mr-0.5" style={{ color: textColor }}>
             Z
             <span
@@ -37,7 +37,7 @@ export function ZhiLogo({ variant = 'dark', className = '', showTagline = false 
         </div>
       </div>
       <div
-        className="text-[10px] sm:text-[11px] font-bold tracking-[0.28em] uppercase -mt-1 font-heading"
+        className="text-[10px] sm:text-[11px] font-bold tracking-[0.28em] uppercase -mt-1"
         style={{ color: subtitleColor }}
       >
         DIMENSION
