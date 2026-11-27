@@ -14,8 +14,8 @@ export function Footer() {
             <p className="text-sm text-slate-400 leading-relaxed pt-2">
               Your trusted partner in high-quality steel products, precise fabrication services, and dependable agricultural equipment – engineered with strength and integrity.
             </p>
-            <div className="pt-2 flex items-center space-x-2 text-xs text-orange-400">
-              <ShieldCheck className="w-4 h-4 text-orange-500" />
+            <div className="pt-2 flex items-center space-x-2 text-xs text-blue-400">
+              <ShieldCheck className="w-4 h-4 text-blue-500" />
               <span>ISO 9001:2015 & BIS Certified Metal Works</span>
             </div>
           </div>
@@ -29,36 +29,36 @@ export function Footer() {
               <li>
                 <Link
                   href="/products?category=Steel+Products"
-                  className="hover:text-orange-400 transition-colors flex items-center space-x-1.5"
+                  className="hover:text-blue-400 transition-colors flex items-center space-x-1.5"
                 >
-                  <ChevronRight className="w-3.5 h-3.5 text-orange-500" />
+                  <ChevronRight className="w-3.5 h-3.5 text-blue-500" />
                   <span>Steel Products (Pipes, Plates, Beams)</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/services"
-                  className="hover:text-orange-400 transition-colors flex items-center space-x-1.5"
+                  className="hover:text-blue-400 transition-colors flex items-center space-x-1.5"
                 >
-                  <ChevronRight className="w-3.5 h-3.5 text-orange-500" />
+                  <ChevronRight className="w-3.5 h-3.5 text-blue-500" />
                   <span>Welding & Custom Fabrication</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/agricultural-equipment"
-                  className="hover:text-orange-400 transition-colors flex items-center space-x-1.5"
+                  className="hover:text-blue-400 transition-colors flex items-center space-x-1.5"
                 >
-                  <ChevronRight className="w-3.5 h-3.5 text-orange-500" />
+                  <ChevronRight className="w-3.5 h-3.5 text-blue-500" />
                   <span>Agricultural Equipment (Rotavator, Plough)</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/products?category=Welding+%26+Fabrication"
-                  className="hover:text-orange-400 transition-colors flex items-center space-x-1.5"
+                  className="hover:text-blue-400 transition-colors flex items-center space-x-1.5"
                 >
-                  <ChevronRight className="w-3.5 h-3.5 text-orange-500" />
+                  <ChevronRight className="w-3.5 h-3.5 text-blue-500" />
                   <span>Gates, Grills & Architectural Works</span>
                 </Link>
               </li>
@@ -72,32 +72,32 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/" className="hover:text-orange-400 transition-colors">
+                <Link href="/" className="hover:text-blue-400 transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/products" className="hover:text-orange-400 transition-colors">
+                <Link href="/products" className="hover:text-blue-400 transition-colors">
                   Product Catalogue
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-orange-400 transition-colors">
+                <Link href="/services" className="hover:text-blue-400 transition-colors">
                   Welding & Fabrication Services
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-orange-400 transition-colors">
+                <Link href="/about" className="hover:text-blue-400 transition-colors">
                   About ZHI DIMENSION
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-orange-400 transition-colors">
+                <Link href="/contact" className="hover:text-blue-400 transition-colors">
                   Contact & Inquiries
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="text-orange-400 hover:text-orange-300 font-semibold transition-colors">
+                <Link href="/admin" className="text-blue-400 hover:text-blue-300 font-semibold transition-colors">
                   Admin Dashboard Portal
                 </Link>
               </li>
@@ -111,19 +111,19 @@ export function Footer() {
             </h4>
             <div className="space-y-3 text-sm text-slate-400">
               <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
                 <span>Plot 42-A, Industrial Estate, Sector 5, Chennai / Manufacturing Hub, India</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-orange-500 shrink-0" />
+                <Phone className="w-4 h-4 text-blue-500 shrink-0" />
                 <span>+91 98765 43210 / +91 98400 67890</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-orange-500 shrink-0" />
+                <Mail className="w-4 h-4 text-blue-500 shrink-0" />
                 <span>sales@zhidimension.com</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Clock className="w-4 h-4 text-orange-500 shrink-0" />
+                <Clock className="w-4 h-4 text-blue-500 shrink-0" />
                 <span>Mon - Sat: 8:00 AM - 7:00 PM</span>
               </div>
             </div>
@@ -137,11 +137,10 @@ export function Footer() {
             <span>•</span>
             <Link href="/contact" className="hover:text-slate-400">Customer Support</Link>
             <span>•</span>
-            <Link href="/admin" className="text-orange-500 hover:text-orange-400 font-medium">Staff Login</Link>
+            <Link href="/admin" className="text-blue-500 hover:text-blue-400 font-medium">Staff Login</Link>
           </div>
         </div>
       </div>
     </footer>
   );
 }
-

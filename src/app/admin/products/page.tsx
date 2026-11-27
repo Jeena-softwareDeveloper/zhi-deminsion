@@ -122,7 +122,7 @@ export default function AdminProductsPage() {
             placeholder="Search products by name, specs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
           />
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function AdminProductsPage() {
       <div className="flex items-center space-x-2">
         <button
           onClick={handleOpenAdd}
-          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Product</span>
@@ -144,7 +144,7 @@ export default function AdminProductsPage() {
           className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
           title="Refresh Products"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0066FF]' : ''}`} />
         </button>
       </div>
     );
@@ -355,7 +355,7 @@ export default function AdminProductsPage() {
         <div className="flex items-center justify-center space-x-2">
           <button
             onClick={() => handleOpenEdit(prod)}
-            className="p-1.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+            className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
             title="Edit Product"
           >
             <Edit2 className="w-4 h-4" />
@@ -417,7 +417,7 @@ export default function AdminProductsPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 focus:bg-white text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 focus:bg-white text-slate-900"
                   />
                 </div>
                 <div>
@@ -427,7 +427,7 @@ export default function AdminProductsPage() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 focus:bg-white text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 focus:bg-white text-slate-900"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -447,7 +447,7 @@ export default function AdminProductsPage() {
                   required
                   value={formData.shortDescription}
                   onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 focus:bg-white text-slate-900"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 focus:bg-white text-slate-900"
                 />
               </div>
 
@@ -465,14 +465,14 @@ export default function AdminProductsPage() {
                         onClick={() => setFormData({ ...formData, images: p.url })}
                         className={`relative h-14 rounded-xl overflow-hidden border-2 transition-all ${
                           isSelected
-                            ? 'border-orange-500 ring-2 ring-orange-200 scale-95'
+                            ? 'border-blue-600 ring-2 ring-orange-200 scale-95'
                             : 'border-slate-200 opacity-70 hover:opacity-100'
                         }`}
                         title={p.label}
                       >
                         <Image src={p.url} alt={p.label} fill className="object-cover" />
                         {isSelected && (
-                          <div className="absolute inset-0 bg-orange-600/30 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-[#0052CC]/30 flex items-center justify-center">
                             <Check className="w-4 h-4 text-white stroke-[3]" />
                           </div>
                         )}
@@ -485,7 +485,7 @@ export default function AdminProductsPage() {
                   value={formData.images}
                   onChange={(e) => setFormData({ ...formData, images: e.target.value })}
                   placeholder="Or enter custom image URLs (comma-separated)"
-                  className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-orange-500 text-slate-900 font-mono"
+                  className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600 text-slate-900 font-mono"
                 />
               </div>
 
@@ -495,7 +495,7 @@ export default function AdminProductsPage() {
                   <select
                     value={formData.stockStatus}
                     onChange={(e) => setFormData({ ...formData, stockStatus: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 text-slate-900"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 text-slate-900"
                   >
                     <option value="In Stock">In Stock</option>
                     <option value="Low Stock">Low Stock</option>
@@ -511,7 +511,7 @@ export default function AdminProductsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, stockQuantity: Number(e.target.value) })
                     }
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 text-slate-900"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 text-slate-900"
                   />
                 </div>
                 <div>
@@ -521,7 +521,7 @@ export default function AdminProductsPage() {
                     value={formData.priceEstimate}
                     onChange={(e) => setFormData({ ...formData, priceEstimate: e.target.value })}
                     placeholder="e.g. ₹ 65 / kg"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 text-slate-900"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 text-slate-900"
                   />
                 </div>
               </div>
@@ -582,7 +582,7 @@ export default function AdminProductsPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center space-x-1.5"
+                  className="px-6 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center space-x-1.5"
                 >
                   {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>{editingId ? 'Update Product' : 'Save to MongoDB'}</span>

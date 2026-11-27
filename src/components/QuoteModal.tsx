@@ -140,7 +140,7 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Name <span className="text-orange-500">*</span>
+                  Name <span className="text-blue-600">*</span>
                 </label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
@@ -150,14 +150,14 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
                     value={formData.customerName}
                     onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
                     placeholder="Enter your name"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-slate-900"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
                   />
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Phone Number <span className="text-orange-500">*</span>
+                  Phone Number <span className="text-blue-600">*</span>
                 </label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
@@ -167,14 +167,14 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="Enter your phone number"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-slate-900"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
                   />
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Product Requirement <span className="text-orange-500">*</span>
+                  Product Requirement <span className="text-blue-600">*</span>
                 </label>
                 <div className="relative">
                   <Package className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
@@ -184,7 +184,7 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
                     value={formData.productRequired}
                     onChange={(e) => setFormData({ ...formData, productRequired: e.target.value })}
                     placeholder="e.g. Steel Pipes, Rotavator, PEB Shed"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-slate-900"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
                   />
                 </div>
               </div>
@@ -200,7 +200,7 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
                     value={formData.quantitySize}
                     onChange={(e) => setFormData({ ...formData, quantitySize: e.target.value })}
                     placeholder="Enter quantity, dimensions, or tonnage"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-slate-900"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
                   />
                 </div>
               </div>
@@ -214,7 +214,7 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Delivery location, special specifications, etc."
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-slate-900"
+                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
                 />
               </div>
 
@@ -222,7 +222,7 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 px-4 bg-[#F97316] hover:bg-[#EA580C] text-white font-semibold rounded-xl shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center space-x-2 disabled:opacity-70 cursor-pointer"
+                  className="w-full py-3 px-4 bg-[#0066FF] hover:bg-[#0052CC] text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center space-x-2 disabled:opacity-70 cursor-pointer"
                 >
                   {loading ? (
                     <>

@@ -145,7 +145,7 @@ export default function AdminInventoryPage() {
             placeholder="Search inventory..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
           />
         </div>
       </div>
@@ -187,7 +187,7 @@ export default function AdminInventoryPage() {
           className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
           title="Refresh Inventory"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0066FF]' : ''}`} />
         </button>
       </div>
     );
@@ -418,7 +418,7 @@ export default function AdminInventoryPage() {
             </button>
             <button
               onClick={() => adjustStock(id, 1)}
-              className="w-7 h-7 rounded-lg bg-slate-900 hover:bg-orange-500 text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
+              className="w-7 h-7 rounded-lg bg-slate-900 hover:bg-[#0066FF] text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
               title="Increase by 1"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -439,7 +439,7 @@ export default function AdminInventoryPage() {
                 setRestockProduct(prod);
                 setRestockAmount(25);
               }}
-              className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors flex items-center space-x-1 cursor-pointer"
+              className="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition-colors flex items-center space-x-1 cursor-pointer"
               title="Batch Restock"
             >
               <PackageCheck className="w-3.5 h-3.5" />
@@ -575,7 +575,7 @@ export default function AdminInventoryPage() {
                       </button>
                       <button
                         onClick={() => adjustStock(id, 1)}
-                        className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-orange-500 text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
+                        className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-[#0066FF] text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
                         title="Increase Stock"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -585,7 +585,7 @@ export default function AdminInventoryPage() {
                           setRestockProduct(prod);
                           setRestockAmount(25);
                         }}
-                        className="px-2.5 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                        className="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
                       >
                         Restock
                       </button>
@@ -632,7 +632,7 @@ export default function AdminInventoryPage() {
                         stockQuantity: Number(e.target.value),
                       })
                     }
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 font-bold text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 font-bold text-slate-900"
                   />
                 </div>
 
@@ -645,7 +645,7 @@ export default function AdminInventoryPage() {
                     onChange={(e) =>
                       setStockFormData({ ...stockFormData, stockStatus: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500 font-semibold text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 font-semibold text-slate-900"
                   >
                     <option value="In Stock">In Stock</option>
                     <option value="Low Stock">Low Stock</option>
@@ -665,7 +665,7 @@ export default function AdminInventoryPage() {
                     setStockFormData({ ...stockFormData, location: e.target.value })
                   }
                   placeholder="e.g. Yard Bay B, Shelf 4"
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600"
                 />
               </div>
 
@@ -683,7 +683,7 @@ export default function AdminInventoryPage() {
                       safetyThreshold: Number(e.target.value),
                     })
                   }
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-orange-500"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600"
                 />
                 <span className="text-[10px] text-slate-400 mt-1 block">
                   Triggers low stock alert when quantity drops below this amount.
@@ -701,7 +701,7 @@ export default function AdminInventoryPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
+                  className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Save Inventory Changes</span>
@@ -716,7 +716,7 @@ export default function AdminInventoryPage() {
       {restockProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
           <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 overflow-hidden">
-            <div className="bg-orange-600 text-white px-6 py-4 flex items-center justify-between">
+            <div className="bg-[#0052CC] text-white px-6 py-4 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-base">Restock Units</h3>
                 <p className="text-xs text-orange-100 mt-0.5">{restockProduct.name}</p>
@@ -750,7 +750,7 @@ export default function AdminInventoryPage() {
                       onClick={() => setRestockAmount(amt)}
                       className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                         restockAmount === amt
-                          ? 'bg-orange-500 text-white border-orange-500 shadow-2xs'
+                          ? 'bg-[#0066FF] text-white border-blue-600 shadow-2xs'
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
@@ -766,7 +766,7 @@ export default function AdminInventoryPage() {
                     required
                     value={restockAmount}
                     onChange={(e) => setRestockAmount(Number(e.target.value))}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:border-orange-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:border-blue-600"
                     placeholder="Custom amount..."
                   />
                   <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-semibold">
@@ -793,7 +793,7 @@ export default function AdminInventoryPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
+                  className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Confirm Restock</span>

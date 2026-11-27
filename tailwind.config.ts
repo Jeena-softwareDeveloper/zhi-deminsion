@@ -10,10 +10,18 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          orange: "#F97316",
-          "orange-hover": "#EA580C",
-          "orange-dark": "#C2410C",
-          "orange-light": "#FFF7ED",
+          primary: "#0066FF",
+          "primary-hover": "#0052CC",
+          "primary-dark": "#0040A8",
+          "primary-light": "#EFF6FF",
+          blue: "#0066FF",
+          "blue-hover": "#0052CC",
+          "blue-dark": "#0040A8",
+          "blue-light": "#EFF6FF",
+          orange: "#0066FF",
+          "orange-hover": "#0052CC",
+          "orange-dark": "#0040A8",
+          "orange-light": "#EFF6FF",
           dark: "#0B1320",
           navy: "#0F172A",
           surface: "#1E293B",

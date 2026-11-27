@@ -48,13 +48,13 @@ export function Navbar() {
                   href={link.href}
                   className={`text-sm font-semibold transition-colors relative py-1 ${
                     isActive
-                      ? 'text-[#F97316]'
-                      : 'text-slate-700 hover:text-[#F97316]'
+                      ? 'text-[#0066FF]'
+                      : 'text-slate-700 hover:text-[#0066FF]'
                   }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F97316] rounded-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0066FF] rounded-full" />
                   )}
                 </Link>
               );
@@ -73,7 +73,7 @@ export function Navbar() {
 
             <button
               onClick={() => setIsQuoteOpen(true)}
-              className="px-6 py-2.5 bg-[#F97316] hover:bg-[#EA580C] text-white text-sm font-semibold rounded-lg shadow-md shadow-orange-500/20 transition-all hover:shadow-orange-500/30"
+              className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white text-sm font-semibold rounded-lg shadow-md shadow-blue-500/25 transition-all hover:shadow-blue-500/35"
             >
               Get a Quote
             </button>
@@ -106,11 +106,11 @@ export function Navbar() {
                 placeholder="Search Steel Pipes, Rotavator, Gate Works, etc..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="submit"
-                className="px-5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-sm font-semibold rounded-lg"
+                className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-sm font-semibold rounded-lg"
               >
                 Search
               </button>
@@ -131,7 +131,7 @@ export function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`px-3 py-2 rounded-lg text-sm font-semibold ${
                       isActive
-                        ? 'bg-orange-50 text-[#F97316]'
+                        ? 'bg-blue-50 text-[#0066FF]'
                         : 'text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -147,7 +147,7 @@ export function Navbar() {
                   setMobileMenuOpen(false);
                   setIsQuoteOpen(true);
                 }}
-                className="w-full py-3 bg-[#F97316] hover:bg-[#EA580C] text-white text-sm font-semibold rounded-xl text-center shadow-md shadow-orange-500/20"
+                className="w-full py-3 bg-[#0066FF] hover:bg-[#0052CC] text-white text-sm font-semibold rounded-xl text-center shadow-md shadow-blue-500/25"
               >
                 Get a Quote
               </button>

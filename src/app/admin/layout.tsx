@@ -74,7 +74,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
               >
                 <Icon
                   className={`w-5 h-5 ${
-                    isActive ? 'text-[#F97316]' : 'text-slate-400'
+                    isActive ? 'text-[#0066FF]' : 'text-slate-400'
                   }`}
                 />
                 <span>{item.label}</span>
@@ -132,7 +132,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    <Icon className="w-5 h-5 text-orange-500" />
+                    <Icon className="w-5 h-5 text-[#0066FF]" />
                     <span>{item.label}</span>
                   </Link>
                 );
@@ -186,7 +186,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
             <Link
               href="/"
               target="_blank"
-              className="hidden 2xl:flex items-center space-x-1.5 text-xs font-semibold text-slate-600 hover:text-orange-600 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-xl transition-colors"
+              className="hidden 2xl:flex items-center space-x-1.5 text-xs font-semibold text-slate-600 hover:text-blue-600 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-xl transition-colors"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               <span>View Live Website</span>

@@ -51,7 +51,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={settings.companyName}
                 onChange={(e) => setSettings({ ...settings, companyName: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
             <div>
@@ -60,7 +60,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={settings.tagline}
                 onChange={(e) => setSettings({ ...settings, tagline: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
             <div>
@@ -69,7 +69,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={settings.phone}
                 onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
             <div>
@@ -78,7 +78,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={settings.whatsappNumber}
                 onChange={(e) => setSettings({ ...settings, whatsappNumber: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500 font-mono"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
               />
             </div>
             <div className="sm:col-span-2">
@@ -87,7 +87,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={settings.address}
                 onChange={(e) => setSettings({ ...settings, address: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function AdminSettingsPage() {
 
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800 mb-4 pb-2 border-b border-slate-100 flex items-center space-x-2">
-            <Database className="w-4 h-4 text-orange-500" />
+            <Database className="w-4 h-4 text-[#0066FF]" />
             <span>MongoDB Database Status</span>
           </h3>
           <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
@@ -120,7 +120,7 @@ export default function AdminSettingsPage() {
         <div className="pt-2 flex justify-end">
           <button
             type="submit"
-            className="px-6 py-2.5 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-md transition-colors flex items-center space-x-2 cursor-pointer"
+            className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-md transition-colors flex items-center space-x-2 cursor-pointer"
           >
             <Save className="w-4 h-4" />
             <span>Save Settings</span>

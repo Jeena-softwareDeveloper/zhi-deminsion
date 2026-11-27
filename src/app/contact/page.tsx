@@ -50,7 +50,7 @@ export default function ContactPage() {
     <div className="bg-[#FAFAFA] min-h-screen py-12 lg:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3 py-1 rounded-full">
+          <span className="text-blue-600 text-xs font-bold uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">
             Get in Touch
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-3">
@@ -68,19 +68,19 @@ export default function ContactPage() {
               <h3 className="text-xl font-bold">Headquarters & Fabrication Yard</h3>
               <div className="space-y-4 text-sm text-slate-300">
                 <div className="flex items-start space-x-3">
-                  <MapPin className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
                   <span>Plot 42-A, Heavy Industrial Growth Center, Phase II, Chennai, India</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Phone className="w-4 h-4 text-orange-400 shrink-0" />
+                  <Phone className="w-4 h-4 text-blue-400 shrink-0" />
                   <span>+91 98765 43210 / +91 98400 67890</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Mail className="w-4 h-4 text-orange-400 shrink-0" />
+                  <Mail className="w-4 h-4 text-blue-400 shrink-0" />
                   <span>sales@zhidimension.com</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Clock className="w-4 h-4 text-orange-400 shrink-0" />
+                  <Clock className="w-4 h-4 text-blue-400 shrink-0" />
                   <span>Monday - Saturday: 8:00 AM - 7:00 PM</span>
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Your Name <span className="text-orange-500">*</span>
+                      Your Name <span className="text-[#0066FF]">*</span>
                     </label>
                     <input
                       type="text"
@@ -158,13 +158,13 @@ export default function ContactPage() {
                       placeholder="e.g. Rajesh Kumar"
                       value={formData.customerName}
                       onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-orange-500 text-slate-900"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 text-slate-900"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Phone Number <span className="text-orange-500">*</span>
+                      Phone Number <span className="text-[#0066FF]">*</span>
                     </label>
                     <input
                       type="tel"
@@ -172,7 +172,7 @@ export default function ContactPage() {
                       placeholder="+91 98765 00000"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-orange-500 text-slate-900"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 text-slate-900"
                     />
                   </div>
                 </div>
@@ -187,13 +187,13 @@ export default function ContactPage() {
                       placeholder="name@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-orange-500 text-slate-900"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 text-slate-900"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Product / Requirement <span className="text-orange-500">*</span>
+                      Product / Requirement <span className="text-[#0066FF]">*</span>
                     </label>
                     <input
                       type="text"
@@ -201,7 +201,7 @@ export default function ContactPage() {
                       placeholder="e.g. Steel Pipes 4-inch / Rotavator 6ft"
                       value={formData.productRequired}
                       onChange={(e) => setFormData({ ...formData, productRequired: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-orange-500 text-slate-900"
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 text-slate-900"
                     />
                   </div>
                 </div>
@@ -215,7 +215,7 @@ export default function ContactPage() {
                     placeholder="e.g. 50 tonnes / 2 units / Drawing attached"
                     value={formData.quantitySize}
                     onChange={(e) => setFormData({ ...formData, quantitySize: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-orange-500 text-slate-900"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 text-slate-900"
                   />
                 </div>
 
@@ -228,14 +228,14 @@ export default function ContactPage() {
                     placeholder="Please include delivery destination, urgency, or specific grade requirements..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-orange-500 text-slate-900"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-600 text-slate-900"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-[#F97316] hover:bg-[#EA580C] text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer"
+                  className="w-full py-3.5 bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer"
                 >
                   {loading ? (
                     <>

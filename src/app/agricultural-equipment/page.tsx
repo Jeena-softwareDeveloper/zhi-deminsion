@@ -50,7 +50,7 @@ export default function AgriculturalEquipmentPage() {
             <div className="pt-2">
               <a
                 href="#featured-agri"
-                className="inline-block px-7 py-3 bg-[#F97316] hover:bg-[#EA580C] text-white font-semibold rounded-xl shadow-lg transition-all"
+                className="inline-block px-7 py-3 bg-[#0066FF] hover:bg-[#0052CC] text-white font-semibold rounded-xl shadow-lg transition-all"
               >
                 View Products
               </a>
@@ -72,7 +72,7 @@ export default function AgriculturalEquipmentPage() {
           </div>
           <Link
             href="/products?category=Agricultural+Equipment"
-            className="text-sm font-semibold text-orange-600 hover:text-orange-700 flex items-center space-x-1"
+            className="text-sm font-semibold text-blue-600 hover:text-blue-700 flex items-center space-x-1"
           >
             <span>View All</span>
             <ArrowRight className="w-4 h-4" />
@@ -108,7 +108,7 @@ export default function AgriculturalEquipmentPage() {
               {/* Product Content */}
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                     {product.name}
                   </h3>
                   <p className="text-xs text-slate-500 mt-1 line-clamp-2">
@@ -116,7 +116,7 @@ export default function AgriculturalEquipmentPage() {
                   </p>
 
                   <div className="mt-3 text-xs font-semibold text-slate-800 bg-slate-50 px-2 py-1 rounded inline-block">
-                    Price: <span className="text-orange-600 font-bold">{product.priceEstimate}</span>
+                    Price: <span className="text-blue-600 font-bold">{product.priceEstimate}</span>
                   </div>
                 </div>
 
@@ -130,7 +130,7 @@ export default function AgriculturalEquipmentPage() {
                   </Link>
                   <button
                     onClick={() => handleOpenQuote(product.name)}
-                    className="py-2 text-center text-xs font-semibold text-white bg-[#F97316] hover:bg-[#EA580C] rounded-lg transition-colors cursor-pointer"
+                    className="py-2 text-center text-xs font-semibold text-white bg-[#0066FF] hover:bg-[#0052CC] rounded-lg transition-colors cursor-pointer"
                   >
                     Request a Quote
                   </button>
@@ -144,7 +144,7 @@ export default function AgriculturalEquipmentPage() {
         <div className="mt-16 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex items-start space-x-4">
-              <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>

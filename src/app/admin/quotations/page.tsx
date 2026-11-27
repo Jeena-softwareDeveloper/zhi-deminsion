@@ -80,7 +80,7 @@ function AdminQuotationsContent() {
           placeholder="Search quotations by number, customer, phone..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+          className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
         />
       </div>
     );
@@ -89,7 +89,7 @@ function AdminQuotationsContent() {
       <div className="flex items-center space-x-2">
         <button
           onClick={() => setIsCreating((prev) => !prev)}
-          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>{isCreating ? 'Close Form' : 'New Quotation'}</span>
@@ -101,7 +101,7 @@ function AdminQuotationsContent() {
           className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
           title="Refresh Quotations"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0066FF]' : ''}`} />
         </button>
       </div>
     );
@@ -177,7 +177,7 @@ function AdminQuotationsContent() {
       header: 'Quote #',
       sortable: true,
       render: (q) => (
-        <span className="font-mono font-bold text-xs text-orange-600">
+        <span className="font-mono font-bold text-xs text-blue-600">
           {q.quoteNumber}
         </span>
       ),
@@ -231,7 +231,7 @@ function AdminQuotationsContent() {
       render: (q) => (
         <button
           onClick={() => setPreviewQuote(q)}
-          className="px-3 py-1.5 bg-slate-900 hover:bg-orange-500 text-white text-xs font-semibold rounded-lg flex items-center justify-center space-x-1.5 transition-colors mx-auto"
+          className="px-3 py-1.5 bg-slate-900 hover:bg-[#0066FF] text-white text-xs font-semibold rounded-lg flex items-center justify-center space-x-1.5 transition-colors mx-auto"
         >
           <Printer className="w-3.5 h-3.5" />
           <span>Print Sheet</span>
@@ -254,7 +254,7 @@ function AdminQuotationsContent() {
     <div className="h-full flex flex-col min-h-0 space-y-3.5">
       {/* Quotation Creator Form Drawer */}
       {isCreating && (
-        <div className="shrink-0 max-h-[50vh] overflow-y-auto bg-white rounded-2xl border border-orange-200 p-6 shadow-md animate-in fade-in space-y-6">
+        <div className="shrink-0 max-h-[50vh] overflow-y-auto bg-white rounded-2xl border border-blue-200 p-6 shadow-md animate-in fade-in space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <div>
               <h3 className="font-bold text-slate-900 text-base">Generate Official Quotation</h3>
@@ -282,7 +282,7 @@ function AdminQuotationsContent() {
                   placeholder="e.g. Vikram Singh / Apex Infra Ltd"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
@@ -296,7 +296,7 @@ function AdminQuotationsContent() {
                   placeholder="+91 98765 43210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500 font-mono"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
                 />
               </div>
 
@@ -309,7 +309,7 @@ function AdminQuotationsContent() {
                   placeholder="procurement@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-orange-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
             </div>
@@ -323,7 +323,7 @@ function AdminQuotationsContent() {
                 <button
                   type="button"
                   onClick={addItem}
-                  className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center space-x-1"
+                  className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center space-x-1"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add Item</span>
@@ -396,7 +396,7 @@ function AdminQuotationsContent() {
                 </div>
                 <div className="flex justify-between text-sm font-black text-slate-900 border-t border-slate-200 pt-1">
                   <span>Grand Total:</span>
-                  <span className="text-orange-600">₹{grandTotal.toLocaleString()}</span>
+                  <span className="text-blue-600">₹{grandTotal.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -411,7 +411,7 @@ function AdminQuotationsContent() {
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
+                className="px-6 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
               >
                 Save & Issue Quotation
               </button>
@@ -445,7 +445,7 @@ function AdminQuotationsContent() {
                 <p className="text-xs text-slate-500">sales@zhidimension.com | +91 98765 43210</p>
               </div>
               <div className="text-right">
-                <span className="text-xs font-mono font-bold bg-orange-100 text-orange-800 px-2 py-1 rounded">
+                <span className="text-xs font-mono font-bold bg-blue-100 text-orange-800 px-2 py-1 rounded">
                   {previewQuote.quoteNumber}
                 </span>
                 <p className="text-xs text-slate-500 mt-2">
@@ -508,7 +508,7 @@ function AdminQuotationsContent() {
                 </div>
                 <div className="flex justify-between text-base font-bold text-slate-900 border-t border-slate-200 pt-1">
                   <span>Total Due:</span>
-                  <span className="text-orange-600 font-mono">
+                  <span className="text-blue-600 font-mono">
                     ₹{previewQuote.grandTotal?.toLocaleString()}
                   </span>
                 </div>

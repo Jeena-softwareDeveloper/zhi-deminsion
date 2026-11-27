@@ -79,7 +79,7 @@ export default function AdminEnquiriesPage() {
             placeholder="Search enquiries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
           />
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function AdminEnquiriesPage() {
         className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
         title="Refresh Enquiries"
       >
-        <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+        <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0066FF]' : ''}`} />
       </button>
     );
 
@@ -215,7 +215,7 @@ export default function AdminEnquiriesPage() {
         <div className="flex items-center justify-end space-x-2">
           <button
             onClick={() => setSelected(enq)}
-            className="text-xs font-bold text-orange-600 hover:text-orange-800 bg-orange-50 hover:bg-orange-100 px-2.5 py-1 rounded-lg transition-colors"
+            className="text-xs font-bold text-blue-600 hover:text-orange-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors"
           >
             Details
           </button>
@@ -325,7 +325,7 @@ export default function AdminEnquiriesPage() {
                       onClick={() => handleUpdateStatus(selected._id, st)}
                       className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                         selected.status === st
-                          ? 'bg-orange-500 text-white shadow-2xs'
+                          ? 'bg-[#0066FF] text-white shadow-2xs'
                           : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
                       }`}
                     >
@@ -342,7 +342,7 @@ export default function AdminEnquiriesPage() {
                   )}&phone=${encodeURIComponent(selected.phone)}&email=${encodeURIComponent(
                     selected.email || ''
                   )}&product=${encodeURIComponent(selected.productRequired)}`}
-                  className="px-4 py-2 bg-slate-900 hover:bg-orange-500 text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
+                  className="px-4 py-2 bg-slate-900 hover:bg-[#0066FF] text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
                 >
                   <FileSpreadsheet className="w-4 h-4" />
                   <span>Generate Quotation</span>

@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: 'ZHI DIMENSION - Steel, Fabrication & Agricultural Solutions',
   description:
     'Engineering Strength. Building Possibilities. High-quality steel products, precise fabrication services and reliable agricultural equipment – all in one place.',
+  icons: {
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
   keywords: [
     'steel products',
     'welding services',
@@ -26,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/images/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -33,7 +38,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased text-slate-900 bg-[#FAFAFA] selection:bg-orange-500 selection:text-white">
+      <body className="antialiased text-slate-900 bg-[#FAFAFA] selection:bg-[#0066FF] selection:text-white">
         <AppShell>{children}</AppShell>
       </body>
     </html>

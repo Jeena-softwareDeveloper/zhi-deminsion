@@ -87,7 +87,7 @@ function ProductsPageContent() {
                   onClick={() => setActiveCategory(cat)}
                   className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
                     isActive
-                      ? 'bg-[#F97316] text-white shadow-md shadow-orange-500/25'
+                      ? 'bg-[#0066FF] text-white shadow-md shadow-blue-500/25'
                       : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                   }`}
                 >
@@ -105,7 +105,7 @@ function ProductsPageContent() {
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+              className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ function ProductsPageContent() {
         {/* Products Grid (Page 3 Exact Match) */}
         {loading ? (
           <div className="py-20 flex flex-col items-center justify-center text-slate-500">
-            <Loader2 className="w-8 h-8 animate-spin text-orange-500 mb-2" />
+            <Loader2 className="w-8 h-8 animate-spin text-[#0066FF] mb-2" />
             <p className="text-sm">Connecting to MongoDB & fetching catalogue...</p>
           </div>
         ) : products.length === 0 ? (
@@ -128,7 +128,7 @@ function ProductsPageContent() {
                 setActiveCategory('All');
                 setSearchQuery('');
               }}
-              className="mt-4 px-4 py-2 bg-orange-500 text-white text-xs font-semibold rounded-lg"
+              className="mt-4 px-4 py-2 bg-[#0066FF] text-white text-xs font-semibold rounded-lg"
             >
               Reset Filters
             </button>
@@ -173,7 +173,7 @@ function ProductsPageContent() {
                   {/* Card Content (Page 3 Match) */}
                   <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#F97316] transition-colors">
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">
                         {product.name}
                       </h3>
                       <p className="text-sm text-slate-600 mt-2 line-clamp-3 leading-relaxed">
@@ -205,7 +205,7 @@ function ProductsPageContent() {
                       </Link>
                       <button
                         onClick={() => handleOpenQuote(product.name)}
-                        className="py-2.5 px-3 text-center text-xs font-semibold text-white bg-[#F97316] hover:bg-[#EA580C] rounded-xl shadow-sm transition-colors cursor-pointer"
+                        className="py-2.5 px-3 text-center text-xs font-semibold text-white bg-[#0066FF] hover:bg-[#0052CC] rounded-xl shadow-sm transition-colors cursor-pointer"
                       >
                         Request a Quote
                       </button>
@@ -232,7 +232,7 @@ export default function ProductsPage() {
     <Suspense
       fallback={
         <div className="min-h-screen py-24 flex items-center justify-center text-slate-500">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-500 mb-2" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#0066FF] mb-2" />
         </div>
       }
     >

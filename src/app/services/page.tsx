@@ -21,7 +21,7 @@ export default function ServicesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header (Page 4 Match) */}
         <div className="max-w-3xl mb-12">
-          <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3 py-1 rounded-full">
+          <span className="text-blue-600 text-xs font-bold uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">
             Turnkey Metal Engineering
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-3">
@@ -58,10 +58,10 @@ export default function ServicesPage() {
               {/* Service Info */}
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-xs font-semibold text-orange-600 mt-0.5">
+                  <p className="text-xs font-semibold text-blue-600 mt-0.5">
                     {service.subtitle}
                   </p>
                   <p className="text-xs text-slate-600 mt-2.5 leading-relaxed line-clamp-3">
@@ -83,7 +83,7 @@ export default function ServicesPage() {
                 <div className="mt-6 pt-3 border-t border-slate-100">
                   <button
                     onClick={() => handleOpenQuote(service.title)}
-                    className="w-full py-2.5 px-3 bg-slate-900 hover:bg-[#F97316] text-white text-xs font-semibold rounded-xl transition-all flex items-center justify-center space-x-1.5 group-hover:shadow-md"
+                    className="w-full py-2.5 px-3 bg-slate-900 hover:bg-[#0066FF] text-white text-xs font-semibold rounded-xl transition-all flex items-center justify-center space-x-1.5 group-hover:shadow-md"
                   >
                     <span>Request Service Quote</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -97,7 +97,7 @@ export default function ServicesPage() {
         {/* Custom Engineering Callout Banner */}
         <div className="mt-16 bg-[#0B1320] rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 border border-slate-800">
           <div className="max-w-xl space-y-3">
-            <span className="text-orange-400 text-xs font-bold uppercase tracking-wider">
+            <span className="text-blue-400 text-xs font-bold uppercase tracking-wider">
               Have Custom Drawings or Blueprints?
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold">
@@ -110,7 +110,7 @@ export default function ServicesPage() {
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button
               onClick={() => handleOpenQuote('Custom CAD / Drawing Fabrication')}
-              className="px-6 py-3.5 bg-[#F97316] hover:bg-[#EA580C] text-white font-bold rounded-xl shadow-lg transition-colors text-sm text-center"
+              className="px-6 py-3.5 bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold rounded-xl shadow-lg transition-colors text-sm text-center"
             >
               Submit Project Specs
             </button>
@@ -118,7 +118,7 @@ export default function ServicesPage() {
               href="tel:+919876543210"
               className="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl text-sm flex items-center justify-center space-x-2"
             >
-              <PhoneCall className="w-4 h-4 text-orange-400" />
+              <PhoneCall className="w-4 h-4 text-blue-400" />
               <span>Talk to Engineer</span>
             </a>
           </div>

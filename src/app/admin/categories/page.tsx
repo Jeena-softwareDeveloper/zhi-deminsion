@@ -85,7 +85,7 @@ export default function AdminCategoriesPage() {
           placeholder="Search categories..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
+          className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
         />
       </div>
     );
@@ -122,7 +122,7 @@ export default function AdminCategoriesPage() {
 
         <button
           onClick={handleOpenAdd}
-          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Add Category</span>
@@ -134,7 +134,7 @@ export default function AdminCategoriesPage() {
           className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
           title="Refresh Categories"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-orange-500' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0066FF]' : ''}`} />
         </button>
       </div>
     );
@@ -333,7 +333,7 @@ export default function AdminCategoriesPage() {
         <div className="flex items-center justify-center space-x-2">
           <button
             onClick={() => handleOpenEdit(cat)}
-            className="p-1.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+            className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
             title="Edit Category"
           >
             <Edit2 className="w-4 h-4" />
@@ -356,7 +356,7 @@ export default function AdminCategoriesPage() {
       {viewMode === 'grid' ? (
         filteredCategories.length === 0 ? (
           <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-md mx-auto">
-            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto mb-3">
               <FolderPlus className="w-6 h-6" />
             </div>
             <h4 className="font-bold text-slate-800 text-sm">No categories found</h4>
@@ -365,7 +365,7 @@ export default function AdminCategoriesPage() {
             </p>
             <button
               onClick={handleOpenAdd}
-              className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center space-x-1.5"
+              className="px-4 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center space-x-1.5"
             >
               <Plus className="w-4 h-4" />
               <span>Create Category</span>
@@ -395,7 +395,7 @@ export default function AdminCategoriesPage() {
                     <div className="absolute top-3 right-3 flex items-center space-x-1.5 bg-white/90 backdrop-blur-xs p-1 rounded-xl shadow-xs">
                       <button
                         onClick={() => handleOpenEdit(cat)}
-                        className="p-1.5 text-slate-700 hover:text-orange-600 hover:bg-white rounded-lg transition-colors"
+                        className="p-1.5 text-slate-700 hover:text-blue-600 hover:bg-white rounded-lg transition-colors"
                         title="Edit Category"
                       >
                         <Edit2 className="w-3.5 h-3.5" />
@@ -490,7 +490,7 @@ export default function AdminCategoriesPage() {
                   placeholder="e.g. Steel Products, Agricultural Equipment"
                   value={formData.name}
                   onChange={handleNameChange}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-orange-500 focus:bg-white"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-600 focus:bg-white"
                 />
               </div>
 
@@ -503,7 +503,7 @@ export default function AdminCategoriesPage() {
                   placeholder="e.g. steel-products"
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-mono focus:outline-none focus:border-orange-500 focus:bg-white"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-mono focus:outline-none focus:border-blue-600 focus:bg-white"
                 />
               </div>
 
@@ -516,7 +516,7 @@ export default function AdminCategoriesPage() {
                   placeholder="Short description of this product line..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-orange-500 focus:bg-white"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-600 focus:bg-white"
                 />
               </div>
 
@@ -534,13 +534,13 @@ export default function AdminCategoriesPage() {
                         key={p.url}
                         onClick={() => setFormData({ ...formData, image: p.url })}
                         className={`relative h-14 rounded-xl overflow-hidden border-2 transition-all ${
-                          isSelected ? 'border-orange-500 ring-2 ring-orange-200 scale-95' : 'border-slate-200 opacity-70 hover:opacity-100'
+                          isSelected ? 'border-blue-600 ring-2 ring-orange-200 scale-95' : 'border-slate-200 opacity-70 hover:opacity-100'
                         }`}
                         title={p.label}
                       >
                         <Image src={p.url} alt={p.label} fill className="object-cover" />
                         {isSelected && (
-                          <div className="absolute inset-0 bg-orange-600/30 flex items-center justify-center">
+                          <div className="absolute inset-0 bg-[#0052CC]/30 flex items-center justify-center">
                             <Check className="w-4 h-4 text-white stroke-[3]" />
                           </div>
                         )}
@@ -553,7 +553,7 @@ export default function AdminCategoriesPage() {
                   placeholder="Or enter custom image URL or /images/... path"
                   value={formData.image}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 font-mono focus:outline-none focus:border-orange-500"
+                  className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 font-mono focus:outline-none focus:border-blue-600"
                 />
               </div>
 
@@ -569,7 +569,7 @@ export default function AdminCategoriesPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, itemCount: Number(e.target.value) })
                     }
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-orange-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-600"
                   />
                 </div>
 
@@ -580,7 +580,7 @@ export default function AdminCategoriesPage() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-orange-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-600"
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -599,7 +599,7 @@ export default function AdminCategoriesPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5"
+                  className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>{editingId ? 'Update Category' : 'Create Category'}</span>

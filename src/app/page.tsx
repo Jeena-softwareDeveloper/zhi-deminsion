@@ -125,8 +125,8 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Headline & CTAs */}
             <div className="lg:col-span-8 text-white space-y-6">
-              <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/40 text-orange-400 text-xs font-bold uppercase tracking-wider shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+              <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#0066FF]/15 border border-blue-600/40 text-blue-400 text-xs font-bold uppercase tracking-wider shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 text-blue-400" />
                 <span>Engineering Strength. Building Possibilities.</span>
               </div>
 
@@ -136,7 +136,7 @@ export default function HomePage() {
                 </p>
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tight leading-tight text-white">
                   Steel, Fabrication &{' '}
-                  <span className="text-[#F97316] drop-shadow-sm">Agricultural Solutions.</span>
+                  <span className="text-[#0066FF] drop-shadow-sm">Agricultural Solutions.</span>
                 </h1>
               </div>
 
@@ -148,7 +148,7 @@ export default function HomePage() {
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Link
                   href="/products"
-                  className="px-8 py-4 bg-[#F97316] hover:bg-[#EA580C] text-white text-sm sm:text-base font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all hover:scale-[1.02] flex items-center space-x-2"
+                  className="px-8 py-4 bg-[#0066FF] hover:bg-[#0052CC] text-white text-sm sm:text-base font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all hover:scale-[1.02] flex items-center space-x-2"
                 >
                   <span>Explore Products</span>
                   <ArrowRight className="w-4 h-4" />
@@ -168,7 +168,7 @@ export default function HomePage() {
                   <span className="font-semibold text-slate-300">500+ Tonnes Yard Stock</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 rounded-full bg-orange-500" />
+                  <div className="w-2 h-2 rounded-full bg-[#0066FF]" />
                   <span className="font-semibold text-slate-300">ISO 9001:2015 & BIS</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -186,7 +186,7 @@ export default function HomePage() {
             <div className="hidden lg:block lg:col-span-4">
               <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/80 rounded-3xl p-6 shadow-2xl text-white space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                  <span className="text-xs font-bold uppercase tracking-wider text-orange-400 flex items-center space-x-1.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center space-x-1.5">
                     <PhoneCall className="w-3.5 h-3.5" />
                     <span>Quick Estimate Desk</span>
                   </span>
@@ -215,7 +215,7 @@ export default function HomePage() {
 
                 <button
                   onClick={() => openQuoteForProduct('Immediate Price Inquiry')}
-                  className="w-full py-3 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-md transition-all text-center flex items-center justify-center space-x-1.5 cursor-pointer"
+                  className="w-full py-3 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-md transition-all text-center flex items-center justify-center space-x-1.5 cursor-pointer"
                 >
                   <span>Request Instant Price Sheet</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -231,7 +231,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Card 1 */}
           <div className="bg-white rounded-2xl p-5 shadow-lg shadow-slate-200/50 border border-slate-100 flex items-center space-x-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
-            <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
@@ -278,7 +278,7 @@ export default function HomePage() {
       {/* 3. CORE 3 PILLARS INTRO (Page 1 & 3 Match with Local High-Res Imagery) */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
+          <span className="text-blue-600 text-xs font-bold uppercase tracking-widest bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200">
             Our Core Verticals
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
@@ -300,13 +300,13 @@ export default function HomePage() {
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-4 left-4 bg-slate-900/85 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1.5 border border-slate-700">
-                <Layers className="w-3.5 h-3.5 text-orange-400" />
+                <Layers className="w-3.5 h-3.5 text-blue-400" />
                 <span>Steel Products</span>
               </div>
             </div>
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors font-heading">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors font-heading">
                   Steel Products
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 leading-relaxed">
@@ -322,14 +322,14 @@ export default function HomePage() {
               <div className="mt-6 flex items-center justify-between pt-4 border-t border-slate-100">
                 <Link
                   href="/products?category=Steel+Products"
-                  className="text-xs font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1"
+                  className="text-xs font-bold text-slate-700 hover:text-blue-600 flex items-center space-x-1"
                 >
                   <span>View Details</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
                 <button
                   onClick={() => openQuoteForProduct('Steel Products')}
-                  className="px-4 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
                 >
                   Request a Quote
                 </button>
@@ -347,13 +347,13 @@ export default function HomePage() {
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-4 left-4 bg-slate-900/85 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1.5 border border-slate-700">
-                <Flame className="w-3.5 h-3.5 text-orange-400" />
+                <Flame className="w-3.5 h-3.5 text-blue-400" />
                 <span>Welding & Fabrication</span>
               </div>
             </div>
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors font-heading">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors font-heading">
                   Welding & Fabrication
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 leading-relaxed">
@@ -369,14 +369,14 @@ export default function HomePage() {
               <div className="mt-6 flex items-center justify-between pt-4 border-t border-slate-100">
                 <Link
                   href="/services"
-                  className="text-xs font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1"
+                  className="text-xs font-bold text-slate-700 hover:text-blue-600 flex items-center space-x-1"
                 >
                   <span>View Details</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
                 <button
                   onClick={() => openQuoteForProduct('Welding & Fabrication')}
-                  className="px-4 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
                 >
                   Request a Quote
                 </button>
@@ -394,13 +394,13 @@ export default function HomePage() {
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-4 left-4 bg-slate-900/85 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1.5 border border-slate-700">
-                <Tractor className="w-3.5 h-3.5 text-orange-400" />
+                <Tractor className="w-3.5 h-3.5 text-blue-400" />
                 <span>Agricultural Equipment</span>
               </div>
             </div>
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors font-heading">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors font-heading">
                   Agricultural Equipment
                 </h3>
                 <p className="text-sm text-slate-600 mt-2 leading-relaxed">
@@ -416,14 +416,14 @@ export default function HomePage() {
               <div className="mt-6 flex items-center justify-between pt-4 border-t border-slate-100">
                 <Link
                   href="/agricultural-equipment"
-                  className="text-xs font-bold text-slate-700 hover:text-orange-600 flex items-center space-x-1"
+                  className="text-xs font-bold text-slate-700 hover:text-blue-600 flex items-center space-x-1"
                 >
                   <span>View Details</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
                 <button
                   onClick={() => openQuoteForProduct('Agricultural Equipment')}
-                  className="px-4 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
                 >
                   Request a Quote
                 </button>
@@ -438,7 +438,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-              <span className="text-orange-600 text-xs font-bold uppercase tracking-wider">
+              <span className="text-blue-600 text-xs font-bold uppercase tracking-wider">
                 Industrial Catalogue
               </span>
               <h2 className="text-3xl font-extrabold text-slate-900 mt-1 font-heading">
@@ -447,7 +447,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/products"
-              className="text-sm font-bold text-orange-600 hover:text-orange-700 flex items-center space-x-1"
+              className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center space-x-1"
             >
               <span>View Complete 124+ Catalogue</span>
               <ArrowRight className="w-4 h-4" />
@@ -462,7 +462,7 @@ export default function HomePage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer ${
                   activeTab === tab
-                    ? 'bg-[#F97316] text-white shadow-md shadow-orange-500/25'
+                    ? 'bg-[#0066FF] text-white shadow-md shadow-blue-500/25'
                     : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
@@ -507,7 +507,7 @@ export default function HomePage() {
 
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
-                      <h4 className="font-bold text-base text-slate-900 font-heading group-hover:text-orange-600 transition-colors">
+                      <h4 className="font-bold text-base text-slate-900 font-heading group-hover:text-blue-600 transition-colors">
                         {product.name}
                       </h4>
                       <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
@@ -515,7 +515,7 @@ export default function HomePage() {
                       </p>
                       {product.priceEstimate && (
                         <div className="mt-3 text-xs font-semibold text-slate-800 bg-slate-50 px-2 py-1 rounded inline-block">
-                          Est: <span className="text-orange-600 font-bold">{product.priceEstimate}</span>
+                          Est: <span className="text-blue-600 font-bold">{product.priceEstimate}</span>
                         </div>
                       )}
                     </div>
@@ -529,7 +529,7 @@ export default function HomePage() {
                       </Link>
                       <button
                         onClick={() => openQuoteForProduct(product.name)}
-                        className="py-1.5 text-center text-xs font-bold text-white bg-[#F97316] hover:bg-[#EA580C] rounded-lg transition-colors cursor-pointer"
+                        className="py-1.5 text-center text-xs font-bold text-white bg-[#0066FF] hover:bg-[#0052CC] rounded-lg transition-colors cursor-pointer"
                       >
                         Quote
                       </button>
@@ -546,7 +546,7 @@ export default function HomePage() {
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="bg-[#0F172A] rounded-3xl p-6 sm:p-10 lg:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
           <div className="max-w-2xl mb-8">
-            <span className="text-orange-400 text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 mb-2">
+            <span className="text-blue-400 text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 mb-2">
               <Calculator className="w-4 h-4" />
               <span>Engineering Tool</span>
             </span>
@@ -565,7 +565,7 @@ export default function HomePage() {
                 <button
                   onClick={() => setCalcType('pipe')}
                   className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors ${
-                    calcType === 'pipe' ? 'bg-[#F97316] text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                    calcType === 'pipe' ? 'bg-[#0066FF] text-white shadow-sm' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   Round Pipe / Tube
@@ -573,7 +573,7 @@ export default function HomePage() {
                 <button
                   onClick={() => setCalcType('plate')}
                   className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors ${
-                    calcType === 'plate' ? 'bg-[#F97316] text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                    calcType === 'plate' ? 'bg-[#0066FF] text-white shadow-sm' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   MS Plate / Sheet
@@ -581,7 +581,7 @@ export default function HomePage() {
                 <button
                   onClick={() => setCalcType('rebar')}
                   className={`flex-1 py-2 text-xs font-bold rounded-lg transition-colors ${
-                    calcType === 'rebar' ? 'bg-[#F97316] text-white shadow-sm' : 'text-slate-400 hover:text-white'
+                    calcType === 'rebar' ? 'bg-[#0066FF] text-white shadow-sm' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   TMT Rebar Rod
@@ -597,7 +597,7 @@ export default function HomePage() {
                     type="number"
                     value={calcDiameter}
                     onChange={(e) => setCalcDiameter(Number(e.target.value) || 0)}
-                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-orange-500 font-mono"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-600 font-mono"
                   />
                 </div>
 
@@ -609,7 +609,7 @@ export default function HomePage() {
                     type="number"
                     value={calcThickness}
                     onChange={(e) => setCalcThickness(Number(e.target.value) || 0)}
-                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-orange-500 font-mono"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-600 font-mono"
                   />
                 </div>
 
@@ -621,7 +621,7 @@ export default function HomePage() {
                     type="number"
                     value={calcLength}
                     onChange={(e) => setCalcLength(Number(e.target.value) || 0)}
-                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-orange-500 font-mono"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-600 font-mono"
                   />
                 </div>
 
@@ -633,7 +633,7 @@ export default function HomePage() {
                     type="number"
                     value={calcQuantity}
                     onChange={(e) => setCalcQuantity(Number(e.target.value) || 0)}
-                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-orange-500 font-mono"
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-600 font-mono"
                   />
                 </div>
               </div>
@@ -648,7 +648,7 @@ export default function HomePage() {
               <div className="py-2">
                 <span className="text-4xl sm:text-5xl font-black text-white font-mono">
                   {calcResult.weight.toLocaleString()}{' '}
-                  <span className="text-xl font-sans text-orange-400 font-bold">kg</span>
+                  <span className="text-xl font-sans text-blue-400 font-bold">kg</span>
                 </span>
                 <p className="text-xs text-slate-400 mt-1">
                   ({(calcResult.weight / 1000).toFixed(2)} Metric Tonnes)
@@ -668,7 +668,7 @@ export default function HomePage() {
                     `${calcType.toUpperCase()} - ${calcQuantity} pcs (${calcDiameter}x${calcThickness}mm, ${calcLength}m, Total: ${calcResult.weight} kg)`
                   )
                 }
-                className="w-full py-3 bg-[#F97316] hover:bg-[#EA580C] text-white font-bold rounded-xl text-xs transition-colors shadow-lg cursor-pointer"
+                className="w-full py-3 bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold rounded-xl text-xs transition-colors shadow-lg cursor-pointer"
               >
                 Submit Quote with This Weight
               </button>
@@ -681,7 +681,7 @@ export default function HomePage() {
       <section className="bg-white py-20 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
+            <span className="text-blue-600 text-xs font-bold uppercase tracking-widest bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200">
               Execution Methodology
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
@@ -694,9 +694,9 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
             {/* Step 1 */}
-            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-blue-600 transition-colors">
               <div>
-                <span className="text-3xl font-black text-orange-500 font-mono">01</span>
+                <span className="text-3xl font-black text-[#0066FF] font-mono">01</span>
                 <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">CAD Modeling</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   Structural load calculation, 3D modeling, and BOM verification.
@@ -709,9 +709,9 @@ export default function HomePage() {
             </div>
 
             {/* Step 2 */}
-            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-blue-600 transition-colors">
               <div>
-                <span className="text-3xl font-black text-orange-500 font-mono">02</span>
+                <span className="text-3xl font-black text-[#0066FF] font-mono">02</span>
                 <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">CNC Cutting</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   High-definition CNC plasma and laser profiling up to 50mm.
@@ -724,9 +724,9 @@ export default function HomePage() {
             </div>
 
             {/* Step 3 */}
-            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-blue-600 transition-colors">
               <div>
-                <span className="text-3xl font-black text-orange-500 font-mono">03</span>
+                <span className="text-3xl font-black text-[#0066FF] font-mono">03</span>
                 <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">Certified Welding</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   MIG, TIG and Submerged Arc welding by ASME certified welders.
@@ -739,9 +739,9 @@ export default function HomePage() {
             </div>
 
             {/* Step 4 */}
-            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-blue-600 transition-colors">
               <div>
-                <span className="text-3xl font-black text-orange-500 font-mono">04</span>
+                <span className="text-3xl font-black text-[#0066FF] font-mono">04</span>
                 <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">NDT & Quality</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   Ultrasonic testing, dye-penetrant checks and dimensional audits.
@@ -754,9 +754,9 @@ export default function HomePage() {
             </div>
 
             {/* Step 5 */}
-            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-orange-500 transition-colors">
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-blue-600 transition-colors">
               <div>
-                <span className="text-3xl font-black text-orange-500 font-mono">05</span>
+                <span className="text-3xl font-black text-[#0066FF] font-mono">05</span>
                 <h4 className="text-base font-bold text-slate-900 mt-2 font-heading">Coating & Dispatch</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   Hot dip galvanizing or epoxy primer and on-site flatbed transport.
@@ -774,7 +774,7 @@ export default function HomePage() {
       {/* 7. VERIFIED REVIEWS & INDUSTRIAL TESTIMONIALS */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
+          <span className="text-blue-600 text-xs font-bold uppercase tracking-widest bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200">
             Trusted by Builders & Farmers
           </span>
           <h2 className="text-3xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
@@ -833,7 +833,7 @@ export default function HomePage() {
               "Their CNC laser cut decorative villa gates and industrial security boundary grills exceeded our architect's expectations. The electro-powder finish is flawless and weather-resistant."
             </p>
             <div className="pt-2 border-t border-slate-100 flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full bg-orange-700 text-white font-bold flex items-center justify-center text-xs">
+              <div className="w-10 h-10 rounded-full bg-blue-700 text-white font-bold flex items-center justify-center text-xs">
                 SM
               </div>
               <div>
@@ -849,7 +849,7 @@ export default function HomePage() {
       <section className="bg-slate-50 py-20 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-orange-600 text-xs font-bold uppercase tracking-widest bg-orange-100/60 px-3.5 py-1.5 rounded-full">
+            <span className="text-blue-600 text-xs font-bold uppercase tracking-widest bg-blue-100/60 px-3.5 py-1.5 rounded-full">
               Questions & Answers
             </span>
             <h2 className="text-3xl font-extrabold text-slate-900 mt-3 tracking-tight font-heading">
@@ -865,12 +865,12 @@ export default function HomePage() {
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-5 text-left flex items-center justify-between text-sm sm:text-base font-bold text-slate-900 hover:text-orange-600 transition-colors cursor-pointer"
+                  className="w-full p-5 text-left flex items-center justify-between text-sm sm:text-base font-bold text-slate-900 hover:text-blue-600 transition-colors cursor-pointer"
                 >
                   <span>{faq.q}</span>
                   <ChevronDown
                     className={`w-4 h-4 text-slate-500 transition-transform ${
-                      openFaq === idx ? 'rotate-180 text-orange-600' : ''
+                      openFaq === idx ? 'rotate-180 text-blue-600' : ''
                     }`}
                   />
                 </button>
@@ -887,7 +887,7 @@ export default function HomePage() {
 
       {/* 9. FINAL BRAND PRESENTATION BANNER (Page 9 Exact Match) */}
       <section className="relative bg-[#0B1320] text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#F97316_1px,transparent_1px)] [background-size:24px_24px]" />
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#0066FF_1px,transparent_1px)] [background-size:24px_24px]" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-6">
@@ -900,7 +900,7 @@ export default function HomePage() {
 
             <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight font-heading">
               Quality Materials. Reliable Fabrication.{' '}
-              <span className="text-[#F97316]">Smarter Agricultural Solutions.</span>
+              <span className="text-[#0066FF]">Smarter Agricultural Solutions.</span>
             </h2>
 
             <p className="text-slate-300 text-base leading-relaxed">
@@ -910,7 +910,7 @@ export default function HomePage() {
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <Link
                 href="/contact"
-                className="px-8 py-3.5 bg-[#F97316] hover:bg-[#EA580C] text-white font-bold rounded-xl shadow-xl shadow-orange-500/25 transition-all hover:scale-105"
+                className="px-8 py-3.5 bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold rounded-xl shadow-xl shadow-blue-500/25 transition-all hover:scale-105"
               >
                 Contact Us Today
               </Link>

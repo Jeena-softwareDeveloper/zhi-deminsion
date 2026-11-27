@@ -40,7 +40,7 @@ export default function AdminUsersPage() {
     setActions(
       <button
         onClick={() => alert('Add user role management feature')}
-        className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+        className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
       >
         <Plus className="w-4 h-4" />
         <span>Add Admin User</span>
