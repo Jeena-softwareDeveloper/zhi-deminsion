@@ -19,10 +19,10 @@ import { useAdminHeader } from '@/context/AdminHeaderContext';
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState({
-    totalProducts: 124,
-    totalEnquiries: 48,
-    pendingQuotations: 12,
-    lowStock: 5,
+    totalProducts: 0,
+    totalEnquiries: 0,
+    pendingQuotations: 0,
+    lowStock: 0,
   });
 
   const [enquiries, setEnquiries] = useState<any[]>(initialEnquiries);
@@ -68,14 +68,14 @@ export default function AdminDashboardPage() {
         <button
           onClick={loadDashboardData}
           disabled={loading}
-          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs"
+          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors shadow-2xs"
           title="Refresh Data"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0066FF]' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0052CC]' : ''}`} />
         </button>
         <Link
           href="/admin/products"
-          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
+          className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0052CC] hover:bg-[#003D99] text-white text-xs font-bold rounded-lg shadow-sm transition-colors"
         >
           <Plus className="w-4 h-4" />
           <span>Add Product</span>
@@ -162,8 +162,8 @@ export default function AdminDashboardPage() {
       {/* NO DUPLICATE HEADER - Content starts immediately with TOP 4 STATS CARDS (Page 7 Exact Match) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Card 1: Total Products */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+        <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <FileText className="w-6 h-6" />
           </div>
           <div>
@@ -175,8 +175,8 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Card 2: Total Enquiries */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+        <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
             <Mail className="w-6 h-6" />
           </div>
           <div>
@@ -188,8 +188,8 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Card 3: Pending Quotations */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+        <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
             <Calculator className="w-6 h-6" />
           </div>
           <div>
@@ -201,8 +201,8 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Card 4: Low Stock */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+        <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-2xs flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0">
             <AlertTriangle className="w-6 h-6" />
           </div>
           <div>
@@ -217,7 +217,7 @@ export default function AdminDashboardPage() {
       {/* MAIN SECTION: Recent Enquiries Table (Left 8 cols) + Recent Products (Right 4 cols) (Page 7 Match) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* RECENT ENQUIRIES TABLE (Page 7 Exact Match) */}
-        <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+        <div className="lg:col-span-8 bg-white rounded-lg border border-slate-200 shadow-2xs overflow-hidden">
           <div className="p-6 border-b border-slate-100 flex items-center justify-between">
             <h3 className="text-base font-bold text-slate-900">Recent Enquiries</h3>
             <Link
@@ -274,7 +274,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* RECENT PRODUCTS WIDGET (Page 7 Exact Match) */}
-        <div className="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-2xs p-6">
+        <div className="lg:col-span-4 bg-white rounded-lg border border-slate-200 shadow-2xs p-6">
           <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
             <h3 className="text-base font-bold text-slate-900">Recent Products</h3>
             <Link
@@ -335,7 +335,7 @@ export default function AdminDashboardPage() {
           <div className="mt-6 pt-4 border-t border-slate-100">
             <Link
               href="/admin/inventory"
-              className="w-full block py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl text-center transition-colors"
+              className="w-full block py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg text-center transition-colors"
             >
               Manage Inventory Levels
             </Link>

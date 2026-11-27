@@ -3,8 +3,8 @@
 import React, { createContext, useContext, useState } from 'react';
 
 interface AdminHeaderContextType {
-  title: string;
-  setTitle: (title: string) => void;
+  title: string | null;
+  setTitle: (title: string | null) => void;
   badge: React.ReactNode;
   setBadge: (badge: React.ReactNode) => void;
   controls: React.ReactNode;
@@ -25,7 +25,7 @@ const AdminHeaderContext = createContext<AdminHeaderContextType>({
 });
 
 export function AdminHeaderProvider({ children }: { children: React.ReactNode }) {
-  const [title, setTitle] = useState('Dashboard');
+  const [title, setTitle] = useState<string | null>('Dashboard');
   const [badge, setBadge] = useState<React.ReactNode>(null);
   const [controls, setControls] = useState<React.ReactNode>(null);
   const [actions, setActions] = useState<React.ReactNode>(null);
