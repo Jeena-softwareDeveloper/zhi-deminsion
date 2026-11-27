@@ -22,7 +22,7 @@ export function MobileBottomNav() {
         <Link
           href="/"
           className={`flex flex-col items-center py-1.5 px-3 rounded-lg text-xs font-medium transition-colors ${
-            pathname === '/' ? 'text-orange-600 font-bold' : 'text-slate-600 hover:text-slate-900'
+            pathname === '/' ? 'text-[#0066FF] font-bold' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <Home className={`w-5 h-5 mb-0.5 ${pathname === '/' ? 'stroke-[2.5]' : ''}`} />
@@ -33,7 +33,7 @@ export function MobileBottomNav() {
           href="/products"
           className={`flex flex-col items-center py-1.5 px-3 rounded-lg text-xs font-medium transition-colors ${
             pathname.startsWith('/products')
-              ? 'text-orange-600 font-bold'
+              ? 'text-[#0066FF] font-bold'
               : 'text-slate-600 hover:text-slate-900'
           }`}
         >
@@ -43,7 +43,7 @@ export function MobileBottomNav() {
 
         <button
           onClick={() => setIsQuoteOpen(true)}
-          className="flex flex-col items-center py-1.5 px-3 rounded-lg text-xs font-medium text-slate-600 hover:text-orange-600 transition-colors"
+          className="flex flex-col items-center py-1.5 px-3 rounded-lg text-xs font-medium text-slate-600 hover:text-[#0066FF] transition-colors"
         >
           <ClipboardList className="w-5 h-5 mb-0.5" />
           <span>Enquiry</span>
@@ -52,7 +52,7 @@ export function MobileBottomNav() {
         <button
           onClick={() => setShowMoreMenu(!showMoreMenu)}
           className={`flex flex-col items-center py-1.5 px-3 rounded-lg text-xs font-medium transition-colors ${
-            showMoreMenu ? 'text-orange-600' : 'text-slate-600 hover:text-slate-900'
+            showMoreMenu ? 'text-[#0066FF]' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <MoreHorizontal className="w-5 h-5 mb-0.5" />
@@ -96,10 +96,10 @@ export function MobileBottomNav() {
               <Link
                 href="/admin"
                 onClick={() => setShowMoreMenu(false)}
-                className="px-3 py-2 text-sm text-orange-600 hover:bg-orange-50 rounded-lg font-bold flex items-center justify-between"
+                className="px-3 py-2 text-sm text-[#0066FF] hover:bg-blue-50 rounded-lg font-bold flex items-center justify-between"
               >
                 <span>Admin Dashboard</span>
-                <span className="text-[10px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded font-mono">
+                <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-mono">
                   LOGIN
                 </span>
               </Link>
@@ -112,4 +112,3 @@ export function MobileBottomNav() {
     </>
   );
 }
-

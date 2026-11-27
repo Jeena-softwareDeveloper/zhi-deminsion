@@ -162,7 +162,7 @@ export function DataTable<T>({
                     setSearch(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full pl-9 pr-4 py-2 bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500/20 transition-all"
+                  className="w-full pl-9 pr-4 py-2 bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500/20 transition-all"
                 />
               </div>
             )}
@@ -208,9 +208,9 @@ export function DataTable<T>({
                           <span className="text-slate-400">
                             {isSorted ? (
                               sortOrder === 'asc' ? (
-                                <ArrowUp className="w-3.5 h-3.5 text-orange-500" />
+                                <ArrowUp className="w-3.5 h-3.5 text-[#0066FF]" />
                               ) : (
-                                <ArrowDown className="w-3.5 h-3.5 text-orange-500" />
+                                <ArrowDown className="w-3.5 h-3.5 text-[#0066FF]" />
                               )
                             ) : (
                               <ArrowUpDown className="w-3.5 h-3.5 opacity-40 hover:opacity-100" />
@@ -229,7 +229,7 @@ export function DataTable<T>({
                 <tr>
                   <td colSpan={columns.length} className="py-20 text-center">
                     <div className="inline-flex flex-col items-center justify-center space-y-2 text-slate-400">
-                      <Loader2 className="w-7 h-7 animate-spin text-orange-500" />
+                      <Loader2 className="w-7 h-7 animate-spin text-[#0066FF]" />
                       <span className="text-xs font-semibold">Loading data...</span>
                     </div>
                   </td>
@@ -321,7 +321,7 @@ export function DataTable<T>({
                           onClick={() => setCurrentPage(page)}
                           className={`w-7 h-7 rounded-lg text-xs font-bold transition-colors ${
                             safePage === page
-                              ? 'bg-orange-500 text-white shadow-xs'
+                              ? 'bg-[#0066FF] text-white shadow-xs'
                               : 'bg-white hover:bg-slate-100 border border-slate-200 text-slate-700'
                           }`}
                         >

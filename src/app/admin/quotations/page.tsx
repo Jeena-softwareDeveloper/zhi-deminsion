@@ -445,7 +445,7 @@ function AdminQuotationsContent() {
                 <p className="text-xs text-slate-500">sales@zhidimension.com | +91 98765 43210</p>
               </div>
               <div className="text-right">
-                <span className="text-xs font-mono font-bold bg-blue-100 text-orange-800 px-2 py-1 rounded">
+                <span className="text-xs font-mono font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded">
                   {previewQuote.quoteNumber}
                 </span>
                 <p className="text-xs text-slate-500 mt-2">

@@ -215,7 +215,7 @@ export default function AdminEnquiriesPage() {
         <div className="flex items-center justify-end space-x-2">
           <button
             onClick={() => setSelected(enq)}
-            className="text-xs font-bold text-blue-600 hover:text-orange-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors"
+            className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg transition-colors"
           >
             Details
           </button>

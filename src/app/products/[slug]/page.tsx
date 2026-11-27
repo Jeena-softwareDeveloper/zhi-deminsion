@@ -111,7 +111,7 @@ export default function ProductDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen py-24 flex flex-col items-center justify-center text-slate-500">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-500 mb-2" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#0066FF] mb-2" />
         <p className="text-sm">Loading product details from MongoDB...</p>
       </div>
     );
@@ -124,7 +124,7 @@ export default function ProductDetailPage() {
         <p className="text-slate-500 mt-2">The requested product could not be located.</p>
         <Link
           href="/products"
-          className="mt-4 inline-block px-6 py-2.5 bg-[#F97316] text-white rounded-xl text-sm font-semibold"
+          className="mt-4 inline-block px-6 py-2.5 bg-[#0066FF] text-white rounded-xl text-sm font-semibold"
         >
           Back to Catalogue
         </Link>
@@ -182,7 +182,7 @@ export default function ProductDetailPage() {
                     onClick={() => setSelectedImage(img)}
                     className={`relative w-20 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
                       selectedImage === img
-                        ? 'border-[#F97316] ring-2 ring-orange-500/20'
+                        ? 'border-[#0066FF] ring-2 ring-blue-500/20'
                         : 'border-slate-200 opacity-70 hover:opacity-100'
                     }`}
                   >
@@ -205,7 +205,7 @@ export default function ProductDetailPage() {
             {/* Specifications Table (Page 6 Exact Match) */}
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center space-x-2">
-                <FileText className="w-4 h-4 text-orange-500" />
+                <FileText className="w-4 h-4 text-[#0066FF]" />
                 <span>Specifications</span>
               </h3>
               <div className="border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-100 text-sm">
@@ -239,11 +239,11 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Direct Action Buttons: Request a Quote (Orange) + WhatsApp (Green) (Page 6 Exact Match) */}
+            {/* Direct Action Buttons: Request a Quote (Blue) + WhatsApp (Green) (Page 6 Exact Match) */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <a
                 href="#quote-form-card"
-                className="flex-1 sm:flex-none px-7 py-3 bg-[#F97316] hover:bg-[#EA580C] text-white text-sm font-bold rounded-xl shadow-md transition-colors text-center"
+                className="flex-1 sm:flex-none px-7 py-3 bg-[#0066FF] hover:bg-[#0052CC] text-white text-sm font-bold rounded-xl shadow-md transition-colors text-center"
               >
                 Request a Quote
               </a>
@@ -276,7 +276,7 @@ export default function ProductDetailPage() {
                 </div>
                 <h4 className="text-lg font-bold">Enquiry Received!</h4>
                 <p className="text-xs text-slate-300 max-w-xs mx-auto leading-relaxed">
-                  Thank you, <span className="text-white font-semibold">{formData.customerName}</span>. Your enquiry for <span className="text-orange-400 font-semibold">{product.name}</span> has been logged into our MongoDB system. An estimate will be shared shortly.
+                  Thank you, <span className="text-white font-semibold">{formData.customerName}</span>. Your enquiry for <span className="text-blue-400 font-semibold">{product.name}</span> has been logged into our MongoDB system. An estimate will be shared shortly.
                 </p>
                 <div className="pt-3">
                   <button
@@ -308,7 +308,7 @@ export default function ProductDetailPage() {
                 {/* Name * */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                    Name <span className="text-orange-400">*</span>
+                    Name <span className="text-blue-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -316,14 +316,14 @@ export default function ProductDetailPage() {
                     placeholder="Enter your name"
                     value={formData.customerName}
                     onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
 
                 {/* Phone Number * */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                    Phone Number <span className="text-orange-400">*</span>
+                    Phone Number <span className="text-blue-400">*</span>
                   </label>
                   <input
                     type="tel"
@@ -331,14 +331,14 @@ export default function ProductDetailPage() {
                     placeholder="Enter your phone number"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
 
                 {/* Product Requirement * */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                    Product Requirement <span className="text-orange-400">*</span>
+                    Product Requirement <span className="text-blue-400">*</span>
                   </label>
                   <textarea
                     rows={3}
@@ -346,7 +346,7 @@ export default function ProductDetailPage() {
                     placeholder="Tell us what you need"
                     value={formData.productRequired}
                     onChange={(e) => setFormData({ ...formData, productRequired: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
 
@@ -360,7 +360,7 @@ export default function ProductDetailPage() {
                     placeholder="Enter quantity or size"
                     value={formData.quantitySize}
                     onChange={(e) => setFormData({ ...formData, quantitySize: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
 
@@ -369,7 +369,7 @@ export default function ProductDetailPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full py-3.5 px-4 bg-[#F97316] hover:bg-[#EA580C] text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer text-sm"
+                    className="w-full py-3.5 px-4 bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer text-sm"
                   >
                     {submitting ? (
                       <>

@@ -465,7 +465,7 @@ export default function AdminProductsPage() {
                         onClick={() => setFormData({ ...formData, images: p.url })}
                         className={`relative h-14 rounded-xl overflow-hidden border-2 transition-all ${
                           isSelected
-                            ? 'border-blue-600 ring-2 ring-orange-200 scale-95'
+                            ? 'border-blue-600 ring-2 ring-blue-200 scale-95'
                             : 'border-slate-200 opacity-70 hover:opacity-100'
                         }`}
                         title={p.label}

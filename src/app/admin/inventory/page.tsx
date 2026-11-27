@@ -719,11 +719,11 @@ export default function AdminInventoryPage() {
             <div className="bg-[#0052CC] text-white px-6 py-4 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-base">Restock Units</h3>
-                <p className="text-xs text-orange-100 mt-0.5">{restockProduct.name}</p>
+                <p className="text-xs text-blue-100 mt-0.5">{restockProduct.name}</p>
               </div>
               <button
                 onClick={() => setRestockProduct(null)}
-                className="p-1 rounded-lg text-orange-200 hover:text-white"
+                className="p-1 rounded-lg text-blue-200 hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>

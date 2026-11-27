@@ -49,8 +49,8 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
       {/* 1. FIXED SIDEBAR (Desktop) - Dark Navy Background Matching Page 7 */}
       <aside className="hidden lg:flex flex-col w-64 h-screen bg-[#0F172A] text-slate-300 border-r border-slate-800 shrink-0 select-none">
         {/* Logo header */}
-        <div className="p-6 border-b border-slate-800/80 shrink-0">
-          <ZhiLogo variant="dark" />
+        <div className="px-5 py-4 border-b border-slate-800/80 shrink-0">
+          <ZhiLogo variant="dark" size="sm" />
         </div>
 
         {/* Navigation list */}
@@ -104,7 +104,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
           />
           <div className="relative w-72 bg-[#0F172A] text-slate-300 p-6 flex flex-col z-10 h-full">
             <div className="flex items-center justify-between pb-6 border-b border-slate-800">
-              <ZhiLogo variant="dark" />
+              <ZhiLogo variant="dark" size="sm" />
               <button
                 onClick={() => setMobileSidebarOpen(false)}
                 className="p-1 rounded-lg text-slate-400 hover:text-white"
