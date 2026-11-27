@@ -29,11 +29,6 @@ const config: Config = {
           muted: "#64748B",
         },
       },
-      fontFamily: {
-        sans: ["'Plus Jakarta Sans'", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-        heading: ["'Montserrat'", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
-        display: ["'Montserrat'", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
-      },
       letterSpacing: {
         tightest: '-0.04em',
         tighter: '-0.025em',
