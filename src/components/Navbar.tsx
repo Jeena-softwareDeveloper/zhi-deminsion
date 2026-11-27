@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ZhiLogo } from './ZhiLogo';
 import { QuoteModal } from './QuoteModal';
-import { Search, Menu, X, Shield, PhoneCall } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -33,29 +33,6 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
-        {/* Top mini-bar for phone & quick admin access */}
-        <div className="bg-[#0B1320] text-slate-300 text-xs py-1.5 px-4 sm:px-8 flex items-center justify-between border-b border-slate-800">
-          <div className="flex items-center space-x-4">
-            <span className="flex items-center space-x-1.5 text-slate-300">
-              <PhoneCall className="w-3.5 h-3.5 text-orange-500" />
-              <span>Call Sales: +91 98765 43210</span>
-            </span>
-            <span className="hidden sm:inline-block text-slate-500">|</span>
-            <span className="hidden sm:inline-block text-slate-400">
-              ISO 9001:2015 Certified Steel & Fabrication Works
-            </span>
-          </div>
-          <div className="flex items-center space-x-3">
-            <Link
-              href="/admin"
-              className="flex items-center space-x-1 text-orange-400 hover:text-orange-300 transition-colors font-medium bg-slate-800/80 px-2 py-0.5 rounded text-[11px]"
-            >
-              <Shield className="w-3 h-3 text-orange-400" />
-              <span>Admin Panel</span>
-            </Link>
-          </div>
-        </div>
-
         {/* Main Navigation Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
