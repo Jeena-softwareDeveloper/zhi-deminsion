@@ -33,7 +33,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
       {/* Top Deep Navy Contact & Location Utility Bar */}
       <div className="bg-[#092456] text-slate-100 text-[11px] sm:text-xs border-b border-blue-950/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between gap-2 overflow-hidden">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 h-9 flex items-center justify-between gap-2 overflow-hidden">
           <div className="flex items-center gap-1.5 sm:gap-2 font-medium truncate">
             <MapPin className="w-3.5 h-3.5 text-blue-300 shrink-0" />
             <span className="truncate">{BRAND_INFO.location}</span>
@@ -101,7 +101,7 @@ export function Navbar() {
       </div>
 
       {/* Main White Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[68px] flex items-center justify-between gap-4 lg:gap-6">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 h-[68px] flex items-center justify-between gap-4 lg:gap-6">
         <ZhiLogo variant="light" />
 
         {/* Desktop Nav Links */}

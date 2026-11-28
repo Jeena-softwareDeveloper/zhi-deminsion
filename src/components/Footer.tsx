@@ -7,7 +7,7 @@ import { BRAND_INFO, CATEGORY_DETAILS, getWhatsAppUrl } from '@/lib/brand';
 export function Footer() {
   return (
     <footer className="bg-gradient-to-b from-[#EFF6FF] to-[#DFECFF] text-slate-700 pt-12 pb-24 md:pb-10 border-t border-blue-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {/* Brand Column */}
           <div className="space-y-3.5 sm:col-span-2 lg:col-span-1">

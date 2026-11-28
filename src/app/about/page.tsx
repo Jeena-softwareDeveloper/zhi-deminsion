@@ -110,7 +110,7 @@ const ABOUT_FAQS = [
 export default function AboutPage() {
   return (
     <div className="bg-white min-h-screen py-8 lg:py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-9 lg:space-y-10">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 space-y-9 lg:space-y-10">
         {/* 1. SEO Hero / Brand Positioning Header */}
         <section className="max-w-4xl space-y-3">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1320] tracking-tight leading-tight">

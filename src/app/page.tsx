@@ -59,11 +59,32 @@ function getCategoryCardMeta(name: string) {
       shortTitle: ['Industrial', 'Products'],
     };
   }
+  if (lower.includes('steel')) {
+    return {
+      Icon: Package,
+      circleBg: 'bg-[#0052CC]',
+      fallbackImage: '/images/cat-industrial.jpg',
+      shortTitle: ['Steel', 'Products'],
+    };
+  }
+  if (lower.includes('weld') || lower.includes('fabric')) {
+    return {
+      Icon: Building2,
+      circleBg: 'bg-[#0B2559]',
+      fallbackImage: '/images/cat-industrial.jpg',
+      shortTitle: ['Welding &', 'Fabrication'],
+    };
+  }
+  const words = name.trim().split(/\s+/);
+  const titleLines =
+    words.length > 1
+      ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')]
+      : [name, 'Products'];
   return {
     Icon: Package,
     circleBg: 'bg-[#0052CC]',
     fallbackImage: '/images/cat-industrial.jpg',
-    shortTitle: [name, 'Products'],
+    shortTitle: titleLines,
   };
 }
 
@@ -115,7 +136,7 @@ export default function HomePage() {
     <div className="flex flex-col bg-white text-slate-900">
       {/* 1. SUNLIT PRODUCT SHOWCASE HERO SECTION + OVERLAPPING CATEGORY STRIP */}
       <section className="relative bg-white border-b border-slate-200/80">
-        <div className="relative min-h-[430px] sm:min-h-[470px] lg:min-h-[520px] flex items-center overflow-hidden bg-[#F5F9FF]">
+        <div className="relative min-h-[440px] sm:min-h-[480px] lg:min-h-[530px] flex items-center overflow-hidden bg-[#EAF3FF]">
           {/* Full-Bleed Sunlit Outdoor Showcase Photo (Machinery, Table & Rack on Right) */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -123,21 +144,28 @@ export default function HomePage() {
               alt="ZHI DIMENSION blue agricultural machine, stainless workbench, and heavy-duty shelving rack"
               fill
               priority
-              className="object-cover object-[72%_52%] sm:object-[74%_50%] lg:object-[76%_50%]"
+              className="object-cover object-[70%_44%] sm:object-[72%_42%] lg:object-[75%_40%]"
             />
-            {/* Clean White Frosted Fade on Left for Ultra-Sharp Typography */}
+            {/* Soft Frosted Readability Mist on Left (Keeps Natural Blue Sky & Horizon Visible) */}
+            <div
+              className="absolute inset-0 backdrop-blur-[1.5px]"
+              style={{
+                maskImage: 'linear-gradient(to right, black 0%, black 20%, transparent 42%)',
+                WebkitMaskImage: 'linear-gradient(to right, black 0%, black 20%, transparent 42%)',
+              }}
+            />
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 26%, rgba(255,255,255,0.78) 40%, rgba(255,255,255,0.22) 55%, rgba(255,255,255,0) 68%)',
+                  'linear-gradient(to right, rgba(244,249,255,0.82) 0%, rgba(255,255,255,0.72) 20%, rgba(255,255,255,0.42) 34%, rgba(255,255,255,0.08) 48%, rgba(255,255,255,0) 58%)',
               }}
             />
             {/* Gentle Bottom Gradient under Overlapping Cards */}
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/55 via-white/15 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/35 via-white/10 to-transparent" />
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 sm:pt-12 sm:pb-28 lg:py-14 lg:pb-32 w-full">
+          <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-24 sm:pt-12 sm:pb-28 lg:py-14 lg:pb-32 w-full">
             <div className="max-w-lg lg:max-w-xl space-y-4 sm:space-y-5">
               {/* Eyebrow Label + Horizontal Accent Line */}
               <div className="flex items-center gap-3">
@@ -213,7 +241,7 @@ export default function HomePage() {
 
         {/* Overlapping 3 Floating Category Strip (Anchored at Bottom Edge of Hero) */}
         <div className="relative z-20 -mt-14 sm:-mt-16 pb-8 sm:pb-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
               {categories.slice(0, 3).map((cat) => {
                 const { Icon, circleBg, fallbackImage, shortTitle } = getCategoryCardMeta(cat.name);
@@ -271,7 +299,7 @@ export default function HomePage() {
 
       {/* 2. APPROVED PRODUCT CATALOGUE SHOWCASE */}
       <section className="bg-white py-10 sm:py-12 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-4 gap-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1320]">
               ZHI DIMENSION Product Range
@@ -356,7 +384,7 @@ export default function HomePage() {
 
       {/* 3. BULK ORDER CUSTOMER JOURNEY */}
       <section className="bg-[#F8FAFC] py-10 sm:py-12 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="text-center max-w-2xl mx-auto mb-7 sm:mb-8">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1320]">
               How Bulk Orders Work
@@ -372,7 +400,7 @@ export default function HomePage() {
 
       {/* 4. ABOUT ZHI DIMENSION SECTION */}
       <section className="bg-white py-10 sm:py-12 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-4">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1320] leading-tight">

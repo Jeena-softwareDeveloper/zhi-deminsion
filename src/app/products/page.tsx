@@ -84,7 +84,7 @@ function ProductsPageContent() {
 
   return (
     <div className="bg-white min-h-screen py-6 lg:py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Page Header */}
         <div className="mb-4 max-w-3xl">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B1320] tracking-tight">
