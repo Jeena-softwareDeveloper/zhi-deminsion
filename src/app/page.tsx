@@ -7,11 +7,12 @@ import {
   ArrowRight,
   MessageSquare,
   MessageCircle,
-  Sprout,
+  Leaf,
   Home,
-  Factory,
+  Building2,
   CheckCircle2,
-  BadgeCheck,
+  Settings,
+  Layers,
   Truck,
   Package,
   ShieldCheck,
@@ -20,7 +21,7 @@ import {
 import { QuoteModal } from '@/components/QuoteModal';
 import { ProductCard, ProductCardData } from '@/components/ProductCard';
 import { BulkOrderFlow } from '@/components/BulkOrderFlow';
-import { BRAND_INFO, getWhatsAppUrl } from '@/lib/brand';
+import { getWhatsAppUrl } from '@/lib/brand';
 import { initialCategories, initialProducts } from '@/lib/data/initialData';
 
 interface CategoryItem {
@@ -32,33 +33,37 @@ interface CategoryItem {
   status?: string;
 }
 
-function getCategoryStyle(name: string) {
+function getCategoryCardMeta(name: string) {
   const lower = name.toLowerCase();
   if (lower.includes('agri') || lower.includes('farm')) {
     return {
-      Icon: Sprout,
-      iconWrap: 'bg-emerald-50 text-emerald-600',
-      cornerAccent: 'bg-[#22C55E]',
+      Icon: Leaf,
+      circleBg: 'bg-[#16A34A]',
+      fallbackImage: '/images/cat-agriculture.jpg',
+      shortTitle: ['Agriculture', 'Products'],
     };
   }
   if (lower.includes('home') || lower.includes('residen')) {
     return {
       Icon: Home,
-      iconWrap: 'bg-blue-50 text-[#0052CC]',
-      cornerAccent: 'bg-[#3B82F6]',
+      circleBg: 'bg-[#1D4ED8]',
+      fallbackImage: '/images/cat-home.jpg',
+      shortTitle: ['Home', 'Products'],
     };
   }
   if (lower.includes('indus') || lower.includes('commer')) {
     return {
-      Icon: Factory,
-      iconWrap: 'bg-orange-50 text-[#F97316]',
-      cornerAccent: 'bg-[#F97316]',
+      Icon: Building2,
+      circleBg: 'bg-[#0B2559]',
+      fallbackImage: '/images/cat-industrial.jpg',
+      shortTitle: ['Industrial', 'Products'],
     };
   }
   return {
     Icon: Package,
-    iconWrap: 'bg-[#EFF6FF] text-[#0052CC]',
-    cornerAccent: 'bg-[#0052CC]',
+    circleBg: 'bg-[#0052CC]',
+    fallbackImage: '/images/cat-industrial.jpg',
+    shortTitle: [name, 'Products'],
   };
 }
 
@@ -108,200 +113,163 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col bg-white text-slate-900">
-      {/* 1. SUNLIT PRODUCT SHOWCASE HERO SECTION */}
-      <section className="relative min-h-[430px] sm:min-h-[470px] lg:min-h-[500px] xl:min-h-[530px] flex items-center overflow-hidden bg-[#F8FBFF] border-b border-slate-200/80">
-        {/* Full-Bleed Sunlit Outdoor Manufacturing Showcase */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/Blue Agricultural Machine in Sunny Fields.png"
-            alt="ZHI DIMENSION blue agricultural machine, stainless workbench, and heavy-duty shelving rack in sunny fields"
-            fill
-            priority
-            className="object-cover object-[38%_60%] sm:object-[36%_58%] lg:object-[34%_58%]"
-          />
-          {/* White zone with lite blur → sharp fade to fully transparent right side */}
-          {/* Layer 1: backdrop-blur frosted glass on the left white zone */}
-          <div
-            className="absolute inset-0 backdrop-blur-[2px]"
-            style={{
-              maskImage: 'linear-gradient(to right, black 0%, black 30%, transparent 50%)',
-              WebkitMaskImage: 'linear-gradient(to right, black 0%, black 30%, transparent 50%)',
-            }}
-          />
-          {/* Layer 2: white color fill matching the page bg */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(to right, #ffffff 0%, #ffffff 28%, rgba(255,255,255,0.65) 38%, rgba(255,255,255,0.08) 50%, transparent 58%)',
-            }}
-          />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-11 lg:py-12 w-full">
-          <div className="max-w-xl space-y-4 sm:space-y-5">
-            {/* Primary Display Headline with thick yellow brush stroke */}
-            <h1 className="text-[30px] sm:text-[42px] lg:text-[50px] xl:text-[58px] font-extrabold tracking-tight leading-[1.08] uppercase" style={{ fontWeight: 800 }}>
-              <span className="block text-[#0B1E46]">MADE FOR</span>
-              <span className="relative inline-block text-[#0057D9] mt-1 sm:whitespace-nowrap">
-                {BRAND_INFO.name}
-                {/* Thick yellow brush-stroke underline */}
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 400 22"
-                  fill="none"
-                  className="absolute left-0 w-full"
-                  style={{ bottom: '-10px', height: '14px' }}
-                  preserveAspectRatio="none"
-                >
-                  {/* Filled brush shape — thick in center, tapered at ends */}
-                  <path
-                    d="M2 16 C 50 6, 180 4, 280 7 C 340 9, 380 11, 398 14 C 380 18, 340 19, 280 17 C 180 14, 50 16, 2 20 Z"
-                    fill="#FACC15"
-                    opacity="0.95"
-                  />
-                </svg>
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-sm sm:text-base lg:text-[17px] text-slate-700 font-medium leading-relaxed max-w-md pt-1.5">
-              Thoughtfully manufactured products for agriculture, home and industrial use.
-            </p>
-
-            {/* Primary Blue & Solid Green Action Buttons */}
-            <div className="pt-1 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3.5">
-              <Link
-                href="/products"
-                className="w-full sm:w-auto px-5 py-2.5 sm:py-3 bg-[#0057D9] hover:bg-[#0044B8] text-white text-sm font-bold rounded-lg shadow-md shadow-blue-900/15 transition-colors inline-flex items-center justify-center gap-2.5"
-              >
-                <Package className="w-4 h-4 shrink-0" />
-                <span>Explore Our Products</span>
-                <ArrowRight className="w-4 h-4 shrink-0" />
-              </Link>
-
-              <a
-                href={getWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-5 py-2.5 sm:py-3 bg-[#157347] hover:bg-[#115C39] text-white text-sm font-bold rounded-lg shadow-md shadow-emerald-950/15 transition-colors inline-flex items-center justify-center gap-2.5"
-              >
-                <MessageCircle className="w-4 h-4 shrink-0" />
-                <span>Enquire on WhatsApp</span>
-              </a>
-            </div>
-
-            {/* Bottom 3 Quality & Bulk Trust Highlights */}
-            <div className="pt-3 flex flex-wrap items-center gap-y-2.5 gap-x-4 sm:gap-x-0">
-              <div className="flex items-center gap-2 sm:gap-2.5 sm:pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
-                <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#16A34A] shrink-0 stroke-[1.9]" />
-                <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
-                  <div>Quality</div>
-                  <div>Manufacturing</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 sm:gap-2.5 sm:pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
-                <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#0057D9] shrink-0 stroke-[1.9]" />
-                <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
-                  <div>Long-Lasting</div>
-                  <div>Performance</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 sm:gap-2.5">
-                <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#F59E0B] shrink-0 stroke-[1.9]" />
-                <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
-                  <div>Bulk Orders</div>
-                  <div>Welcome</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. PRODUCT APPLICATION CATEGORIES (Synced with Admin Categories) */}
-      <section className="relative bg-gradient-to-b from-[#F3F8FF] via-white to-[#F8FAFC] py-10 sm:py-12 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Centered Header with Golden Brush Swoop */}
-          <div className="text-center max-w-5xl mx-auto mb-7 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1320] tracking-tight leading-tight sm:whitespace-nowrap">
-              Products for{' '}
-              <span className="relative inline-block text-[#0052CC]">
-                Real-World Needs
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 320 18"
-                  fill="none"
-                  className="absolute -bottom-2 left-0 w-full h-3 text-[#FACC15]"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M4 13 C 95 4, 215 3, 314 9"
-                    stroke="currentColor"
-                    strokeWidth="4.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-            </h2>
-
-            <p className="text-sm sm:text-base text-slate-600 mt-3 max-w-2xl mx-auto">
-              Every ZHI DIMENSION product is organized around the environments where reliability matters most.
-            </p>
+      {/* 1. SUNLIT PRODUCT SHOWCASE HERO SECTION + OVERLAPPING CATEGORY STRIP */}
+      <section className="relative bg-white border-b border-slate-200/80">
+        <div className="relative min-h-[430px] sm:min-h-[470px] lg:min-h-[520px] flex items-center overflow-hidden bg-[#F5F9FF]">
+          {/* Full-Bleed Sunlit Outdoor Showcase Photo (Machinery, Table & Rack on Right) */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/Blue Agricultural Machine in Sunny Fields.png"
+              alt="ZHI DIMENSION blue agricultural machine, stainless workbench, and heavy-duty shelving rack"
+              fill
+              priority
+              className="object-cover object-[72%_52%] sm:object-[74%_50%] lg:object-[76%_50%]"
+            />
+            {/* Clean White Frosted Fade on Left for Ultra-Sharp Typography */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 26%, rgba(255,255,255,0.78) 40%, rgba(255,255,255,0.22) 55%, rgba(255,255,255,0) 68%)',
+              }}
+            />
+            {/* Gentle Bottom Gradient under Overlapping Cards */}
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/55 via-white/15 to-transparent" />
           </div>
 
-          {/* Dynamic Category Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {categories.map((cat) => {
-              const { Icon, iconWrap, cornerAccent } = getCategoryStyle(cat.name);
-              const categoryHref = `/products?category=${encodeURIComponent(cat.name)}`;
-              const cardImg = cat.image || '/images/logo.png';
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 sm:pt-12 sm:pb-28 lg:py-14 lg:pb-32 w-full">
+            <div className="max-w-lg lg:max-w-xl space-y-4 sm:space-y-5">
+              {/* Eyebrow Label + Horizontal Accent Line */}
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] sm:text-xs font-bold tracking-[0.16em] uppercase text-[#1E3A5F]">
+                  Industrial &amp; Agriculture Solutions
+                </span>
+                <span className="h-[1px] w-12 sm:w-16 bg-blue-300" />
+              </div>
 
-              return (
+              {/* Primary Display Headline */}
+              <h1 className="text-[34px] sm:text-[46px] lg:text-[52px] xl:text-[56px] font-extrabold tracking-tight leading-[1.08] text-[#0B1E46]">
+                Made for Real
+                <span className="block">
+                  World <span className="text-[#0052CC]">Applications</span>
+                </span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-sm sm:text-base lg:text-[17px] text-slate-600 font-medium leading-relaxed max-w-md">
+                Thoughtfully manufactured products for agriculture, home and industrial use.
+              </p>
+
+              {/* Action Buttons: Blue Solid + White Outlined WhatsApp Quote */}
+              <div className="pt-1 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
                 <Link
-                  key={cat._id || cat.slug || cat.name}
-                  href={categoryHref}
-                  className="group bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-[#0052CC]/50 hover:-translate-y-0.5 transition-all flex flex-col cursor-pointer"
+                  href="/products"
+                  className="w-full sm:w-auto px-6 py-3 bg-[#0057D9] hover:bg-[#0044B8] text-white text-sm font-bold rounded-lg shadow-md shadow-blue-700/20 transition-colors inline-flex items-center justify-center gap-2"
                 >
-                  {/* Category Photo with Subtle Bottom-Right Curved Accent */}
-                  <div className="relative h-44 sm:h-48 w-full rounded-xl overflow-hidden bg-slate-100">
+                  <span>Explore Our Products</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" />
+                </Link>
+
+                <a
+                  href={getWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-6 py-3 bg-white hover:bg-slate-50 text-[#0B1E46] border border-slate-300/90 text-sm font-bold rounded-lg shadow-xs transition-colors inline-flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4 text-[#16A34A] shrink-0" />
+                  <span>Get Bulk Quote</span>
+                </a>
+              </div>
+
+              {/* Bottom 3 Blue-Icon Trust Highlights */}
+              <div className="pt-3 flex flex-wrap items-center gap-y-3 gap-x-5 sm:gap-x-0">
+                <div className="flex items-center gap-2.5 sm:pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
+                  <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-[#0052CC] shrink-0 stroke-[1.8]" />
+                  <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
+                    <div>Quality</div>
+                    <div>Manufacturing</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 sm:pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
+                  <Layers className="w-5 h-5 sm:w-6 sm:h-6 text-[#0052CC] shrink-0 stroke-[1.8]" />
+                  <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
+                    <div>Durable &amp;</div>
+                    <div>Long Lasting</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#0052CC] shrink-0 stroke-[1.8]" />
+                  <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
+                    <div>Bulk Orders</div>
+                    <div>Welcome</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Overlapping 3 Floating Category Strip (Anchored at Bottom Edge of Hero) */}
+        <div className="relative z-20 -mt-14 sm:-mt-16 pb-8 sm:pb-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+              {categories.slice(0, 3).map((cat) => {
+                const { Icon, circleBg, fallbackImage, shortTitle } = getCategoryCardMeta(cat.name);
+                const categoryHref = `/products?category=${encodeURIComponent(cat.name)}`;
+                const cardImg = cat.image || fallbackImage;
+
+                return (
+                  <Link
+                    key={cat._id || cat.slug || cat.name}
+                    href={categoryHref}
+                    className="group relative h-[112px] sm:h-[124px] rounded-2xl overflow-hidden bg-white border border-white shadow-lg shadow-slate-900/10 hover:shadow-xl hover:border-[#0052CC]/40 hover:-translate-y-0.5 transition-all flex items-center justify-between p-4 sm:p-5 cursor-pointer"
+                  >
+                    {/* Right-side Category Photo */}
                     <Image
                       src={cardImg}
                       alt={cat.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
                     />
-                    <span
-                      aria-hidden="true"
-                      className={`absolute -bottom-3 -right-3 w-14 h-10 rounded-tl-full ${cornerAccent} opacity-95`}
+                    {/* Crisp Left-to-Right Frosted White Gradient */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          'linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.92) 40%, rgba(255,255,255,0.35) 68%, rgba(255,255,255,0.04) 100%)',
+                      }}
                     />
-                  </div>
 
-                  {/* Icon Badge + Category Name */}
-                  <div className="flex items-center gap-3 mt-3.5">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${iconWrap}`}>
-                      <Icon className="w-5 h-5" />
+                    {/* Top-Left Icon Badge + Bottom-Left Title */}
+                    <div className="relative z-10 flex flex-col justify-between h-full">
+                      <div
+                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${circleBg} text-white flex items-center justify-center shadow-sm`}
+                      >
+                        <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </div>
+                      <h2 className="text-[15px] sm:text-base font-extrabold text-[#0B1E46] leading-tight group-hover:text-[#0052CC] transition-colors">
+                        <span className="block">{shortTitle[0]}</span>
+                        <span className="block">{shortTitle[1]}</span>
+                      </h2>
                     </div>
-                    <h3 className="text-base sm:text-lg font-extrabold text-[#0B1320] group-hover:text-[#0052CC] transition-colors">
-                      {cat.name}
-                    </h3>
-                    <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#0052CC] group-hover:translate-x-0.5 transition-all ml-auto shrink-0" />
-                  </div>
 
-                  {/* Short Description */}
-                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed line-clamp-2">
-                    {cat.description}
-                  </p>
-                </Link>
-              );
-            })}
+                    {/* Bottom-Right White Circular Arrow */}
+                    <div className="relative z-10 self-end">
+                      <span className="w-8 h-8 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-[#0B1E46] group-hover:bg-[#0052CC] group-hover:text-white transition-all">
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 3. APPROVED PRODUCT CATALOGUE SHOWCASE */}
+      {/* 2. APPROVED PRODUCT CATALOGUE SHOWCASE */}
       <section className="bg-white py-10 sm:py-12 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-4 gap-3">
@@ -386,7 +354,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. BULK ORDER CUSTOMER JOURNEY */}
+      {/* 3. BULK ORDER CUSTOMER JOURNEY */}
       <section className="bg-[#F8FAFC] py-10 sm:py-12 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-7 sm:mb-8">
@@ -402,7 +370,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. ABOUT ZHI DIMENSION SECTION */}
+      {/* 4. ABOUT ZHI DIMENSION SECTION */}
       <section className="bg-white py-10 sm:py-12 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
