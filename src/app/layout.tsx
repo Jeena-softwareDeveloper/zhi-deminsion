@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit, JetBrains_Mono } from 'next/font/google';
+import { DM_Sans, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { AppShell } from '@/components/AppShell';
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 });
 
-const outfit = Outfit({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['500', '600', '700', '800', '900'],
   variable: '--font-heading',
   display: 'swap',
 });
@@ -49,13 +48,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
+      className={`${dmSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <link rel="icon" href="/images/logo.png" />
       </head>
       <body
-        className={`${inter.className} font-sans antialiased text-slate-900 bg-white selection:bg-[#0052CC] selection:text-white`}
+        className={`${dmSans.className} font-sans antialiased text-slate-900 bg-white selection:bg-[#0052CC] selection:text-white`}
       >
         <AppShell>{children}</AppShell>
       </body>
