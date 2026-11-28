@@ -6,7 +6,7 @@ import { BRAND_INFO, CATEGORY_DETAILS, getWhatsAppUrl } from '@/lib/brand';
 
 export function Footer() {
   return (
-    <footer className="bg-[#092456] text-slate-200 pt-12 pb-24 md:pb-10 border-t border-blue-950/70">
+    <footer className="bg-[#092456] text-slate-200 pt-12 pb-24 lg:pb-10 border-t border-blue-950/70">
       <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {/* Brand Column */}

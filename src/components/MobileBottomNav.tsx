@@ -16,7 +16,7 @@ export function MobileBottomNav() {
 
   return (
     <>
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-lg px-2 py-1 flex items-center justify-around">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-lg px-2 py-1 flex items-center justify-around">
         <Link
           href="/"
           className={`flex flex-col items-center py-1.5 px-3 rounded-lg text-xs font-medium transition-colors ${
@@ -61,7 +61,7 @@ export function MobileBottomNav() {
       </nav>
 
       {showMoreMenu && (
-        <div className="md:hidden fixed bottom-16 right-4 z-40 bg-white rounded-2xl shadow-xl border border-slate-200 p-3 w-56">
+        <div className="lg:hidden fixed bottom-16 right-4 z-40 bg-white rounded-2xl shadow-xl border border-slate-200 p-3 w-56">
           <div className="flex flex-col space-y-1">
             <Link
               href="/products?category=Agriculture"

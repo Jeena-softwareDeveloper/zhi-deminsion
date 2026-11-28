@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ZhiLogo } from './ZhiLogo';
 import {
-  Menu,
-  X,
   MessageSquare,
   MapPin,
   Phone,
@@ -21,7 +19,6 @@ import { BRAND_INFO, CATEGORY_DETAILS, getWhatsAppUrl } from '@/lib/brand';
 
 export function Navbar() {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsMenuOpen, setProductsMenuOpen] = useState(false);
 
   const isHome = pathname === '/';
@@ -207,80 +204,7 @@ export function Navbar() {
             <span>Enquire for Bulk Orders</span>
           </a>
         </div>
-
-        {/* Tablet/Mobile Hamburger */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-slate-700 hover:text-[#0B1320] rounded-lg hover:bg-slate-100"
-          aria-label="Toggle navigation menu"
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
       </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-3">
-          <div className="flex flex-col space-y-1">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                isHome ? 'bg-[#EFF6FF] text-[#0052CC]' : 'text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                isAbout ? 'bg-[#EFF6FF] text-[#0052CC]' : 'text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              About Us
-            </Link>
-            <Link
-              href="/products"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                isProducts ? 'bg-[#EFF6FF] text-[#0052CC]' : 'text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              Our Products
-            </Link>
-            <Link
-              href="/products?category=Industrial"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50"
-            >
-              Industries
-            </Link>
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                isContact ? 'bg-[#EFF6FF] text-[#0052CC]' : 'text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              Contact Us
-            </Link>
-          </div>
-
-          <div className="pt-2 border-t border-slate-100">
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-3 px-4 bg-[#157B3F] hover:bg-[#116433] text-white text-sm font-bold rounded-lg inline-flex items-center justify-center gap-2"
-            >
-              <MessageSquare className="w-4 h-4 fill-current" />
-              <span>Enquire for Bulk Orders</span>
-            </a>
-          </div>
-        </div>
-      )}
     </header>
   );
 }
