@@ -3,8 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MessageSquare, Package, ArrowRight } from 'lucide-react';
-import { getProductWhatsAppUrl } from '@/lib/brand';
+import { Package, ArrowRight } from 'lucide-react';
 
 export interface ProductCardData {
   name: string;
@@ -22,7 +21,7 @@ interface ProductCardProps {
 }
 
 /**
- * Standard ZHI DIMENSION product card showing verified info, Bulk Enquiry CTA, and WhatsApp integration.
+ * Standard ZHI DIMENSION product card showing verified info and Bulk Enquiry / View Details actions.
  */
 export function ProductCard({ product, onBulkEnquiry }: ProductCardProps) {
   const imageSrc = product.images && product.images.length > 0 ? product.images[0] : '';
@@ -75,34 +74,22 @@ export function ProductCard({ product, onBulkEnquiry }: ProductCardProps) {
           )}
         </div>
 
-        {/* Bulk Enquiry & WhatsApp Actions (No cart or prices) */}
-        <div className="pt-4 border-t border-slate-100 space-y-2.5">
-          <a
-            href={getProductWhatsAppUrl(product.name, product.category)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2.5 px-4 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+        {/* Product Card Actions (No cart or prices) */}
+        <div className="pt-4 border-t border-slate-100 grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => onBulkEnquiry(product.name)}
+            className="py-2.5 px-3 bg-[#0052CC] hover:bg-[#003D99] text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer"
           >
-            <MessageSquare className="w-4 h-4 fill-current" />
-            <span>Enquire on WhatsApp</span>
-          </a>
-
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => onBulkEnquiry(product.name)}
-              className="py-2 px-3 bg-[#0052CC] hover:bg-[#003D99] text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer"
-            >
-              Bulk Enquiry
-            </button>
-            <Link
-              href={`/products/${product.slug}`}
-              className="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-1"
-            >
-              <span>View Details</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
+            Bulk Enquiry
+          </button>
+          <Link
+            href={`/products/${product.slug}`}
+            className="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-1"
+          >
+            <span>View Details</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
     </div>
