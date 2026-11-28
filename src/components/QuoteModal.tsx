@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, CheckCircle, MessageSquare, Phone, User, Package, Layers, Loader2 } from 'lucide-react';
+import { getProductWhatsAppUrl, getWhatsAppUrl } from '@/lib/brand';
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -23,7 +24,6 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  // Update defaultProduct if passed
   React.useEffect(() => {
     if (defaultProduct) {
       setFormData((prev) => ({ ...prev, productRequired: defaultProduct }));
@@ -46,7 +46,7 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to submit quote request');
+        throw new Error(data.error || 'Failed to submit bulk enquiry');
       }
 
       setSubmitted(true);
@@ -70,175 +70,178 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
     onClose();
   };
 
-  const whatsappMessage = encodeURIComponent(
-    `Hello ZHI DIMENSION! I would like to request a quotation.\nName: ${formData.customerName || 'Customer'}\nProduct: ${formData.productRequired || 'Steel / Equipment'}\nQuantity/Specs: ${formData.quantitySize || 'As per requirement'}`
-  );
+  const whatsappHref = formData.productRequired
+    ? getProductWhatsAppUrl(formData.productRequired, undefined, formData.quantitySize)
+    : getWhatsAppUrl();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm">
+      <div className="relative w-full max-w-lg max-h-[92vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
         {/* Header */}
-        <div className="bg-[#0F172A] text-white px-6 py-5 flex items-center justify-between">
+        <div className="bg-[#0B1320] text-white px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between shrink-0">
           <div>
-            <h3 className="text-xl font-bold tracking-tight">Request a Quote</h3>
+            <h3 className="text-lg sm:text-xl font-bold tracking-tight">Enquire for Bulk Orders</h3>
             <p className="text-xs text-slate-300 mt-0.5">
-              Fill in your details and we will get back to you soon.
+              Connect with our sales team directly via WhatsApp or submit your bulk enquiry.
             </p>
           </div>
           <button
             onClick={resetAndClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shrink-0 ml-2"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
+        <div className="p-5 sm:p-6 overflow-y-auto">
           {submitted ? (
             <div className="text-center py-6 space-y-4">
-              <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle className="w-10 h-10" />
               </div>
               <div>
-                <h4 className="text-xl font-bold text-slate-900">Enquiry Submitted!</h4>
+                <h4 className="text-xl font-bold text-slate-900">Bulk Enquiry Submitted!</h4>
                 <p className="text-sm text-slate-600 mt-2 max-w-sm mx-auto">
-                  Thank you, <span className="font-semibold text-slate-900">{formData.customerName}</span>. Your quote request has been recorded in our system. Our engineering sales team will call you shortly.
+                  Thank you, <span className="font-semibold text-slate-900">{formData.customerName}</span>. Our sales team will connect with you shortly regarding your bulk order enquiry.
                 </p>
               </div>
 
-              {/* Direct WhatsApp Option */}
               <div className="pt-2">
                 <a
-                  href={`https://wa.me/919876543210?text=${whatsappMessage}`}
+                  href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-full px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-medium shadow-md transition-colors space-x-2"
+                  className="inline-flex items-center justify-center w-full px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold shadow-sm transition-colors space-x-2"
                 >
                   <MessageSquare className="w-5 h-5 fill-current" />
-                  <span>Connect Instantly on WhatsApp</span>
+                  <span>Continue on WhatsApp</span>
                 </a>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-1">
                 <button
                   type="button"
                   onClick={resetAndClose}
                   className="w-full px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
                 >
-                  Close Window
+                  Close
                 </button>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="p-3 text-xs bg-red-50 border border-red-200 text-red-700 rounded-lg">
-                  {error}
-                </div>
-              )}
+            <div className="space-y-4">
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 px-4 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
+              >
+                <MessageSquare className="w-4 h-4 fill-current" />
+                <span>Instant Bulk Enquiry on WhatsApp</span>
+              </a>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Name <span className="text-blue-600">*</span>
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    required
-                    value={formData.customerName}
-                    onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                    placeholder="Enter your name"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
-                  />
-                </div>
+              <div className="relative flex items-center py-1">
+                <div className="flex-grow border-t border-slate-200" />
+                <span className="shrink mx-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  Or submit enquiry details
+                </span>
+                <div className="flex-grow border-t border-slate-200" />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Phone Number <span className="text-blue-600">*</span>
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="Enter your phone number"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
-                  />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {error && (
+                  <div className="p-3 text-xs bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                    {error}
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Name <span className="text-[#0052CC]">*</span>
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                    <input
+                      type="text"
+                      required
+                      value={formData.customerName}
+                      onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
+                      placeholder="Enter your name"
+                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0052CC]/20 focus:border-[#0052CC] text-slate-900"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Product Requirement <span className="text-blue-600">*</span>
-                </label>
-                <div className="relative">
-                  <Package className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    required
-                    value={formData.productRequired}
-                    onChange={(e) => setFormData({ ...formData, productRequired: e.target.value })}
-                    placeholder="e.g. Steel Pipes, Rotavator, PEB Shed"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
-                  />
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Phone / WhatsApp Number <span className="text-[#0052CC]">*</span>
+                  </label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="Enter your phone or WhatsApp number"
+                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0052CC]/20 focus:border-[#0052CC] text-slate-900"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Quantity / Size
-                </label>
-                <div className="relative">
-                  <Layers className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                  <input
-                    type="text"
-                    value={formData.quantitySize}
-                    onChange={(e) => setFormData({ ...formData, quantitySize: e.target.value })}
-                    placeholder="Enter quantity, dimensions, or tonnage"
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
-                  />
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Product <span className="text-[#0052CC]">*</span>
+                  </label>
+                  <div className="relative">
+                    <Package className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                    <input
+                      type="text"
+                      required
+                      value={formData.productRequired}
+                      onChange={(e) => setFormData({ ...formData, productRequired: e.target.value })}
+                      placeholder="Enter ZHI DIMENSION product name"
+                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0052CC]/20 focus:border-[#0052CC] text-slate-900"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
-                  Additional Notes (Optional)
-                </label>
-                <textarea
-                  rows={2}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Delivery location, special specifications, etc."
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 text-slate-900"
-                />
-              </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Bulk Quantity
+                  </label>
+                  <div className="relative">
+                    <Layers className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                    <input
+                      type="text"
+                      value={formData.quantitySize}
+                      onChange={(e) => setFormData({ ...formData, quantitySize: e.target.value })}
+                      placeholder="Enter estimated bulk order quantity"
+                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0052CC]/20 focus:border-[#0052CC] text-slate-900"
+                    />
+                  </div>
+                </div>
 
-              <div className="pt-2">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 px-4 bg-[#0066FF] hover:bg-[#0052CC] text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center space-x-2 disabled:opacity-70 cursor-pointer"
+                  className="w-full py-3 bg-[#0052CC] hover:bg-[#003D99] text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Submitting Enquiry...</span>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Submitting...</span>
                     </>
                   ) : (
-                    <span>Submit</span>
+                    <span>Submit Bulk Enquiry</span>
                   )}
                 </button>
-              </div>
-            </form>
+              </form>
+            </div>
           )}
         </div>
       </div>
     </div>
   );
 }
-

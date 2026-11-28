@@ -145,7 +145,7 @@ export function DataTable<T>({
     <div className={`flex flex-col min-h-0 flex-1 w-full space-y-3.5 ${className}`}>
       {/* Table Toolbar: Search, Filters & Actions (Fixed/Pinned at top) */}
       {showToolbar && (
-        <div className="shrink-0 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+        <div className="shrink-0 bg-white p-3.5 sm:p-4 rounded-lg border border-slate-200/90 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between [&_button]:!rounded-lg [&_a]:!rounded-lg [&_input]:!rounded-lg [&_select]:!rounded-lg">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
             {/* Filter Slot (e.g. Category Dropdown) */}
             {filterSlot && <div className="shrink-0">{filterSlot}</div>}
@@ -162,7 +162,7 @@ export function DataTable<T>({
                     setSearch(e.target.value);
                     setCurrentPage(1);
                   }}
-                  className="w-full pl-9 pr-4 py-2 bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500/20 transition-all"
+                  className="w-full pl-9 pr-4 py-2 bg-slate-50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500/20 transition-all"
                 />
               </div>
             )}
@@ -174,7 +174,7 @@ export function DataTable<T>({
       )}
 
       {/* Main Table Container: Fills 100% remaining vertical space */}
-      <div className="flex-1 min-h-0 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col bg-white rounded-lg border border-slate-200 shadow-2xs overflow-hidden">
         {/* ONLY THIS INNER WRAPPER SCROLLS VERTICALLY & HORIZONTALLY */}
         <div className="flex-1 min-h-0 overflow-y-auto overflow-x-auto relative">
           <table className="w-full text-left text-sm text-slate-600 border-collapse">
@@ -238,7 +238,7 @@ export function DataTable<T>({
                 <tr>
                   <td colSpan={columns.length} className="py-20 text-center">
                     <div className="max-w-sm mx-auto flex flex-col items-center justify-center text-center p-4">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mb-3">
+                      <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 mb-3">
                         {emptyIcon || <Inbox className="w-6 h-6" />}
                       </div>
                       <h4 className="text-sm font-bold text-slate-800">{emptyTitle}</h4>

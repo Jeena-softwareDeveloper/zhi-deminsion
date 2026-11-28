@@ -9,13 +9,11 @@ import {
   MessageSquare,
   CheckCircle,
   Loader2,
-  ShieldCheck,
   FileText,
-  Phone,
-  User,
-  Layers,
+  Package,
 } from 'lucide-react';
 import { initialProducts } from '@/lib/data/initialData';
+import { getProductWhatsAppUrl } from '@/lib/brand';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -25,7 +23,6 @@ export default function ProductDetailPage() {
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
-  // Form states
   const [formData, setFormData] = useState({
     customerName: '',
     phone: '',
@@ -46,28 +43,27 @@ export default function ProductDetailPage() {
         const data = await res.json();
         if (data.success && data.product) {
           setProduct(data.product);
-          setSelectedImage(data.product.images[0] || '');
+          setSelectedImage(data.product.images?.[0] || '');
           setFormData((prev) => ({
             ...prev,
             productRequired: `${data.product.name} (${data.product.category})`,
           }));
         } else {
-          // Fallback to initialProducts
           const found = initialProducts.find((p) => p.slug === slug);
           if (found) {
             setProduct(found);
-            setSelectedImage(found.images[0]);
+            setSelectedImage(found.images?.[0] || '');
             setFormData((prev) => ({
               ...prev,
               productRequired: `${found.name} (${found.category})`,
             }));
           }
         }
-      } catch (err) {
+      } catch {
         const found = initialProducts.find((p) => p.slug === slug);
         if (found) {
           setProduct(found);
-          setSelectedImage(found.images[0]);
+          setSelectedImage(found.images?.[0] || '');
           setFormData((prev) => ({
             ...prev,
             productRequired: `${found.name} (${found.category})`,
@@ -97,7 +93,7 @@ export default function ProductDetailPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to submit enquiry');
+        throw new Error(data.error || 'Failed to submit bulk enquiry');
       }
 
       setSubmitted(true);
@@ -111,69 +107,80 @@ export default function ProductDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen py-24 flex flex-col items-center justify-center text-slate-500">
-        <Loader2 className="w-8 h-8 animate-spin text-[#0066FF] mb-2" />
-        <p className="text-sm">Loading product details from MongoDB...</p>
+        <Loader2 className="w-8 h-8 animate-spin text-[#0052CC] mb-2" />
+        <p className="text-sm">Loading product details...</p>
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen py-24 text-center">
-        <h2 className="text-2xl font-bold text-slate-800">Product Not Found</h2>
-        <p className="text-slate-500 mt-2">The requested product could not be located.</p>
+      <div className="min-h-screen py-24 text-center px-4">
+        <h1 className="text-2xl font-bold text-[#0B1320]">Product Not Found</h1>
+        <p className="text-slate-600 text-sm mt-2">
+          The requested product could not be found in our approved catalogue.
+        </p>
         <Link
           href="/products"
-          className="mt-4 inline-block px-6 py-2.5 bg-[#0066FF] text-white rounded-xl text-sm font-semibold"
+          className="mt-5 inline-block px-6 py-2.5 bg-[#0052CC] text-white rounded-xl text-sm font-semibold"
         >
-          Back to Catalogue
+          Back to Our Products
         </Link>
       </div>
     );
   }
 
-  const whatsappMessage = encodeURIComponent(
-    `Hello ZHI DIMENSION! I am interested in *${product.name}*.\nPlease share current pricing, technical catalogue, and availability for: ${formData.quantitySize || 'Standard requirements'}.`
+  const verifiedSpecs = product.specifications
+    ? Object.entries(product.specifications).filter(([, val]) => String(val).trim() !== '')
+    : [];
+  const whatsappHref = getProductWhatsAppUrl(
+    product.name,
+    product.category,
+    formData.quantitySize
   );
 
   return (
-    <div className="bg-[#FAFAFA] min-h-screen py-8 sm:py-12">
+    <div className="bg-white min-h-screen py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation (Page 6 Exact Match) */}
+        {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-xs sm:text-sm text-slate-500 mb-8">
-          <Link href="/" className="hover:text-slate-900 transition-colors">
+          <Link href="/" className="hover:text-[#0B1320] transition-colors">
             Home
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <Link
             href={`/products?category=${encodeURIComponent(product.category)}`}
-            className="hover:text-slate-900 transition-colors"
+            className="hover:text-[#0B1320] transition-colors"
           >
             {product.category}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-slate-900 font-semibold">{product.name}</span>
+          <span className="text-[#0B1320] font-semibold">{product.name}</span>
         </nav>
 
-        {/* Main Grid: Left presentation + Right Request a Quote form (Page 6 Exact Match) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          {/* LEFT COLUMN: Gallery, Title, Description, Specifications, Buttons (col-span-7) */}
-          <div className="lg:col-span-7 space-y-8 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
-            {/* Main Product Image */}
-            <div className="relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden bg-slate-900">
-              <Image
-                src={selectedImage || product.images[0]}
-                alt={product.name}
-                fill
-                priority
-                className="object-cover"
-              />
-              <span className="absolute top-4 left-4 bg-slate-900/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+          {/* Left Column: Actual Photos, Description & Verified Specifications */}
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8 bg-[#F8FAFC] rounded-2xl p-5 sm:p-8 border border-slate-200">
+            <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
+              {selectedImage ? (
+                <Image
+                  src={selectedImage}
+                  alt={product.name}
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 gap-2">
+                  <Package className="w-12 h-12" />
+                  <span className="text-xs font-medium">Product photograph</span>
+                </div>
+              )}
+              <span className="absolute top-4 left-4 bg-[#0B1320]/90 text-white px-3 py-1 rounded-full text-xs font-semibold">
                 {product.category}
               </span>
             </div>
 
-            {/* Thumbnail Strip (Page 6) */}
             {product.images && product.images.length > 1 && (
               <div className="flex items-center space-x-3 overflow-x-auto pb-2">
                 {product.images.map((img: string, idx: number) => (
@@ -182,120 +189,89 @@ export default function ProductDetailPage() {
                     onClick={() => setSelectedImage(img)}
                     className={`relative w-20 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
                       selectedImage === img
-                        ? 'border-[#0066FF] ring-2 ring-blue-500/20'
-                        : 'border-slate-200 opacity-70 hover:opacity-100'
+                        ? 'border-[#0052CC]'
+                        : 'border-slate-200 opacity-75 hover:opacity-100'
                     }`}
                   >
-                    <Image src={img} alt={`${product.name} thumbnail ${idx}`} fill className="object-cover" />
+                    <Image src={img} alt={`${product.name} ${idx + 1}`} fill className="object-cover" />
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Title & Description (Page 6) */}
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0B1320] tracking-tight">
                 {product.name}
               </h1>
               <p className="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
-                {product.shortDescription || product.description}
+                {product.description || product.shortDescription}
               </p>
             </div>
 
-            {/* Specifications Table (Page 6 Exact Match) */}
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center space-x-2">
-                <FileText className="w-4 h-4 text-[#0066FF]" />
-                <span>Specifications</span>
-              </h3>
-              <div className="border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-100 text-sm">
-                {product.specifications ? (
-                  Object.entries(product.specifications).map(([key, val]) => (
-                    <div key={key} className="grid grid-cols-1 sm:grid-cols-3 p-3 bg-white hover:bg-slate-50 transition-colors">
+            {verifiedSpecs.length > 0 && (
+              <div>
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[#0B1320] mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-[#0052CC]" />
+                  <span>Key Specifications</span>
+                </h2>
+                <div className="border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-200 text-sm bg-white">
+                  {verifiedSpecs.map(([key, val]) => (
+                    <div key={key} className="grid grid-cols-1 sm:grid-cols-3 p-3.5">
                       <span className="font-semibold text-slate-700 sm:col-span-1">{key}</span>
-                      <span className="text-slate-600 sm:col-span-2">: {String(val)}</span>
+                      <span className="text-slate-600 sm:col-span-2">{String(val)}</span>
                     </div>
-                  ))
-                ) : (
-                  <>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 p-3 bg-white">
-                      <span className="font-semibold text-slate-700">Material</span>
-                      <span className="text-slate-600 sm:col-span-2">: Mild Steel / Stainless Steel</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 p-3 bg-slate-50">
-                      <span className="font-semibold text-slate-700">Size Range</span>
-                      <span className="text-slate-600 sm:col-span-2">{': 1/2" - 12"'}</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 p-3 bg-white">
-                      <span className="font-semibold text-slate-700">Length</span>
-                      <span className="text-slate-600 sm:col-span-2">: 6m / 12m</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 p-3 bg-slate-50">
-                      <span className="font-semibold text-slate-700">Standards</span>
-                      <span className="text-slate-600 sm:col-span-2">: IS / ASTM / Custom</span>
-                    </div>
-                  </>
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Direct Action Buttons: Request a Quote (Blue) + WhatsApp (Green) (Page 6 Exact Match) */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            <div className="pt-2 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
               <a
-                href="#quote-form-card"
-                className="flex-1 sm:flex-none px-7 py-3 bg-[#0066FF] hover:bg-[#0052CC] text-white text-sm font-bold rounded-xl shadow-md transition-colors text-center"
-              >
-                Request a Quote
-              </a>
-              <a
-                href={`https://wa.me/919876543210?text=${whatsappMessage}`}
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 sm:flex-none px-7 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-sm font-bold rounded-xl shadow-md transition-colors flex items-center justify-center space-x-2"
+                className="w-full sm:w-auto px-7 py-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-center"
               >
-                <MessageSquare className="w-4 h-4 fill-current" />
-                <span>WhatsApp</span>
+                <MessageSquare className="w-4 h-4 fill-current shrink-0" />
+                <span>Enquire on WhatsApp</span>
+              </a>
+              <a
+                href="#bulk-enquiry-card"
+                className="w-full sm:w-auto px-7 py-3 bg-[#0052CC] hover:bg-[#003D99] text-white text-sm font-bold rounded-xl transition-colors text-center"
+              >
+                Bulk Enquiry Form
               </a>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: "Request a Quote" Card (Page 6 Exact Match) (col-span-5) */}
+          {/* Right Column: Bulk Order Enquiry Form */}
           <div
-            id="quote-form-card"
-            className="lg:col-span-5 bg-[#1E293B] text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-700 sticky top-24"
+            id="bulk-enquiry-card"
+            className="lg:col-span-5 bg-[#0B1320] text-white rounded-2xl p-5 sm:p-8 border border-slate-800 lg:sticky lg:top-24"
           >
-            <h3 className="text-xl sm:text-2xl font-bold tracking-tight">Request a Quote</h3>
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Enquire for Bulk Orders</h2>
             <p className="text-xs sm:text-sm text-slate-300 mt-1 mb-6">
-              Fill in your details and we will get back to you soon.
+              Share your bulk quantity details or connect directly on WhatsApp with our sales desk.
             </p>
 
             {submitted ? (
-              <div className="py-8 text-center space-y-4 animate-fadeIn">
+              <div className="py-8 text-center space-y-4">
                 <div className="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
                   <CheckCircle className="w-8 h-8" />
                 </div>
-                <h4 className="text-lg font-bold">Enquiry Received!</h4>
+                <h3 className="text-lg font-bold">Bulk Enquiry Submitted</h3>
                 <p className="text-xs text-slate-300 max-w-xs mx-auto leading-relaxed">
-                  Thank you, <span className="text-white font-semibold">{formData.customerName}</span>. Your enquiry for <span className="text-blue-400 font-semibold">{product.name}</span> has been logged into our MongoDB system. An estimate will be shared shortly.
+                  Thank you, <span className="text-white font-semibold">{formData.customerName}</span>. Our sales team will connect regarding <span className="text-blue-400 font-semibold">{product.name}</span>.
                 </p>
-                <div className="pt-3">
-                  <button
-                    onClick={() => {
-                      setSubmitted(false);
-                      setFormData({
-                        customerName: '',
-                        phone: '',
-                        email: '',
-                        productRequired: product.name,
-                        quantitySize: '',
-                        message: '',
-                      });
-                    }}
-                    className="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs font-medium text-white transition-colors"
-                  >
-                    Submit Another Inquiry
-                  </button>
-                </div>
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full py-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold rounded-xl text-xs"
+                >
+                  <MessageSquare className="w-4 h-4 fill-current" />
+                  <span>Continue on WhatsApp</span>
+                </a>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -305,10 +281,9 @@ export default function ProductDetailPage() {
                   </div>
                 )}
 
-                {/* Name * */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                    Name <span className="text-blue-400">*</span>
+                    Name <span className="text-[#F97316]">*</span>
                   </label>
                   <input
                     type="text"
@@ -316,71 +291,64 @@ export default function ProductDetailPage() {
                     placeholder="Enter your name"
                     value={formData.customerName}
                     onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#0052CC]"
                   />
                 </div>
 
-                {/* Phone Number * */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                    Phone Number <span className="text-blue-400">*</span>
+                    Phone / WhatsApp Number <span className="text-[#F97316]">*</span>
                   </label>
                   <input
                     type="tel"
                     required
-                    placeholder="Enter your phone number"
+                    placeholder="Enter your phone or WhatsApp number"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#0052CC]"
                   />
                 </div>
 
-                {/* Product Requirement * */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                    Product Requirement <span className="text-blue-400">*</span>
-                  </label>
-                  <textarea
-                    rows={3}
-                    required
-                    placeholder="Tell us what you need"
-                    value={formData.productRequired}
-                    onChange={(e) => setFormData({ ...formData, productRequired: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-
-                {/* Quantity / Size */}
-                <div>
-                  <label className="block text-xs font-semibold text-slate-200 mb-1.5">
-                    Quantity / Size
+                    Product <span className="text-[#F97316]">*</span>
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter quantity or size"
-                    value={formData.quantitySize}
-                    onChange={(e) => setFormData({ ...formData, quantitySize: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    required
+                    value={formData.productRequired}
+                    onChange={(e) => setFormData({ ...formData, productRequired: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#0052CC]"
                   />
                 </div>
 
-                {/* Submit button (Page 6 Exact Match) */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full py-3.5 px-4 bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center space-x-2 disabled:opacity-60 cursor-pointer text-sm"
-                  >
-                    {submitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Submitting...</span>
-                      </>
-                    ) : (
-                      <span>Submit</span>
-                    )}
-                  </button>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-200 mb-1.5">
+                    Bulk Order Quantity
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter estimated bulk quantity"
+                    value={formData.quantitySize}
+                    onChange={(e) => setFormData({ ...formData, quantitySize: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-[#0052CC]"
+                  />
                 </div>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full py-3.5 px-4 bg-[#0052CC] hover:bg-[#003D99] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer text-sm"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <span>Submit Bulk Enquiry</span>
+                  )}
+                </button>
               </form>
             )}
           </div>

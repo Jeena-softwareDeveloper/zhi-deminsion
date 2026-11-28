@@ -18,15 +18,15 @@ import {
   FolderPlus,
 } from 'lucide-react';
 import { initialCategories } from '@/lib/data/initialData';
+import { uploadAdminImage } from '@/lib/uploadClient';
 import { useAdminHeader } from '@/context/AdminHeaderContext';
 import { DataTable, Column } from '@/components/admin/DataTable';
 
 const IMAGE_PRESETS = [
-  { label: 'Steel Framework', url: '/images/steel-framework.jpg' },
-  { label: 'Welding Sparks', url: '/images/welding-sparks.jpg' },
-  { label: 'Agricultural Tractor', url: '/images/agri-tractor.jpg' },
-  { label: 'Steel Pipes', url: '/images/steel-pipes.jpg' },
-  { label: 'Industrial Structure', url: '/images/hero-steel-structure.jpg' },
+  { label: 'Agriculture', url: '/images/cat-agriculture.jpg' },
+  { label: 'Home & Residential', url: '/images/cat-home.jpg' },
+  { label: 'Industrial', url: '/images/cat-industrial.jpg' },
+  { label: 'ZHI DIMENSION Logo', url: '/images/logo.png' },
 ];
 
 export default function AdminCategoriesPage() {
@@ -40,13 +40,14 @@ export default function AdminCategoriesPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
     description: '',
-    image: '/images/steel-framework.jpg',
+    image: '/images/logo.png',
     itemCount: 0,
     status: 'Active',
   });
@@ -151,7 +152,7 @@ export default function AdminCategoriesPage() {
       name: '',
       slug: '',
       description: '',
-      image: '/images/steel-framework.jpg',
+      image: '/images/logo.png',
       itemCount: 0,
       status: 'Active',
     });
@@ -165,7 +166,7 @@ export default function AdminCategoriesPage() {
       name: cat.name || '',
       slug: cat.slug || '',
       description: cat.description || '',
-      image: cat.image || '/images/steel-framework.jpg',
+      image: cat.image || '/images/logo.png',
       itemCount: cat.itemCount || 0,
       status: cat.status || 'Active',
     });
@@ -275,12 +276,12 @@ export default function AdminCategoriesPage() {
         <div className="flex items-center space-x-3">
           <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-slate-900 border border-slate-200 shrink-0">
             <Image
-              src={cat.image || '/images/steel-framework.jpg'}
+              src={cat.image || '/images/logo.png'}
               alt={cat.name}
               fill
               className="object-cover"
               onError={(e: any) => {
-                e.target.src = '/images/steel-framework.jpg';
+                e.target.src = '/images/logo.png';
               }}
             />
           </div>
@@ -373,9 +374,9 @@ export default function AdminCategoriesPage() {
           </div>
         ) : (
           <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 pb-6">
             {filteredCategories.map((cat, idx) => {
-              const imgSrc = cat.image || '/images/steel-framework.jpg';
+              const imgSrc = cat.image || '/images/logo.png';
               return (
                 <div
                   key={cat._id || cat.slug || idx}
@@ -388,7 +389,7 @@ export default function AdminCategoriesPage() {
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       onError={(e: any) => {
-                        e.target.src = '/images/steel-framework.jpg';
+                        e.target.src = '/images/logo.png';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -487,7 +488,7 @@ export default function AdminCategoriesPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Steel Products, Agricultural Equipment"
+                  placeholder="e.g. Agriculture, Home & Residential, Industrial"
                   value={formData.name}
                   onChange={handleNameChange}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-600 focus:bg-white"
@@ -500,7 +501,7 @@ export default function AdminCategoriesPage() {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. steel-products"
+                  placeholder="e.g. agriculture"
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-mono focus:outline-none focus:border-blue-600 focus:bg-white"
@@ -525,7 +526,7 @@ export default function AdminCategoriesPage() {
                 <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   Choose Category Cover Image
                 </label>
-                <div className="grid grid-cols-5 gap-2 mb-2">
+                <div className="grid grid-cols-4 gap-2 mb-2">
                   {IMAGE_PRESETS.map((p) => {
                     const isSelected = formData.image === p.url;
                     return (
@@ -548,13 +549,37 @@ export default function AdminCategoriesPage() {
                     );
                   })}
                 </div>
-                <input
-                  type="text"
-                  placeholder="Or enter custom image URL or /images/... path"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 font-mono focus:outline-none focus:border-blue-600"
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    placeholder="Or enter custom image URL or /images/... path"
+                    value={formData.image}
+                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    className="flex-1 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 font-mono focus:outline-none focus:border-blue-600"
+                  />
+                  <label className="px-3 py-1.5 bg-[#0052CC] hover:bg-[#003D99] text-white text-xs font-bold rounded-lg cursor-pointer shrink-0 transition-colors">
+                    {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={uploadingImage}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setUploadingImage(true);
+                        setErrorMsg('');
+                        const result = await uploadAdminImage(file);
+                        if (result.url) {
+                          setFormData((prev) => ({ ...prev, image: result.url! }));
+                        } else if (result.error) {
+                          setErrorMsg(result.error);
+                        }
+                        setUploadingImage(false);
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

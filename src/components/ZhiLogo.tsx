@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { BRAND_INFO } from '@/lib/brand';
 
 interface ZhiLogoProps {
   variant?: 'light' | 'dark';
@@ -16,52 +17,63 @@ export function ZhiLogo({
   size = 'md',
 }: ZhiLogoProps) {
   const isDark = variant === 'dark';
-  const textColor = isDark ? '#FFFFFF' : '#0F172A';
-  const subtitleColor = isDark ? '#94A3B8' : '#64748B';
+  const textColor = isDark ? '#FFFFFF' : '#0B1320';
+  const subtitleColor = isDark ? '#94A3B8' : '#334155';
+  const lineColor = isDark ? 'bg-slate-600' : 'bg-slate-400';
 
   const imgSizes = {
-    sm: 'w-9 h-9',
-    md: 'w-11 h-11 lg:w-12 lg:h-12',
+    sm: 'w-8 h-8',
+    md: 'w-10 h-10',
     lg: 'w-14 h-14',
   };
 
   const textSizes = {
-    sm: 'text-[17px]',
-    md: 'text-xl lg:text-[22px]',
+    sm: 'text-[16px]',
+    md: 'text-lg lg:text-xl',
     lg: 'text-2xl lg:text-3xl',
   };
 
   return (
-    <Link href="/" className={`inline-flex items-center space-x-2.5 sm:space-x-3 select-none group ${className}`}>
-      {/* Transparent 3D Metallic Hexagonal Emblem (No black box background) */}
-      <div
-        className={`relative ${imgSizes[size]} shrink-0 flex items-center justify-center`}
-      >
+    <Link
+      href="/"
+      className={`inline-flex items-center space-x-3 select-none group ${className}`}
+    >
+      <div className={`relative ${imgSizes[size]} shrink-0 flex items-center justify-center`}>
         <Image
           src="/images/logo.png"
-          alt="Zhi Dimension Logo"
+          alt="ZHI DIMENSION Logo"
           fill
           priority
           sizes="(max-width: 768px) 44px, 56px"
-          className="object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
+          className="object-contain transition-transform duration-200 group-hover:scale-105"
         />
       </div>
 
-      {/* Brand Text placed directly beside the Logo Emblem */}
       <div className="flex flex-col min-w-0">
-        <div className={`font-black font-heading tracking-tight uppercase leading-none whitespace-nowrap ${textSizes[size]}`}>
+        <div className={`font-extrabold font-heading tracking-tight uppercase leading-none whitespace-nowrap ${textSizes[size]}`}>
           <span style={{ color: textColor }}>ZHI </span>
-          <span className="text-[#0066FF]">DIMENSION</span>
+          <span className="text-[#0052CC]">DIMENSION</span>
         </div>
-        <div
-          className="text-[9px] sm:text-[10px] font-bold tracking-[0.22em] uppercase mt-1 whitespace-nowrap"
-          style={{ color: subtitleColor }}
-        >
-          Steel &amp; Fabrication
+
+        {/* Subtitle flanked by horizontal hairline dividers */}
+        <div className="flex items-center gap-1.5 mt-1">
+          <span className={`h-[1px] w-3 ${lineColor}`} />
+          <span
+            className="text-[8.5px] sm:text-[9px] font-bold tracking-[0.14em] uppercase whitespace-nowrap"
+            style={{ color: subtitleColor }}
+          >
+            Product Manufacturing
+          </span>
+          <span className={`h-[1px] w-3 ${lineColor}`} />
         </div>
+
         {showTagline && (
-          <span className="text-xs text-blue-400 font-medium tracking-normal mt-1">
-            Engineering Strength. Building Possibilities.
+          <span
+            className={`text-xs font-medium tracking-normal mt-1.5 ${
+              isDark ? 'text-slate-400' : 'text-[#0052CC]'
+            }`}
+          >
+            {BRAND_INFO.tagline}
           </span>
         )}
       </div>

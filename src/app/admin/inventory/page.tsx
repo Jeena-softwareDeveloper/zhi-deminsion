@@ -11,8 +11,6 @@ import {
   Search,
   Filter,
   RefreshCw,
-  LayoutGrid,
-  Table as TableIcon,
   PackageCheck,
   Edit2,
   X,
@@ -26,10 +24,8 @@ import { DataTable, Column } from '@/components/admin/DataTable';
 export default function AdminInventoryPage() {
   const [products, setProducts] = useState<any[]>(initialProducts);
   const [filter, setFilter] = useState<'All' | 'Low Stock' | 'In Stock' | 'Out of Stock'>('All');
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
-  const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
 
   // Modal States for Stock CRUD
   const [editProduct, setEditProduct] = useState<any | null>(null);
@@ -74,18 +70,17 @@ export default function AdminInventoryPage() {
   ).length;
 
   const totalUnits = products.reduce((acc, p) => acc + (p.stockQuantity ?? 10), 0);
-  const categories = Array.from(new Set(products.map((p) => p.category)));
 
-  // SYNC EVERYTHING INTO LAYOUT HEADER (Requested by User)
+  // SYNC HEADER CONTROLS (No Page Title, Stock Status Dropdown, Search, Refresh)
   useEffect(() => {
-    setTitle('Inventory Monitoring');
+    setTitle(null);
 
     // 1. Move Low Stock Alert into Layout Header as a Badge / Button
     if (lowStockCount > 0) {
       setBadge(
         <button
           onClick={() => setFilter((prev) => (prev === 'Low Stock' ? 'All' : 'Low Stock'))}
-          className={`px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer ${
+          className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center space-x-1.5 transition-all cursor-pointer ${
             filter === 'Low Stock'
               ? 'bg-amber-600 text-white shadow-xs'
               : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300'
@@ -100,91 +95,48 @@ export default function AdminInventoryPage() {
       setBadge(null);
     }
 
-    // 2. Move Search Bar, Category Dropdown & Status Pills directly into Layout Header Controls
+    // 2. Stock Status Dropdown & Search Bar directly in Layout Header Controls
     setControls(
-      <div className="flex items-center space-x-2 w-full">
-        {/* Status Pills in Header */}
-        <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0">
-          {(['All', 'In Stock', 'Low Stock', 'Out of Stock'] as const).map((st) => (
-            <button
-              key={st}
-              onClick={() => setFilter(st)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
-                filter === st
-                  ? 'bg-slate-900 text-white shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              {st}
-            </button>
-          ))}
-        </div>
-
-        {/* Category Dropdown in Header */}
-        <div className="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 shrink-0">
-          <Filter className="w-3.5 h-3.5 text-slate-400" />
+      <div className="flex items-center space-x-2.5 w-full">
+        {/* Stock Status Dropdown in Header */}
+        <div className="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 shrink-0">
+          <Filter className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={filter}
+            onChange={(e) =>
+              setFilter(e.target.value as 'All' | 'Low Stock' | 'In Stock' | 'Out of Stock')
+            }
+            aria-label="Filter by stock status"
             className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer pr-1"
           >
-            <option value="All">All Categories</option>
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
+            <option value="All">All Stock</option>
+            <option value="In Stock">In Stock</option>
+            <option value="Low Stock">Low Stock</option>
+            <option value="Out of Stock">Out of Stock</option>
           </select>
         </div>
 
         {/* Search Input in Header */}
-        <div className="relative flex-1 min-w-[150px] max-w-xs">
-          <Search className="absolute left-3 top-2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+        <div className="relative flex-1 min-w-[180px] max-w-sm">
+          <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
           <input
             type="text"
             placeholder="Search inventory..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-1 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
+            className="w-full pl-8 pr-3 py-1.5 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
           />
         </div>
       </div>
     );
 
-    // 3. Move Actions (View Switcher + Refresh) into Layout Header Actions
+    // 3. Refresh Action in Layout Header (Table View is Fixed)
     setActions(
       <div className="flex items-center space-x-2">
-        <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
-          <button
-            onClick={() => setViewMode('table')}
-            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer ${
-              viewMode === 'table'
-                ? 'bg-white text-slate-900 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-800'
-            }`}
-            title="Table View"
-          >
-            <TableIcon className="w-4 h-4" />
-            <span className="hidden sm:inline">Table</span>
-          </button>
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer ${
-              viewMode === 'grid'
-                ? 'bg-white text-slate-900 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-800'
-            }`}
-            title="Card Grid"
-          >
-            <LayoutGrid className="w-4 h-4" />
-            <span className="hidden sm:inline">Cards</span>
-          </button>
-        </div>
-
         <button
           onClick={fetchProducts}
           disabled={loading}
-          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
+          className="p-2 text-slate-600 hover:text-slate-900 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors shadow-2xs cursor-pointer"
           title="Refresh Inventory"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#0066FF]' : ''}`} />
@@ -193,11 +145,12 @@ export default function AdminInventoryPage() {
     );
 
     return () => {
+      setTitle('');
       setBadge(null);
       setControls(null);
       setActions(null);
     };
-  }, [loading, viewMode, filter, selectedCategory, search, lowStockCount, categories]);
+  }, [loading, filter, search, lowStockCount]);
 
   // Adjust stock by delta (+1 or -1)
   const adjustStock = async (id: string, delta: number) => {
@@ -322,15 +275,12 @@ export default function AdminInventoryPage() {
         ? p.stockStatus === 'Out of Stock' || (p.stockQuantity ?? 10) === 0
         : p.stockStatus === filter;
 
-    const matchCat =
-      selectedCategory === 'All' || p.category === selectedCategory;
-
     const matchSearch =
       !search ||
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.category.toLowerCase().includes(search.toLowerCase());
+      (p.name || '').toLowerCase().includes(search.toLowerCase()) ||
+      (p.category || '').toLowerCase().includes(search.toLowerCase());
 
-    return matchFilter && matchCat && matchSearch;
+    return matchFilter && matchSearch;
   });
 
   // Columns for DataTable
@@ -340,17 +290,17 @@ export default function AdminInventoryPage() {
       header: 'Product',
       sortable: true,
       render: (prod) => {
-        const img = prod.images?.[0] || '/images/steel-framework.jpg';
+        const img = prod.images?.[0] || '/images/logo.png';
         return (
           <div className="flex items-center space-x-3">
-            <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+            <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
               <Image
                 src={img}
                 alt={prod.name}
                 fill
                 className="object-cover"
                 onError={(e: any) => {
-                  e.target.src = '/images/steel-framework.jpg';
+                  e.target.src = '/images/logo.png';
                 }}
               />
             </div>
@@ -373,7 +323,7 @@ export default function AdminInventoryPage() {
 
         return (
           <span
-            className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
+            className={`px-2.5 py-0.5 rounded-lg text-[11px] font-bold ${
               isOut
                 ? 'bg-slate-100 text-slate-700'
                 : isLow
@@ -462,8 +412,8 @@ export default function AdminInventoryPage() {
     <div className="h-full flex flex-col min-h-0 space-y-3.5">
       {/* Metrics Summary Strip */}
       <div className="shrink-0 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+        <div className="bg-white p-3.5 rounded-lg border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
             <Boxes className="w-4 h-4" />
           </div>
           <div>
@@ -472,8 +422,8 @@ export default function AdminInventoryPage() {
           </div>
         </div>
 
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+        <div className="bg-white p-3.5 rounded-lg border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
             <CheckCircle className="w-4 h-4" />
           </div>
           <div>
@@ -482,8 +432,8 @@ export default function AdminInventoryPage() {
           </div>
         </div>
 
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+        <div className="bg-white p-3.5 rounded-lg border border-slate-200 shadow-2xs flex items-center space-x-3">
+          <div className="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
             <TrendingDown className="w-4 h-4" />
           </div>
           <div>
@@ -493,115 +443,21 @@ export default function AdminInventoryPage() {
         </div>
       </div>
 
-      {/* View Content: NO EXTRA HEADER IN PAGE BODY, TABLE STARTS IMMEDIATELY */}
-      {viewMode === 'table' ? (
-        <DataTable
-          columns={columns}
-          data={filtered}
-          loading={loading}
-          hideToolbar={true}
-          pageSize={8}
-          emptyTitle="No inventory matches found"
-          emptySubtitle="Try selecting another stock status or clearing your search."
-        />
-      ) : (
-        /* Card Grid View (Scrolls internally) */
-        <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pb-6">
-            {filtered.map((prod) => {
-              const img = prod.images?.[0] || '/images/steel-framework.jpg';
-              const isLow = prod.stockStatus === 'Low Stock' || (prod.stockQuantity ?? 10) <= 5;
-              const isOut = prod.stockStatus === 'Out of Stock' || (prod.stockQuantity ?? 10) === 0;
-              const id = prod._id || prod.slug;
-
-              return (
-                <div
-                  key={id}
-                  className={`bg-white rounded-2xl p-5 border shadow-2xs flex flex-col justify-between transition-all ${
-                    isOut
-                      ? 'border-slate-300 opacity-90'
-                      : isLow
-                      ? 'border-amber-300 ring-1 ring-amber-200'
-                      : 'border-slate-200'
-                  }`}
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
-                      <Image
-                        src={img}
-                        alt={prod.name}
-                        fill
-                        className="object-cover"
-                        onError={(e: any) => {
-                          e.target.src = '/images/steel-framework.jpg';
-                        }}
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-slate-900 text-sm truncate">{prod.name}</h4>
-                      <p className="text-[11px] text-slate-500">{prod.category}</p>
-                      <span
-                        className={`inline-block mt-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                          isOut
-                            ? 'bg-slate-100 text-slate-700'
-                            : isLow
-                            ? 'bg-amber-100 text-amber-900'
-                            : 'bg-emerald-100 text-emerald-800'
-                        }`}
-                      >
-                        {isOut ? 'Out of Stock' : isLow ? 'Low Stock' : 'In Stock'}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Stock Quantity and Quick Actions */}
-                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase block">
-                        Units in Stock
-                      </span>
-                      <span className="text-xl font-black text-slate-900">
-                        {prod.stockQuantity ?? 10}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center space-x-1.5">
-                      <button
-                        onClick={() => adjustStock(id, -1)}
-                        className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center transition-colors cursor-pointer"
-                        title="Decrease Stock"
-                      >
-                        <Minus className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => adjustStock(id, 1)}
-                        className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-[#0066FF] text-white font-bold flex items-center justify-center transition-colors cursor-pointer"
-                        title="Increase Stock"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setRestockProduct(prod);
-                          setRestockAmount(25);
-                        }}
-                        className="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
-                      >
-                        Restock
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      {/* Fixed Table View */}
+      <DataTable
+        columns={columns}
+        data={filtered}
+        loading={loading}
+        hideToolbar={true}
+        pageSize={8}
+        emptyTitle="No inventory matches found"
+        emptySubtitle="Try selecting another stock status or clearing your search."
+      />
 
       {/* Edit Stock Details Modal */}
       {editProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="bg-white rounded-lg w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden">
             <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-base">Edit Stock Details</h3>
@@ -632,7 +488,7 @@ export default function AdminInventoryPage() {
                         stockQuantity: Number(e.target.value),
                       })
                     }
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 font-bold text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600 font-bold text-slate-900"
                   />
                 </div>
 
@@ -645,7 +501,7 @@ export default function AdminInventoryPage() {
                     onChange={(e) =>
                       setStockFormData({ ...stockFormData, stockStatus: e.target.value })
                     }
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600 font-semibold text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600 font-semibold text-slate-900"
                   >
                     <option value="In Stock">In Stock</option>
                     <option value="Low Stock">Low Stock</option>
@@ -665,7 +521,7 @@ export default function AdminInventoryPage() {
                     setStockFormData({ ...stockFormData, location: e.target.value })
                   }
                   placeholder="e.g. Yard Bay B, Shelf 4"
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600"
                 />
               </div>
 
@@ -683,7 +539,7 @@ export default function AdminInventoryPage() {
                       safetyThreshold: Number(e.target.value),
                     })
                   }
-                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-600"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600"
                 />
                 <span className="text-[10px] text-slate-400 mt-1 block">
                   Triggers low stock alert when quantity drops below this amount.
@@ -694,14 +550,14 @@ export default function AdminInventoryPage() {
                 <button
                   type="button"
                   onClick={() => setEditProduct(null)}
-                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                  className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
+                  className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1.5"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Save Inventory Changes</span>
@@ -715,7 +571,7 @@ export default function AdminInventoryPage() {
       {/* Quick Restock Modal */}
       {restockProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="bg-white rounded-lg w-full max-w-sm shadow-2xl border border-slate-200 overflow-hidden">
             <div className="bg-[#0052CC] text-white px-6 py-4 flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-base">Restock Units</h3>
@@ -748,7 +604,7 @@ export default function AdminInventoryPage() {
                       type="button"
                       key={amt}
                       onClick={() => setRestockAmount(amt)}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`py-2 rounded-lg text-xs font-bold border transition-all ${
                         restockAmount === amt
                           ? 'bg-[#0066FF] text-white border-blue-600 shadow-2xs'
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -766,7 +622,7 @@ export default function AdminInventoryPage() {
                     required
                     value={restockAmount}
                     onChange={(e) => setRestockAmount(Number(e.target.value))}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none focus:border-blue-600"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:outline-none focus:border-blue-600"
                     placeholder="Custom amount..."
                   />
                   <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-semibold">
@@ -775,7 +631,7 @@ export default function AdminInventoryPage() {
                 </div>
               </div>
 
-              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs">
+              <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 text-xs">
                 New total stock after restock:{' '}
                 <span className="font-bold">
                   {(restockProduct.stockQuantity ?? 10) + Number(restockAmount)} units
@@ -786,14 +642,14 @@ export default function AdminInventoryPage() {
                 <button
                   type="button"
                   onClick={() => setRestockProduct(null)}
-                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                  className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-bold transition-colors flex items-center space-x-1.5"
+                  className="px-5 py-2 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1.5"
                 >
                   {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   <span>Confirm Restock</span>

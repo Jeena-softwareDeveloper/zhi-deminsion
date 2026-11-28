@@ -16,24 +16,21 @@ import {
   Filter,
 } from 'lucide-react';
 import { initialProducts } from '@/lib/data/initialData';
+import { APPROVED_CATEGORIES } from '@/lib/brand';
+import { uploadAdminImage } from '@/lib/uploadClient';
 import { useAdminHeader } from '@/context/AdminHeaderContext';
 import { DataTable, Column } from '@/components/admin/DataTable';
 
 const PRODUCT_IMAGE_PRESETS = [
-  { label: 'Steel Pipes', url: '/images/steel-pipes.jpg' },
-  { label: 'Steel Framework', url: '/images/steel-framework.jpg' },
-  { label: 'Welding Sparks', url: '/images/welding-sparks.jpg' },
-  { label: 'Agri Tractor', url: '/images/agri-tractor.jpg' },
-  { label: 'Structure', url: '/images/hero-steel-structure.jpg' },
+  { label: 'Agriculture', url: '/images/cat-agriculture.jpg' },
+  { label: 'Home & Residential', url: '/images/cat-home.jpg' },
+  { label: 'Industrial', url: '/images/cat-industrial.jpg' },
+  { label: 'ZHI DIMENSION Logo', url: '/images/logo.png' },
 ];
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<any[]>(initialProducts);
-  const [categories, setCategories] = useState<string[]>([
-    'Steel Products',
-    'Welding & Fabrication',
-    'Agricultural Equipment',
-  ]);
+  const [categories, setCategories] = useState<string[]>([...APPROVED_CATEGORIES]);
   const [loading, setLoading] = useState(false);
   const [filterCategory, setFilterCategory] = useState('All');
   const [search, setSearch] = useState('');
@@ -43,15 +40,16 @@ export default function AdminProductsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const { setTitle, setControls, setActions } = useAdminHeader();
 
   const [formData, setFormData] = useState({
     name: '',
-    category: 'Steel Products',
+    category: 'Agriculture',
     shortDescription: '',
     description: '',
-    images: '/images/steel-framework.jpg',
+    images: '',
     stockStatus: 'In Stock',
     stockQuantity: 10,
     priceEstimate: '',
@@ -81,7 +79,7 @@ export default function AdminProductsPage() {
       const data = await res.json();
       if (data.success && data.categories && data.categories.length > 0) {
         const catNames = data.categories.map((c: any) => c.name);
-        setCategories(Array.from(new Set(['Steel Products', 'Welding & Fabrication', 'Agricultural Equipment', ...catNames])));
+        setCategories(Array.from(new Set([...APPROVED_CATEGORIES, ...catNames])));
       }
     } catch (err) {
       console.error('Error fetching categories:', err);
@@ -159,16 +157,16 @@ export default function AdminProductsPage() {
     setEditingId(null);
     setFormData({
       name: '',
-      category: categories[0] || 'Steel Products',
+      category: categories[0] || 'Agriculture',
       shortDescription: '',
       description: '',
-      images: '/images/steel-framework.jpg',
+      images: '',
       stockStatus: 'In Stock',
       stockQuantity: 20,
-      priceEstimate: '₹ 60 / kg',
-      specMaterial: 'Mild Steel / IS 2062',
-      specSize: 'Standard',
-      specStandards: 'IS / ASTM / Custom',
+      priceEstimate: '',
+      specMaterial: '',
+      specSize: '',
+      specStandards: '',
     });
     setIsModalOpen(true);
   };
@@ -219,14 +217,14 @@ export default function AdminProductsPage() {
       category: formData.category,
       shortDescription: formData.shortDescription,
       description: formData.description || formData.shortDescription,
-      images: imagesArray.length > 0 ? imagesArray : ['/images/steel-framework.jpg'],
+      images: imagesArray,
       stockStatus: formData.stockStatus,
       stockQuantity: Number(formData.stockQuantity),
       priceEstimate: formData.priceEstimate,
       specifications: {
-        Material: formData.specMaterial,
-        'Size Range': formData.specSize,
-        Standards: formData.specStandards,
+        ...(formData.specMaterial ? { Material: formData.specMaterial } : {}),
+        ...(formData.specSize ? { Dimensions: formData.specSize } : {}),
+        ...(formData.specStandards ? { Standards: formData.specStandards } : {}),
       },
     };
 
@@ -280,7 +278,7 @@ export default function AdminProductsPage() {
       sortable: true,
       render: (prod) => {
         const img =
-          prod.images?.[0] || '/images/steel-framework.jpg';
+          prod.images?.[0] || '/images/logo.png';
         return (
           <div className="flex items-center space-x-3">
             <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
@@ -290,7 +288,7 @@ export default function AdminProductsPage() {
                 fill
                 className="object-cover"
                 onError={(e: any) => {
-                  e.target.src = '/images/steel-framework.jpg';
+                  e.target.src = '/images/logo.png';
                 }}
               />
             </div>
@@ -455,7 +453,7 @@ export default function AdminProductsPage() {
                 <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   Product Image
                 </label>
-                <div className="grid grid-cols-5 gap-2 mb-2">
+                <div className="grid grid-cols-4 gap-2 mb-2">
                   {PRODUCT_IMAGE_PRESETS.map((p) => {
                     const isSelected = formData.images.includes(p.url);
                     return (
@@ -480,13 +478,37 @@ export default function AdminProductsPage() {
                     );
                   })}
                 </div>
-                <input
-                  type="text"
-                  value={formData.images}
-                  onChange={(e) => setFormData({ ...formData, images: e.target.value })}
-                  placeholder="Or enter custom image URLs (comma-separated)"
-                  className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600 text-slate-900 font-mono"
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={formData.images}
+                    onChange={(e) => setFormData({ ...formData, images: e.target.value })}
+                    placeholder="Or enter custom image URLs (comma-separated)"
+                    className="flex-1 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-600 text-slate-900 font-mono"
+                  />
+                  <label className="px-3 py-1.5 bg-[#0052CC] hover:bg-[#003D99] text-white text-xs font-bold rounded-lg cursor-pointer shrink-0 transition-colors">
+                    {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={uploadingImage}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setUploadingImage(true);
+                        const result = await uploadAdminImage(file);
+                        if (result.url) {
+                          setFormData((prev) => ({
+                            ...prev,
+                            images: prev.images ? `${prev.images}, ${result.url}` : result.url!,
+                          }));
+                        }
+                        setUploadingImage(false);
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="grid grid-cols-3 gap-3">

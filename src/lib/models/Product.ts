@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 export interface IProduct extends Document {
   name: string;
   slug: string;
-  category: 'Steel Products' | 'Welding & Fabrication' | 'Agricultural Equipment';
+  category: string;
   shortDescription: string;
   description: string;
   images: string[];
@@ -23,7 +23,6 @@ const ProductSchema = new Schema<IProduct>(
     category: {
       type: String,
       required: true,
-      enum: ['Steel Products', 'Welding & Fabrication', 'Agricultural Equipment'],
     },
     shortDescription: { type: String, required: true },
     description: { type: String, required: true },
@@ -36,11 +35,10 @@ const ProductSchema = new Schema<IProduct>(
     },
     stockQuantity: { type: Number, default: 10 },
     isFeatured: { type: Boolean, default: false },
-    priceEstimate: { type: String, default: 'On Request' },
+    priceEstimate: { type: String, default: '' },
   },
   { timestamps: true }
 );
 
 export const Product: Model<IProduct> =
   mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
-
