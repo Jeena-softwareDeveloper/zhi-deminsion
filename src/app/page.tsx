@@ -136,7 +136,7 @@ export default function HomePage() {
     <div className="flex flex-col bg-white text-slate-900">
       {/* 1. SUNLIT PRODUCT SHOWCASE HERO SECTION + OVERLAPPING CATEGORY STRIP */}
       <section className="relative bg-white border-b border-slate-200/80">
-        <div className="relative min-h-[440px] sm:min-h-[480px] lg:min-h-[530px] flex items-center overflow-hidden bg-[#EAF3FF]">
+        <div className="relative min-h-[520px] sm:min-h-[580px] lg:min-h-[650px] xl:min-h-[700px] flex items-center overflow-hidden bg-[#EAF3FF]">
           {/* Full-Bleed Sunlit Outdoor Showcase Photo (Machinery, Table & Rack on Right) */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -144,7 +144,7 @@ export default function HomePage() {
               alt="ZHI DIMENSION blue agricultural machine, stainless workbench, and heavy-duty shelving rack"
               fill
               priority
-              className="object-cover object-[70%_44%] sm:object-[72%_42%] lg:object-[75%_40%]"
+              className="object-cover object-[70%_48%] sm:object-[72%_48%] lg:object-[75%_46%]"
             />
             {/* Soft Frosted Readability Mist on Left (Keeps Natural Blue Sky & Horizon Visible) */}
             <div
@@ -162,10 +162,10 @@ export default function HomePage() {
               }}
             />
             {/* Gentle Bottom Gradient under Overlapping Cards */}
-            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/35 via-white/10 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white/35 via-white/10 to-transparent" />
           </div>
 
-          <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-24 sm:pt-12 sm:pb-28 lg:py-14 lg:pb-32 w-full">
+          <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 pt-14 pb-28 sm:pt-16 sm:pb-32 lg:pt-20 lg:pb-40 xl:pt-24 xl:pb-44 w-full">
             <div className="max-w-lg lg:max-w-xl space-y-4 sm:space-y-5">
               {/* Eyebrow Label + Horizontal Accent Line */}
               <div className="flex items-center gap-3">
