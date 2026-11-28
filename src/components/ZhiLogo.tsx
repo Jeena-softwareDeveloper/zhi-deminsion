@@ -49,7 +49,7 @@ export function ZhiLogo({
 
       {/* Brand Text placed directly beside the Logo Emblem */}
       <div className="flex flex-col min-w-0">
-        <div className={`font-black tracking-tight uppercase leading-none whitespace-nowrap ${textSizes[size]}`}>
+        <div className={`font-black font-heading tracking-tight uppercase leading-none whitespace-nowrap ${textSizes[size]}`}>
           <span style={{ color: textColor }}>ZHI </span>
           <span className="text-[#0066FF]">DIMENSION</span>
         </div>

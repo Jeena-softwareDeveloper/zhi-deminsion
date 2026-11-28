@@ -29,6 +29,11 @@ const config: Config = {
           muted: "#64748B",
         },
       },
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        heading: ["var(--font-heading)", "var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
       letterSpacing: {
         tightest: '-0.04em',
         tighter: '-0.025em',

@@ -10,14 +10,16 @@
 html, body {
   color: rgb(var(--foreground-rgb));
   background-color: #FAFAFA;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-/* Heading tracking */
+/* Architectural geometric headings via Next.js font variable */
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.025em;
 }
 
