@@ -50,16 +50,16 @@ export function ZhiLogo({
       </div>
 
       <div className="flex flex-col min-w-0">
-        <div className={`font-extrabold font-heading tracking-tight uppercase leading-none whitespace-nowrap ${textSizes[size]}`}>
+        <div className={`font-bold font-heading tracking-wide uppercase leading-none whitespace-nowrap ${textSizes[size]}`}>
           <span style={{ color: textColor }}>ZHI </span>
           <span className="text-[#0052CC]">DIMENSION</span>
         </div>
 
-        {/* Subtitle flanked by horizontal hairline dividers */}
-        <div className="flex items-center gap-1.5 mt-1">
+        {/* Subtitle flanked by crisp divider line */}
+        <div className="flex items-center gap-1.5 mt-1.5">
           <span className={`h-[1px] w-3 ${lineColor}`} />
           <span
-            className="text-[8.5px] sm:text-[9px] font-bold tracking-[0.14em] uppercase whitespace-nowrap"
+            className="text-[8.5px] sm:text-[9px] font-sans font-bold tracking-[0.16em] uppercase whitespace-nowrap"
             style={{ color: subtitleColor }}
           >
             Product Manufacturing

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { DM_Sans, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { DM_Sans, Tinos, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { AppShell } from '@/components/AppShell';
 
@@ -9,8 +9,10 @@ const dmSans = DM_Sans({
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const tinos = Tinos({
   subsets: ['latin'],
+  weight: ['400', '700'],
+  fallback: ['Times New Roman', 'Georgia', 'serif'],
   variable: '--font-heading',
   display: 'swap',
 });
@@ -48,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`${dmSans.variable} ${tinos.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <link rel="icon" href="/images/logo.png" />
