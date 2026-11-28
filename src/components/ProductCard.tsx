@@ -51,7 +51,7 @@ export function ProductCard({ product, onBulkEnquiry }: ProductCardProps) {
       </Link>
 
       {/* Product Details */}
-      <div className="p-6 flex-1 flex flex-col justify-between space-y-5">
+      <div className="p-4 sm:p-5 lg:p-6 flex-1 flex flex-col justify-between space-y-4 sm:space-y-5">
         <div>
           <Link href={`/products/${product.slug}`} className="block group">
             <h3 className="text-lg font-bold text-[#0B1320] group-hover:text-[#0052CC] transition-colors">

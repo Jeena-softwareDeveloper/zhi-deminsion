@@ -374,7 +374,7 @@ export default function AdminCategoriesPage() {
           </div>
         ) : (
           <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 pb-6">
             {filteredCategories.map((cat, idx) => {
               const imgSrc = cat.image || '/images/logo.png';
               return (

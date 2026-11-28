@@ -75,26 +75,26 @@ export function QuoteModal({ isOpen, onClose, defaultProduct = '' }: QuoteModalP
     : getWhatsAppUrl();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm">
+      <div className="relative w-full max-w-lg max-h-[92vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
         {/* Header */}
-        <div className="bg-[#0B1320] text-white px-6 py-5 flex items-center justify-between">
+        <div className="bg-[#0B1320] text-white px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between shrink-0">
           <div>
-            <h3 className="text-xl font-bold tracking-tight">Enquire for Bulk Orders</h3>
+            <h3 className="text-lg sm:text-xl font-bold tracking-tight">Enquire for Bulk Orders</h3>
             <p className="text-xs text-slate-300 mt-0.5">
               Connect with our sales team directly via WhatsApp or submit your bulk enquiry.
             </p>
           </div>
           <button
             onClick={resetAndClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shrink-0 ml-2"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="p-5 sm:p-6 overflow-y-auto">
           {submitted ? (
             <div className="text-center py-6 space-y-4">
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">

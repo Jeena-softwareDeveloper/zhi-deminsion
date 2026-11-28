@@ -194,7 +194,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {APPLICATION_SECTORS.map((sector) => {
               const Icon = sector.Icon;
               return (
@@ -247,7 +247,7 @@ export default function AboutPage() {
         </section>
 
         {/* 5. 3 Core Brand Values */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-2.5">
             <div className="w-10 h-10 bg-[#EFF6FF] text-[#0052CC] rounded-xl flex items-center justify-center">
               <Lightbulb className="w-5 h-5" />
@@ -307,7 +307,7 @@ export default function AboutPage() {
         </section>
 
         {/* 7. Bottom Conversion Banner */}
-        <section className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#EFF6FF] border border-blue-200 rounded-2xl p-7">
+        <section className="flex flex-col md:flex-row md:items-center justify-between gap-5 bg-[#EFF6FF] border border-blue-200 rounded-2xl p-5 sm:p-7">
           <div className="flex items-start gap-4 max-w-2xl">
             <div className="w-11 h-11 rounded-xl bg-[#0052CC] text-white flex items-center justify-center shrink-0">
               <Package className="w-5 h-5" />
@@ -322,17 +322,17 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 shrink-0 w-full md:w-auto">
             <Link
               href="/products"
-              className="px-5 py-2.5 bg-[#0052CC] hover:bg-[#003D99] text-white text-sm font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors"
+              className="w-full sm:w-auto justify-center px-5 py-2.5 bg-[#0052CC] hover:bg-[#003D99] text-white text-sm font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors text-center"
             >
               <span>Our Products</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/contact"
-              className="px-5 py-2.5 bg-white hover:bg-slate-50 text-[#0B1320] border border-slate-300 text-sm font-bold rounded-xl transition-colors"
+              className="w-full sm:w-auto justify-center px-5 py-2.5 bg-white hover:bg-slate-50 text-[#0B1320] border border-slate-300 text-sm font-bold rounded-xl transition-colors text-center inline-flex items-center"
             >
               Contact Sales Team
             </Link>

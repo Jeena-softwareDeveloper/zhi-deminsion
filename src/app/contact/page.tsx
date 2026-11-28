@@ -55,11 +55,11 @@ export default function ContactPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Contact Information & Primary WhatsApp CTA */}
           <div className="lg:col-span-5 space-y-5">
-            <div className="bg-[#0B1320] text-white p-7 rounded-2xl space-y-5 border border-slate-800">
-              <h2 className="text-xl font-bold">{BRAND_INFO.name} — {BRAND_INFO.location}</h2>
+            <div className="bg-[#0B1320] text-white p-5 sm:p-7 rounded-2xl space-y-5 border border-slate-800">
+              <h2 className="text-lg sm:text-xl font-bold">{BRAND_INFO.name} — {BRAND_INFO.location}</h2>
 
               <div className="space-y-4 text-sm text-slate-300">
                 <div className="flex items-center space-x-3">
@@ -101,8 +101,8 @@ export default function ContactPage() {
           </div>
 
           {/* Bulk Enquiry Form */}
-          <div className="lg:col-span-7 bg-[#F8FAFC] rounded-2xl p-8 border border-slate-200">
-            <h2 className="text-2xl font-bold text-[#0B1320]">Send a Bulk Order Enquiry</h2>
+          <div className="lg:col-span-7 bg-[#F8FAFC] rounded-2xl p-5 sm:p-8 border border-slate-200">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#0B1320]">Send a Bulk Order Enquiry</h2>
             <p className="text-xs text-slate-500 mt-1 mb-6">
               Share your product requirement and estimated bulk quantity and our sales team will reach out.
             </p>

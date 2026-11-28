@@ -158,10 +158,10 @@ export default function ProductDetailPage() {
           <span className="text-[#0B1320] font-semibold">{product.name}</span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
           {/* Left Column: Actual Photos, Description & Verified Specifications */}
-          <div className="lg:col-span-7 space-y-8 bg-[#F8FAFC] rounded-2xl p-6 sm:p-8 border border-slate-200">
-            <div className="relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8 bg-[#F8FAFC] rounded-2xl p-5 sm:p-8 border border-slate-200">
+            <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
               {selectedImage ? (
                 <Image
                   src={selectedImage}
@@ -225,19 +225,19 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            <div className="pt-2 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
               <a
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 sm:flex-none px-7 py-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-7 py-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-sm font-bold rounded-xl transition-colors flex items-center justify-center gap-2 text-center"
               >
-                <MessageSquare className="w-4 h-4 fill-current" />
+                <MessageSquare className="w-4 h-4 fill-current shrink-0" />
                 <span>Enquire on WhatsApp</span>
               </a>
               <a
                 href="#bulk-enquiry-card"
-                className="flex-1 sm:flex-none px-7 py-3 bg-[#0052CC] hover:bg-[#003D99] text-white text-sm font-bold rounded-xl transition-colors text-center"
+                className="w-full sm:w-auto px-7 py-3 bg-[#0052CC] hover:bg-[#003D99] text-white text-sm font-bold rounded-xl transition-colors text-center"
               >
                 Bulk Enquiry Form
               </a>
@@ -247,7 +247,7 @@ export default function ProductDetailPage() {
           {/* Right Column: Bulk Order Enquiry Form */}
           <div
             id="bulk-enquiry-card"
-            className="lg:col-span-5 bg-[#0B1320] text-white rounded-2xl p-6 sm:p-8 border border-slate-800 sticky top-24"
+            className="lg:col-span-5 bg-[#0B1320] text-white rounded-2xl p-5 sm:p-8 border border-slate-800 lg:sticky lg:top-24"
           >
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Enquire for Bulk Orders</h2>
             <p className="text-xs sm:text-sm text-slate-300 mt-1 mb-6">

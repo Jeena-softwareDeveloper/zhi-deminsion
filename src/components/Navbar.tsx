@@ -32,18 +32,18 @@ export function Navbar() {
     <header className="sticky top-0 z-50 bg-[#F4F8FF]/95 backdrop-blur-md border-b border-blue-200/80 shadow-xs">
       {/* Top Light Blue Contact & Location Utility Bar */}
       <div className="bg-[#DCEBFF] text-[#0B2249] text-[11px] sm:text-xs border-b border-blue-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-8 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-semibold">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-8 flex items-center justify-between gap-2 overflow-hidden">
+          <div className="flex items-center gap-1.5 sm:gap-2 font-semibold truncate">
             <MapPin className="w-3.5 h-3.5 text-[#0052CC] shrink-0" />
-            <span>{BRAND_INFO.location}</span>
+            <span className="truncate">{BRAND_INFO.location}</span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             <a
               href={`tel:${BRAND_INFO.whatsappNumber}`}
-              className="inline-flex items-center gap-1.5 hover:text-[#0052CC] transition-colors font-semibold"
+              className="inline-flex items-center gap-1.5 hover:text-[#0052CC] transition-colors font-semibold whitespace-nowrap"
             >
-              <Phone className="w-3.5 h-3.5 text-[#0052CC]" />
+              <Phone className="w-3.5 h-3.5 text-[#0052CC] shrink-0" />
               <span>{BRAND_INFO.phoneDisplay}</span>
             </a>
 

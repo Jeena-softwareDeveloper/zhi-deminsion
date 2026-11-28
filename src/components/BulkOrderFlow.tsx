@@ -81,7 +81,7 @@ export function BulkOrderFlow() {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 relative z-10">
         {FLOW_STEPS.map((item, idx) => {
           const Icon = item.Icon;
           const isActive = idx === activeStep;

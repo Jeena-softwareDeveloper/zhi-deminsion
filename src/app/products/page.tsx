@@ -151,7 +151,7 @@ function ProductsPageContent() {
                 </p>
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 shrink-0 w-full lg:w-auto">
               <a
                 href={getWhatsAppUrl(
                   activeCategory === 'All'
@@ -160,9 +160,9 @@ function ProductsPageContent() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-xs sm:text-sm font-bold rounded-xl inline-flex items-center gap-2 transition-colors"
+                className="w-full sm:w-auto justify-center px-5 py-2.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-xs sm:text-sm font-bold rounded-xl inline-flex items-center gap-2 transition-colors text-center"
               >
-                <MessageSquare className="w-4 h-4 fill-current" />
+                <MessageSquare className="w-4 h-4 fill-current shrink-0" />
                 <span>Enquire on WhatsApp</span>
               </a>
               {(activeCategory !== 'All' || searchQuery) && (
@@ -171,7 +171,7 @@ function ProductsPageContent() {
                     setActiveCategory('All');
                     setSearchQuery('');
                   }}
-                  className="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer text-center"
                 >
                   Show All Categories
                 </button>
@@ -179,7 +179,7 @@ function ProductsPageContent() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <ProductCard
                 key={product.slug}

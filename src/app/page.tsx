@@ -141,7 +141,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-11 lg:py-12 w-full">
           <div className="max-w-xl space-y-4 sm:space-y-5">
             {/* Primary Display Headline with thick yellow brush stroke */}
-            <h1 className="text-[36px] sm:text-[44px] lg:text-[52px] xl:text-[58px] font-extrabold tracking-tight leading-[1.06] uppercase" style={{ fontWeight: 800 }}>
+            <h1 className="text-[30px] sm:text-[42px] lg:text-[50px] xl:text-[58px] font-extrabold tracking-tight leading-[1.08] uppercase" style={{ fontWeight: 800 }}>
               <span className="block text-[#0B1E46]">MADE FOR</span>
               <span className="relative inline-block text-[#0057D9] mt-1 sm:whitespace-nowrap">
                 {BRAND_INFO.name}
@@ -170,10 +170,10 @@ export default function HomePage() {
             </p>
 
             {/* Primary Blue & Solid Green Action Buttons */}
-            <div className="pt-1 flex flex-wrap items-center gap-3 sm:gap-3.5">
+            <div className="pt-1 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3.5">
               <Link
                 href="/products"
-                className="px-5 py-2.5 sm:py-3 bg-[#0057D9] hover:bg-[#0044B8] text-white text-sm font-bold rounded-lg shadow-md shadow-blue-900/15 transition-colors inline-flex items-center gap-2.5"
+                className="w-full sm:w-auto px-5 py-2.5 sm:py-3 bg-[#0057D9] hover:bg-[#0044B8] text-white text-sm font-bold rounded-lg shadow-md shadow-blue-900/15 transition-colors inline-flex items-center justify-center gap-2.5"
               >
                 <Package className="w-4 h-4 shrink-0" />
                 <span>Explore Our Products</span>
@@ -184,7 +184,7 @@ export default function HomePage() {
                 href={getWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 sm:py-3 bg-[#157347] hover:bg-[#115C39] text-white text-sm font-bold rounded-lg shadow-md shadow-emerald-950/15 transition-colors inline-flex items-center gap-2.5"
+                className="w-full sm:w-auto px-5 py-2.5 sm:py-3 bg-[#157347] hover:bg-[#115C39] text-white text-sm font-bold rounded-lg shadow-md shadow-emerald-950/15 transition-colors inline-flex items-center justify-center gap-2.5"
               >
                 <MessageCircle className="w-4 h-4 shrink-0" />
                 <span>Enquire on WhatsApp</span>
@@ -192,26 +192,26 @@ export default function HomePage() {
             </div>
 
             {/* Bottom 3 Quality & Bulk Trust Highlights */}
-            <div className="pt-3 flex flex-wrap items-center gap-y-3">
-              <div className="flex items-center gap-2.5 pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
-                <BadgeCheck className="w-6 h-6 text-[#16A34A] shrink-0 stroke-[1.9]" />
-                <div className="text-xs font-bold text-[#0F172A] leading-tight">
+            <div className="pt-3 flex flex-wrap items-center gap-y-2.5 gap-x-4 sm:gap-x-0">
+              <div className="flex items-center gap-2 sm:gap-2.5 sm:pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
+                <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#16A34A] shrink-0 stroke-[1.9]" />
+                <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
                   <div>Quality</div>
                   <div>Manufacturing</div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
-                <ShieldCheck className="w-6 h-6 text-[#0057D9] shrink-0 stroke-[1.9]" />
-                <div className="text-xs font-bold text-[#0F172A] leading-tight">
+              <div className="flex items-center gap-2 sm:gap-2.5 sm:pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
+                <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#0057D9] shrink-0 stroke-[1.9]" />
+                <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
                   <div>Long-Lasting</div>
                   <div>Performance</div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <Truck className="w-6 h-6 text-[#F59E0B] shrink-0 stroke-[1.9]" />
-                <div className="text-xs font-bold text-[#0F172A] leading-tight">
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#F59E0B] shrink-0 stroke-[1.9]" />
+                <div className="text-[11px] sm:text-xs font-bold text-[#0F172A] leading-tight">
                   <div>Bulk Orders</div>
                   <div>Welcome</div>
                 </div>
@@ -253,7 +253,7 @@ export default function HomePage() {
           </div>
 
           {/* Dynamic Category Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {categories.map((cat) => {
               const { Icon, iconWrap, cornerAccent } = getCategoryStyle(cat.name);
               const categoryHref = `/products?category=${encodeURIComponent(cat.name)}`;
@@ -339,7 +339,7 @@ export default function HomePage() {
               Loading approved ZHI DIMENSION products...
             </div>
           ) : filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.slug}
@@ -363,20 +363,20 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 shrink-0 w-full lg:w-auto">
                 <a
                   href={getWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-xs sm:text-sm font-bold rounded-xl inline-flex items-center gap-2 transition-colors"
+                  className="w-full sm:w-auto justify-center px-5 py-2.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-xs sm:text-sm font-bold rounded-xl inline-flex items-center gap-2 transition-colors"
                 >
-                  <MessageSquare className="w-4 h-4 fill-current" />
+                  <MessageSquare className="w-4 h-4 fill-current shrink-0" />
                   <span>Request Catalogue on WhatsApp</span>
                 </a>
                 <button
                   type="button"
                   onClick={() => openBulkEnquiryFor(activeTab === 'All' ? '' : activeTab)}
-                  className="px-5 py-2.5 bg-[#0052CC] hover:bg-[#003D99] text-white text-xs sm:text-sm font-bold rounded-xl transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 bg-[#0052CC] hover:bg-[#003D99] text-white text-xs sm:text-sm font-bold rounded-xl transition-colors cursor-pointer text-center"
                 >
                   Enquire for Bulk Orders
                 </button>
