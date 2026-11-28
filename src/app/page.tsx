@@ -136,15 +136,15 @@ export default function HomePage() {
     <div className="flex flex-col bg-white text-slate-900">
       {/* 1. SUNLIT PRODUCT SHOWCASE HERO SECTION + OVERLAPPING CATEGORY STRIP */}
       <section className="relative bg-white border-b border-slate-200/80">
-        <div className="relative min-h-[520px] sm:min-h-[580px] lg:min-h-[650px] xl:min-h-[700px] flex items-center overflow-hidden bg-[#EAF3FF]">
-          {/* Full-Bleed Sunlit Outdoor Showcase Photo (Machinery, Table & Rack on Right) */}
+        <div className="relative min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] flex items-center overflow-hidden bg-[#EAF3FF] border-b border-slate-200/70">
+          {/* Full-Bleed Sunlit Outdoor Showcase Photo (Machinery, Table & Rack Fully Visible) */}
           <div className="absolute inset-0 z-0">
             <Image
               src="/images/Blue Agricultural Machine in Sunny Fields.png"
               alt="ZHI DIMENSION blue agricultural machine, stainless workbench, and heavy-duty shelving rack"
               fill
               priority
-              className="object-cover object-[70%_48%] sm:object-[72%_48%] lg:object-[75%_46%]"
+              className="object-cover object-[70%_54%] sm:object-[72%_52%] lg:object-[75%_50%]"
             />
             {/* Soft Frosted Readability Mist on Left (Keeps Natural Blue Sky & Horizon Visible) */}
             <div
@@ -161,11 +161,9 @@ export default function HomePage() {
                   'linear-gradient(to right, rgba(244,249,255,0.82) 0%, rgba(255,255,255,0.72) 20%, rgba(255,255,255,0.42) 34%, rgba(255,255,255,0.08) 48%, rgba(255,255,255,0) 58%)',
               }}
             />
-            {/* Gentle Bottom Gradient under Overlapping Cards */}
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white/35 via-white/10 to-transparent" />
           </div>
 
-          <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 pt-14 pb-28 sm:pt-16 sm:pb-32 lg:pt-20 lg:pb-40 xl:pt-24 xl:pb-44 w-full">
+          <div className="relative z-10 max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 py-14 sm:py-16 lg:py-20 w-full">
             <div className="max-w-lg lg:max-w-xl space-y-4 sm:space-y-5">
               {/* Eyebrow Label + Horizontal Accent Line */}
               <div className="flex items-center gap-3">
@@ -239,10 +237,10 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Overlapping 3 Floating Category Strip (Anchored at Bottom Edge of Hero) */}
-        <div className="relative z-20 -mt-20 sm:-mt-24 pb-10 sm:pb-12">
+        {/* 3 Category Cards Strip Positioned Cleanly Below Hero Banner */}
+        <div className="relative z-20 bg-[#F8FAFC] py-8 sm:py-10 lg:py-12">
           <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 lg:gap-6">
               {categories.slice(0, 3).map((cat) => {
                 const { Icon, circleBg, fallbackImage, shortTitle } = getCategoryCardMeta(cat.name);
                 const categoryHref = `/products?category=${encodeURIComponent(cat.name)}`;
@@ -252,7 +250,7 @@ export default function HomePage() {
                   <Link
                     key={cat._id || cat.slug || cat.name}
                     href={categoryHref}
-                    className="group relative h-[160px] sm:h-[180px] lg:h-[200px] rounded-2xl overflow-hidden bg-white border border-white shadow-lg shadow-slate-900/10 hover:shadow-xl hover:border-[#0052CC]/40 hover:-translate-y-0.5 transition-all flex items-center justify-between p-5 sm:p-6 cursor-pointer"
+                    className="group relative h-[190px] sm:h-[220px] lg:h-[245px] rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md shadow-slate-900/5 hover:shadow-xl hover:border-[#0052CC]/40 hover:-translate-y-0.5 transition-all flex items-center justify-between p-5 sm:p-6 lg:p-7 cursor-pointer"
                   >
                     {/* Right-side Category Photo */}
                     <Image
@@ -266,26 +264,33 @@ export default function HomePage() {
                       className="absolute inset-0"
                       style={{
                         background:
-                          'linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.92) 40%, rgba(255,255,255,0.35) 68%, rgba(255,255,255,0.04) 100%)',
+                          'linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 45%, rgba(255,255,255,0.45) 72%, rgba(255,255,255,0.06) 100%)',
                       }}
                     />
 
-                    {/* Top-Left Icon Badge + Bottom-Left Title */}
-                    <div className="relative z-10 flex flex-col justify-between h-full">
+                    {/* Top-Left Icon Badge + Title & Concise Subtitle */}
+                    <div className="relative z-10 flex flex-col justify-between h-full max-w-[68%]">
                       <div
                         className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full ${circleBg} text-white flex items-center justify-center shadow-sm`}
                       >
                         <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                       </div>
-                      <h2 className="text-base sm:text-lg lg:text-xl font-extrabold text-[#0B1E46] leading-tight group-hover:text-[#0052CC] transition-colors">
-                        <span className="block">{shortTitle[0]}</span>
-                        <span className="block">{shortTitle[1]}</span>
-                      </h2>
+                      <div className="space-y-1.5">
+                        <h2 className="text-lg sm:text-xl lg:text-[22px] font-extrabold text-[#0B1E46] leading-tight group-hover:text-[#0052CC] transition-colors">
+                          <span className="block">{shortTitle[0]}</span>
+                          <span className="block">{shortTitle[1]}</span>
+                        </h2>
+                        {cat.description && (
+                          <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed line-clamp-2">
+                            {cat.description}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
                     {/* Bottom-Right White Circular Arrow */}
                     <div className="relative z-10 self-end">
-                      <span className="w-9 h-9 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-[#0B1E46] group-hover:bg-[#0052CC] group-hover:text-white transition-all">
+                      <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-[#0B1E46] group-hover:bg-[#0052CC] group-hover:text-white transition-all">
                         <ArrowRight className="w-4 h-4" />
                       </span>
                     </div>
