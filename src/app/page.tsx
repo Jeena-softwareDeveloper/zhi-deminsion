@@ -252,36 +252,36 @@ export default function HomePage() {
                     href={categoryHref}
                     className="group relative h-[190px] sm:h-[220px] lg:h-[245px] rounded-2xl overflow-hidden bg-white border border-slate-200/90 shadow-md shadow-slate-900/5 hover:shadow-xl hover:border-[#0052CC]/40 hover:-translate-y-0.5 transition-all flex items-center justify-between p-5 sm:p-6 lg:p-7 cursor-pointer"
                   >
-                    {/* Right-side Category Photo */}
+                    {/* Category Background Photo */}
                     <Image
                       src={cardImg}
                       alt={cat.name}
                       fill
-                      className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     />
-                    {/* Crisp Left-to-Right Frosted White Gradient */}
+                    {/* Light Translucent Left Mist (Keeps Card Image Vibrant) */}
                     <div
                       className="absolute inset-0"
                       style={{
                         background:
-                          'linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 45%, rgba(255,255,255,0.45) 72%, rgba(255,255,255,0.06) 100%)',
+                          'linear-gradient(to right, rgba(255,255,255,0.74) 0%, rgba(255,255,255,0.48) 34%, rgba(255,255,255,0.14) 58%, rgba(255,255,255,0) 78%)',
                       }}
                     />
 
                     {/* Top-Left Icon Badge + Title & Concise Subtitle */}
                     <div className="relative z-10 flex flex-col justify-between h-full max-w-[68%]">
                       <div
-                        className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full ${circleBg} text-white flex items-center justify-center shadow-sm`}
+                        className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full ${circleBg} text-white flex items-center justify-center shadow-md`}
                       >
                         <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                       </div>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 [text-shadow:0_1px_10px_rgba(255,255,255,0.9)]">
                         <h2 className="text-lg sm:text-xl lg:text-[22px] font-extrabold text-[#0B1E46] leading-tight group-hover:text-[#0052CC] transition-colors">
                           <span className="block">{shortTitle[0]}</span>
                           <span className="block">{shortTitle[1]}</span>
                         </h2>
                         {cat.description && (
-                          <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed line-clamp-2">
+                          <p className="text-xs sm:text-[13px] font-medium text-slate-800 leading-relaxed line-clamp-2">
                             {cat.description}
                           </p>
                         )}
