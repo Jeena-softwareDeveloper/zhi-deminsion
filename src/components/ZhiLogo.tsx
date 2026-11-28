@@ -52,7 +52,7 @@ export function ZhiLogo({
       <div className="flex flex-col min-w-0">
         <div className={`font-bold font-heading tracking-wide uppercase leading-none whitespace-nowrap ${textSizes[size]}`}>
           <span style={{ color: textColor }}>ZHI </span>
-          <span className="text-[#0052CC]">DIMENSION</span>
+          <span className={isDark ? 'text-blue-300' : 'text-[#0052CC]'}>DIMENSION</span>
         </div>
 
         {/* Subtitle flanked by crisp divider line */}
