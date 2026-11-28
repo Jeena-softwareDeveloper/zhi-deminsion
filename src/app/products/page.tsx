@@ -82,6 +82,12 @@ function ProductsPageContent() {
     setIsBulkModalOpen(true);
   };
 
+  const activeCategoryNames = categories.filter((c) => c !== 'All');
+  const categorySummary =
+    activeCategoryNames.length > 1
+      ? `${activeCategoryNames.slice(0, -1).join(', ')}, and ${activeCategoryNames[activeCategoryNames.length - 1]}`
+      : activeCategoryNames[0] || 'manufactured';
+
   return (
     <div className="bg-white min-h-screen py-6 lg:py-8">
       <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
@@ -91,13 +97,13 @@ function ProductsPageContent() {
             Our Products
           </h1>
           <p className="text-slate-600 text-sm mt-1">
-            Practical, reliable products manufactured under the ZHI DIMENSION brand for Agriculture, Home &amp; Residential, and Industrial bulk orders.
+            Practical, reliable products manufactured under the ZHI DIMENSION brand across {categorySummary} for bulk orders.
           </p>
         </div>
 
         {/* Category Filter Tabs & Search */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 mb-6 pb-3.5 border-b border-slate-200">
-          <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
+          <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => {
               const isActive = activeCategory === cat;
               return (

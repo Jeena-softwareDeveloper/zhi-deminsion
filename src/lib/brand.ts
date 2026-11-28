@@ -26,6 +26,12 @@ export interface CategoryMeta {
   href: string;
 }
 
+export interface NavCategoryItem {
+  name: string;
+  slug: string;
+  href: string;
+}
+
 export const CATEGORY_DETAILS: CategoryMeta[] = [
   {
     name: 'Agriculture',
@@ -52,6 +58,32 @@ export const CATEGORY_DETAILS: CategoryMeta[] = [
     href: '/products?category=Industrial',
   },
 ];
+
+export const DEFAULT_NAV_CATEGORIES: NavCategoryItem[] = CATEGORY_DETAILS.map((c) => ({
+  name: c.name,
+  slug: c.slug,
+  href: c.href,
+}));
+
+/**
+ * Fetch active product categories with fallback to static defaults.
+ */
+export async function fetchActiveNavCategories(): Promise<NavCategoryItem[]> {
+  try {
+    const res = await fetch('/api/categories?activeOnly=true');
+    const data = await res.json();
+    if (data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+      return data.categories.map((c: { name: string; slug?: string }) => ({
+        name: c.name,
+        slug: c.slug || c.name,
+        href: `/products?category=${encodeURIComponent(c.name)}`,
+      }));
+    }
+  } catch {
+    // Keep static CATEGORY_DETAILS fallback
+  }
+  return DEFAULT_NAV_CATEGORIES;
+}
 
 export const DEFAULT_WHATSAPP_MESSAGE =
   'Hello ZHI DIMENSION, I am interested in your products. Please share your bulk order details.';

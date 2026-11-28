@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Package, ArrowRight } from 'lucide-react';
@@ -25,17 +25,24 @@ interface ProductCardProps {
  */
 export function ProductCard({ product, onBulkEnquiry }: ProductCardProps) {
   const imageSrc = product.images && product.images.length > 0 ? product.images[0] : '';
+  const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    setImgError(false);
+  }, [imageSrc]);
+
   const specs = product.specifications ? Object.entries(product.specifications).slice(0, 3) : [];
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-[#0052CC]/40 hover:shadow-lg transition-all flex flex-col">
       {/* Actual Product Photograph */}
       <Link href={`/products/${product.slug}`} className="relative h-56 w-full bg-slate-100 overflow-hidden block">
-        {imageSrc ? (
+        {imageSrc && !imgError ? (
           <Image
             src={imageSrc}
             alt={product.name}
             fill
+            onError={() => setImgError(true)}
             className="object-cover"
           />
         ) : (

@@ -1,14 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Package, MessageSquare, MoreHorizontal } from 'lucide-react';
-import { getWhatsAppUrl } from '@/lib/brand';
+import { DEFAULT_NAV_CATEGORIES, fetchActiveNavCategories, getWhatsAppUrl } from '@/lib/brand';
 
 export function MobileBottomNav() {
   const pathname = usePathname();
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [navCategories, setNavCategories] = useState(DEFAULT_NAV_CATEGORIES);
+
+  useEffect(() => {
+    fetchActiveNavCategories().then(setNavCategories);
+  }, []);
 
   if (pathname.startsWith('/admin')) {
     return null;
@@ -63,27 +68,16 @@ export function MobileBottomNav() {
       {showMoreMenu && (
         <div className="lg:hidden fixed bottom-16 right-4 z-40 bg-white rounded-2xl shadow-xl border border-slate-200 p-3 w-56">
           <div className="flex flex-col space-y-1">
-            <Link
-              href="/products?category=Agriculture"
-              onClick={() => setShowMoreMenu(false)}
-              className="px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg font-medium"
-            >
-              Agriculture
-            </Link>
-            <Link
-              href="/products?category=Home+%26+Residential"
-              onClick={() => setShowMoreMenu(false)}
-              className="px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg font-medium"
-            >
-              Home &amp; Residential
-            </Link>
-            <Link
-              href="/products?category=Industrial"
-              onClick={() => setShowMoreMenu(false)}
-              className="px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg font-medium"
-            >
-              Industries
-            </Link>
+            {navCategories.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={cat.href}
+                onClick={() => setShowMoreMenu(false)}
+                className="px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg font-medium"
+              >
+                {cat.name}
+              </Link>
+            ))}
             <Link
               href="/about"
               onClick={() => setShowMoreMenu(false)}

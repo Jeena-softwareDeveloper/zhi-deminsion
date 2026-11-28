@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ZhiLogo } from './ZhiLogo';
@@ -15,11 +15,16 @@ import {
   Linkedin,
   Youtube,
 } from 'lucide-react';
-import { BRAND_INFO, CATEGORY_DETAILS, getWhatsAppUrl } from '@/lib/brand';
+import { BRAND_INFO, DEFAULT_NAV_CATEGORIES, fetchActiveNavCategories, getWhatsAppUrl } from '@/lib/brand';
 
 export function Navbar() {
   const pathname = usePathname();
   const [productsMenuOpen, setProductsMenuOpen] = useState(false);
+  const [navCategories, setNavCategories] = useState(DEFAULT_NAV_CATEGORIES);
+
+  useEffect(() => {
+    fetchActiveNavCategories().then(setNavCategories);
+  }, []);
 
   const isHome = pathname === '/';
   const isAbout = pathname.startsWith('/about');
@@ -28,7 +33,6 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
-      {/* Top Deep Navy Contact & Location Utility Bar */}
       <div className="bg-[#092456] text-slate-100 text-[11px] sm:text-xs border-b border-blue-950/60">
         <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10 h-9 flex items-center justify-between gap-2 overflow-hidden">
           <div className="flex items-center gap-1.5 sm:gap-2 font-medium truncate">
@@ -149,7 +153,7 @@ export function Navbar() {
             {productsMenuOpen && (
               <div className="absolute left-0 top-full pt-2 w-56 z-50 animate-fadeIn">
                 <div className="bg-white rounded-xl shadow-xl border border-slate-200 py-2">
-                  {CATEGORY_DETAILS.map((cat) => (
+                  {navCategories.map((cat) => (
                     <Link
                       key={cat.slug}
                       href={cat.href}

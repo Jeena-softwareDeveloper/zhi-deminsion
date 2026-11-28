@@ -21,7 +21,12 @@ export default function ProductDetailPage() {
 
   const [product, setProduct] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<string>('');
+  const [imgError, setImgError] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setImgError(false);
+  }, [selectedImage]);
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -162,12 +167,13 @@ export default function ProductDetailPage() {
           {/* Left Column: Actual Photos, Description & Verified Specifications */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8 bg-[#F8FAFC] rounded-2xl p-5 sm:p-8 border border-slate-200">
             <div className="relative h-64 sm:h-80 md:h-96 w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
-              {selectedImage ? (
+              {selectedImage && !imgError ? (
                 <Image
                   src={selectedImage}
                   alt={product.name}
                   fill
                   priority
+                  onError={() => setImgError(true)}
                   className="object-cover"
                 />
               ) : (

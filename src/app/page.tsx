@@ -319,7 +319,7 @@ export default function HomePage() {
           </div>
 
           {/* Dynamic Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 mb-5">
+          <div className="flex flex-wrap items-center gap-2 mb-5">
             {['All', ...categories.map((c) => c.name)].map((tab) => (
               <button
                 key={tab}

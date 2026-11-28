@@ -1,10 +1,18 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ZhiLogo } from './ZhiLogo';
 import { Phone, Mail, Clock, ChevronRight, MessageSquare } from 'lucide-react';
-import { BRAND_INFO, CATEGORY_DETAILS, getWhatsAppUrl } from '@/lib/brand';
+import { BRAND_INFO, DEFAULT_NAV_CATEGORIES, fetchActiveNavCategories, getWhatsAppUrl } from '@/lib/brand';
 
 export function Footer() {
+  const [footerCategories, setFooterCategories] = useState(DEFAULT_NAV_CATEGORIES);
+
+  useEffect(() => {
+    fetchActiveNavCategories().then(setFooterCategories);
+  }, []);
+
   return (
     <footer className="bg-[#092456] text-slate-200 pt-12 pb-24 lg:pb-10 border-t border-blue-950/70">
       <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
@@ -13,7 +21,7 @@ export function Footer() {
           <div className="space-y-3.5 sm:col-span-2 lg:col-span-1">
             <ZhiLogo variant="dark" showTagline />
             <p className="text-sm text-slate-300 leading-relaxed pt-1 max-w-sm">
-              An independent product manufacturing brand developing practical, reliable solutions for agriculture, residential and industrial applications through bulk orders.
+              An independent product manufacturing brand developing practical, reliable solutions with dependable bulk supply.
             </p>
           </div>
 
@@ -23,7 +31,7 @@ export function Footer() {
               Product Categories
             </h4>
             <ul className="space-y-2.5 text-sm">
-              {CATEGORY_DETAILS.map((cat) => (
+              {footerCategories.map((cat) => (
                 <li key={cat.slug}>
                   <Link
                     href={cat.href}
