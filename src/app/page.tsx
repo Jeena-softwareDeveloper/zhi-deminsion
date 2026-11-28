@@ -6,10 +6,13 @@ import Image from 'next/image';
 import {
   ArrowRight,
   MessageSquare,
+  MessageCircle,
   Sprout,
   Home,
   Factory,
   CheckCircle2,
+  BadgeCheck,
+  Truck,
   Package,
   ShieldCheck,
   PhoneCall,
@@ -17,7 +20,7 @@ import {
 import { QuoteModal } from '@/components/QuoteModal';
 import { ProductCard, ProductCardData } from '@/components/ProductCard';
 import { BulkOrderFlow } from '@/components/BulkOrderFlow';
-import { getWhatsAppUrl } from '@/lib/brand';
+import { BRAND_INFO, getWhatsAppUrl } from '@/lib/brand';
 import { initialCategories, initialProducts } from '@/lib/data/initialData';
 
 interface CategoryItem {
@@ -105,112 +108,114 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col bg-white text-slate-900">
-      {/* 1. WORKSHOP HERO SECTION */}
-      <section className="relative min-h-[460px] lg:min-h-[500px] xl:min-h-[540px] flex items-center overflow-hidden bg-[#061834]">
-        {/* Full-Bleed Workshop Background Image */}
+      {/* 1. SUNLIT PRODUCT SHOWCASE HERO SECTION */}
+      <section className="relative min-h-[430px] sm:min-h-[470px] lg:min-h-[500px] xl:min-h-[530px] flex items-center overflow-hidden bg-[#F8FBFF] border-b border-slate-200/80">
+        {/* Full-Bleed Sunlit Outdoor Manufacturing Showcase */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/hero-workshop.jpg"
-            alt="ZHI DIMENSION Product Manufacturing Workshop"
+            src="/images/Blue Agricultural Machine in Sunny Fields.png"
+            alt="ZHI DIMENSION blue agricultural machine, stainless workbench, and heavy-duty shelving rack in sunny fields"
             fill
             priority
-            className="object-cover object-[75%_65%] lg:object-[center_62%]"
+            className="object-cover object-[38%_60%] sm:object-[36%_58%] lg:object-[34%_58%]"
           />
-          {/* Deep navy-to-royal-blue left readability overlay fading smoothly into workshop scene */}
-          <div className="absolute inset-0 bg-[#061834]/70 sm:bg-[#061834]/45 lg:bg-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#041736] via-[#072654]/92 via-42% to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#041736]/80 via-transparent to-[#041736]/20" />
+          {/* White zone with lite blur → sharp fade to fully transparent right side */}
+          {/* Layer 1: backdrop-blur frosted glass on the left white zone */}
+          <div
+            className="absolute inset-0 backdrop-blur-[2px]"
+            style={{
+              maskImage: 'linear-gradient(to right, black 0%, black 30%, transparent 50%)',
+              WebkitMaskImage: 'linear-gradient(to right, black 0%, black 30%, transparent 50%)',
+            }}
+          />
+          {/* Layer 2: white color fill matching the page bg */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to right, #ffffff 0%, #ffffff 28%, rgba(255,255,255,0.65) 38%, rgba(255,255,255,0.08) 50%, transparent 58%)',
+            }}
+          />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-11 lg:py-12 w-full">
-          <div className="max-w-2xl space-y-4 sm:space-y-5 text-white">
-            {/* Primary Headline with Golden Brush Swoop */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[48px] font-extrabold tracking-tight leading-[1.12] text-white">
-              From Our Workshop,
-              <br />
-              <span className="sm:whitespace-nowrap">
-                To{' '}
-                <span className="relative inline-block text-[#38BDF8]">
-                  Real-World Solutions.
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 320 18"
-                    fill="none"
-                    className="absolute -bottom-2 left-0 w-full h-3 text-[#FACC15]"
-                    preserveAspectRatio="none"
-                  >
-                    <path
-                      d="M4 13 C 95 4, 215 3, 314 9"
-                      stroke="currentColor"
-                      strokeWidth="4.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
+          <div className="max-w-xl space-y-4 sm:space-y-5">
+            {/* Primary Display Headline with thick yellow brush stroke */}
+            <h1 className="text-[36px] sm:text-[44px] lg:text-[52px] xl:text-[58px] font-extrabold tracking-tight leading-[1.06] uppercase" style={{ fontWeight: 800 }}>
+              <span className="block text-[#0B1E46]">MADE FOR</span>
+              <span className="relative inline-block text-[#0057D9] mt-1 sm:whitespace-nowrap">
+                {BRAND_INFO.name}
+                {/* Thick yellow brush-stroke underline */}
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 400 22"
+                  fill="none"
+                  className="absolute left-0 w-full"
+                  style={{ bottom: '-10px', height: '14px' }}
+                  preserveAspectRatio="none"
+                >
+                  {/* Filled brush shape — thick in center, tapered at ends */}
+                  <path
+                    d="M2 16 C 50 6, 180 4, 280 7 C 340 9, 380 11, 398 14 C 380 18, 340 19, 280 17 C 180 14, 50 16, 2 20 Z"
+                    fill="#FACC15"
+                    opacity="0.95"
+                  />
+                </svg>
               </span>
             </h1>
 
-            {/* Description */}
-            <p className="text-sm sm:text-base lg:text-[17px] text-slate-200 leading-relaxed max-w-lg pt-1">
-              We design and manufacture practical products for agriculture, home and industrial applications.
+            {/* Subtitle */}
+            <p className="text-sm sm:text-base lg:text-[17px] text-slate-700 font-medium leading-relaxed max-w-md pt-1.5">
+              Thoughtfully manufactured products for agriculture, home and industrial use.
             </p>
 
-            {/* Primary & Secondary Action Buttons */}
-            <div className="pt-1 flex flex-wrap items-center gap-3 sm:gap-4">
+            {/* Primary Blue & Solid Green Action Buttons */}
+            <div className="pt-1 flex flex-wrap items-center gap-3 sm:gap-3.5">
               <Link
                 href="/products"
-                className="px-5 py-3 bg-[#0057E7] hover:bg-[#0044B8] text-white text-sm font-bold rounded-lg shadow-md transition-colors inline-flex items-center gap-2.5"
+                className="px-5 py-2.5 sm:py-3 bg-[#0057D9] hover:bg-[#0044B8] text-white text-sm font-bold rounded-lg shadow-md shadow-blue-900/15 transition-colors inline-flex items-center gap-2.5"
               >
-                <Package className="w-4 h-4" />
+                <Package className="w-4 h-4 shrink-0" />
                 <span>Explore Our Products</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </Link>
 
               <a
                 href={getWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-3 bg-[#0D2E27]/90 hover:bg-[#113D33] text-white text-sm font-bold rounded-lg border border-[#22C55E]/70 transition-colors inline-flex items-center gap-2.5 backdrop-blur-xs"
+                className="px-5 py-2.5 sm:py-3 bg-[#157347] hover:bg-[#115C39] text-white text-sm font-bold rounded-lg shadow-md shadow-emerald-950/15 transition-colors inline-flex items-center gap-2.5"
               >
-                <MessageSquare className="w-4 h-4 text-[#25D366] fill-current" />
+                <MessageCircle className="w-4 h-4 shrink-0" />
                 <span>Enquire on WhatsApp</span>
               </a>
             </div>
 
-            {/* Bottom 3 Application Quick-Links */}
+            {/* Bottom 3 Quality & Bulk Trust Highlights */}
             <div className="pt-3 flex flex-wrap items-center gap-y-3">
-              <Link
-                href="/products?category=Agriculture"
-                className="group flex items-center gap-2.5 pr-5 sm:mr-5 sm:border-r sm:border-white/20"
-              >
-                <Sprout className="w-6 h-6 text-[#4ADE80] shrink-0 stroke-[1.75]" />
-                <div className="text-xs font-semibold text-slate-100 group-hover:text-white leading-snug">
-                  <div>Agriculture</div>
-                  <div>Applications</div>
+              <div className="flex items-center gap-2.5 pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
+                <BadgeCheck className="w-6 h-6 text-[#16A34A] shrink-0 stroke-[1.9]" />
+                <div className="text-xs font-bold text-[#0F172A] leading-tight">
+                  <div>Quality</div>
+                  <div>Manufacturing</div>
                 </div>
-              </Link>
+              </div>
 
-              <Link
-                href="/products?category=Home+%26+Residential"
-                className="group flex items-center gap-2.5 pr-5 sm:mr-5 sm:border-r sm:border-white/20"
-              >
-                <Home className="w-6 h-6 text-[#38BDF8] shrink-0 stroke-[1.75]" />
-                <div className="text-xs font-semibold text-slate-100 group-hover:text-white leading-snug">
-                  <div>Home &amp;</div>
-                  <div>Residential Use</div>
+              <div className="flex items-center gap-2.5 pr-5 sm:mr-5 sm:border-r sm:border-slate-300/80">
+                <ShieldCheck className="w-6 h-6 text-[#0057D9] shrink-0 stroke-[1.9]" />
+                <div className="text-xs font-bold text-[#0F172A] leading-tight">
+                  <div>Long-Lasting</div>
+                  <div>Performance</div>
                 </div>
-              </Link>
+              </div>
 
-              <Link
-                href="/products?category=Industrial"
-                className="group flex items-center gap-2.5"
-              >
-                <Factory className="w-6 h-6 text-[#FBBF24] shrink-0 stroke-[1.75]" />
-                <div className="text-xs font-semibold text-slate-100 group-hover:text-white leading-snug">
-                  <div>Industrial</div>
-                  <div>Applications</div>
+              <div className="flex items-center gap-2.5">
+                <Truck className="w-6 h-6 text-[#F59E0B] shrink-0 stroke-[1.9]" />
+                <div className="text-xs font-bold text-[#0F172A] leading-tight">
+                  <div>Bulk Orders</div>
+                  <div>Welcome</div>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
