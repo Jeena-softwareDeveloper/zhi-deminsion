@@ -240,7 +240,7 @@ export default function HomePage() {
         </div>
 
         {/* Overlapping 3 Floating Category Strip (Anchored at Bottom Edge of Hero) */}
-        <div className="relative z-20 -mt-14 sm:-mt-16 pb-8 sm:pb-10">
+        <div className="relative z-20 -mt-20 sm:-mt-24 pb-10 sm:pb-12">
           <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
               {categories.slice(0, 3).map((cat) => {
@@ -252,7 +252,7 @@ export default function HomePage() {
                   <Link
                     key={cat._id || cat.slug || cat.name}
                     href={categoryHref}
-                    className="group relative h-[112px] sm:h-[124px] rounded-2xl overflow-hidden bg-white border border-white shadow-lg shadow-slate-900/10 hover:shadow-xl hover:border-[#0052CC]/40 hover:-translate-y-0.5 transition-all flex items-center justify-between p-4 sm:p-5 cursor-pointer"
+                    className="group relative h-[160px] sm:h-[180px] lg:h-[200px] rounded-2xl overflow-hidden bg-white border border-white shadow-lg shadow-slate-900/10 hover:shadow-xl hover:border-[#0052CC]/40 hover:-translate-y-0.5 transition-all flex items-center justify-between p-5 sm:p-6 cursor-pointer"
                   >
                     {/* Right-side Category Photo */}
                     <Image
@@ -273,11 +273,11 @@ export default function HomePage() {
                     {/* Top-Left Icon Badge + Bottom-Left Title */}
                     <div className="relative z-10 flex flex-col justify-between h-full">
                       <div
-                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${circleBg} text-white flex items-center justify-center shadow-sm`}
+                        className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full ${circleBg} text-white flex items-center justify-center shadow-sm`}
                       >
-                        <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                       </div>
-                      <h2 className="text-[15px] sm:text-base font-extrabold text-[#0B1E46] leading-tight group-hover:text-[#0052CC] transition-colors">
+                      <h2 className="text-base sm:text-lg lg:text-xl font-extrabold text-[#0B1E46] leading-tight group-hover:text-[#0052CC] transition-colors">
                         <span className="block">{shortTitle[0]}</span>
                         <span className="block">{shortTitle[1]}</span>
                       </h2>
@@ -285,7 +285,7 @@ export default function HomePage() {
 
                     {/* Bottom-Right White Circular Arrow */}
                     <div className="relative z-10 self-end">
-                      <span className="w-8 h-8 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-[#0B1E46] group-hover:bg-[#0052CC] group-hover:text-white transition-all">
+                      <span className="w-9 h-9 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-[#0B1E46] group-hover:bg-[#0052CC] group-hover:text-white transition-all">
                         <ArrowRight className="w-4 h-4" />
                       </span>
                     </div>
